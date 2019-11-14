@@ -1,7 +1,7 @@
 
 <template>
     <div>
-
+        <notifications />
 
 
         <!-- End Page Header -->
@@ -51,6 +51,7 @@
         </div>
 
         <fab :actions="fabActions"
+             main-icon="apps"
              @cache="afficherModalAjouterTitre"
              bg-color="green"
 

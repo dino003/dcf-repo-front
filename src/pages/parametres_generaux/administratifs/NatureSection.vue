@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+        <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste nature de section "
+                                              name ="Liste nature de section"
+                                              worksheet = "nature de section"
+                                            :data="localisationsFiltre">
+                         <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des natures de sections</h5>
@@ -47,17 +61,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucune nature de section enregistrée</h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
+       
 
 <!----- ajouter modal   ---->
 
@@ -132,9 +149,17 @@
 <!----- fin modifier modal  ---->
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterNatureSection()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterNatureSection"
+        bg-color="green"
 
+  ></fab>
 
+<notifications  />
 
 
   </div>
@@ -148,6 +173,11 @@ export default {
   
   data() {
     return {
+      json_fields:{
+         'Code':'code',
+         'Libelle':'libelle'
+      },
+      
         fabActions: [
               {
                   name: 'cache',
@@ -200,7 +230,7 @@ return this.natures_sections.filter((item) => {
    'ajouterNatureSection', 
    'supprimerNatureSection', 'modifierNatureSection']),   
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterNatureSection(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false

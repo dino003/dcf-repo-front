@@ -11,8 +11,7 @@
           data-target="#profile-messages"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Paramètres</span>
+          <span class="text">PARAMETRES </span> 
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -79,8 +78,7 @@
           data-target="#depense"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Acteurs de la dépense</span>
+          <span class="text">ACTEURS DE LA DEPENSE </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -107,47 +105,23 @@
       </li>
       <!--Paramètres programmes
       -->
-      <li class="" id="messages">
-        <a title="Out put" href="#" class="">
-          <i class="icon icon-users"></i>
-          <span class="text">Out put</span>
-        </a>
-      </li>
+     
 
       <!--Tableau de bord acteur de depense-->
-       <li class="dropdown" id="tableau">
+       <li >
          <router-link :to="{name: 'TableauBordActeurDepense'}" tag="a">
-          <i class="icon icon-user"></i>
-          <span class="text">Tableau de bord</span>
-          <b class="caret"></b>
+          <span class="text">TABLEAU DE BOARD </span>
          </router-link>
-        <ul class="dropdown-menu">
-          
-          <li class="divider"></li>
-          <li>
-            <a href="login.html">
-              <i class="icon-key"></i> Tableau de bord
-            </a>
-          </li>
-        </ul>
+      
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-/*import Navbar from "./Navbar";
-import Milieu from "./Milieu";
-import Nfooter from "./Nfooter";*/
+
 
 export default {
-  /* components: {
-    Navbar,
-    Milieu,
-    Nfooter
-  },*/
-  mounted() {
-    console.log("Component mounted.");
-  }
+
 };
 </script>

@@ -430,8 +430,16 @@ const GET_ACTEURS = (state, data) => {
 }
 
 const DETAIL_ACTEURS = (state, data) => {
-    state.detail_acteurs = data
+    if(state.detail_acteurs.length==0){
+        state.detail_acteurs = data
+    }else{
+        state.detail_acteurs = []
+        state.detail_acteurs = data
+    }
+
 }
+
+
 
 const AJOUTER_ACTEURS = (state, nouvel_objet) => {
     state.acteur_depenses.unshift(nouvel_objet)
@@ -474,16 +482,26 @@ const NOMBRE_TAUX_ACTEURS = (state, data) => {
 }
 
 const SALAIRE_ACTUEL_ACTEURS = (state, data) => {
-    state.salaire_actuel_acteur = data
+    if(state.salaire_actuel_acteur==""){
+        state.salaire_actuel_acteur = data
+    }else{
+        state.salaire_actuel_acteur = data
+    }
+
 }
 
 const ALL_SALAIRE_ACTEUR = (state, data) => {
-    state.all_salaires_acteurs = data
+    if(state.all_salaires_acteurs.length==0){
+
+        state.all_salaires_acteurs = data
+    }else{
+        state.all_salaires_acteurs = []
+        state.all_salaires_acteurs = data
+    }
+
 }
 
-/**
- * Fin echelons
- */
+
 
 const GET_ACT_PERSONNEL = (state, data) => {
     state.acte_personnels = data
@@ -535,19 +553,41 @@ const MODIFIER_CONGES = (state,  objetModifie) => {
 
 
 const LOAD_CONGE_ACTEUR_DEPENSE= (state, data) => {
-    state.conge_acteur_depense = data
+    if(state.conge_acteur_depense.length==0){
+        state.conge_acteur_depense = data
+    }else{
+        state.conge_acteur_depense = []
+        state.conge_acteur_depense = data
+    }
+
 }
 
 const LOAD_TEMPS_MOYEN_FIN_ACTIVITE_AND_INTERRUPRION= (state, data) => {
-    state.temp_moyen_fin_activite_interruption = data
+    if(state.temp_moyen_fin_activite_interruption==0){
+        state.temp_moyen_fin_activite_interruption = data
+    }else{
+        state.temp_moyen_fin_activite_interruption = data
+    }
+
 }
 
 const DELAI_DISPOSITION_ACT= (state, data) => {
-    state.delais_mise_disposition_act = data
+    if( state.delais_mise_disposition_act.length==0){
+        state.delais_mise_disposition_act = data
+    }else{
+        state.delais_mise_disposition_act = []
+        state.delais_mise_disposition_act = data
+    }
 }
 
 const JOUR_CONGE_DISPONIBLE_ACTEUR= (state, data) => {
-    state.jour_conge_disponible_acteur = data
+    if(state.jour_conge_disponible_acteur.length==0){
+        state.jour_conge_disponible_acteur = data
+    }else{
+        state.jour_conge_disponible_acteur = []
+        state.jour_conge_disponible_acteur = data
+    }
+
 }
 
 
@@ -566,6 +606,8 @@ const MODIFIER_ACT_PERSONNEL = (state,  objetModifie) => {
         return acte_personnel
     })
 }
+
+
 
 export {
     GET_TYPE_ACTE_PERSONNELS,

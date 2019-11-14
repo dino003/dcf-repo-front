@@ -8,31 +8,22 @@
             <!-- Default Light Table -->
            <div class="container-fluid">
         <hr>
-
-          <div class="row-fluid">
-     
-      <div class="span12">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
-            <h5>Liste plans Programmes</h5>
-          </div>
-          <div class="widget-content"> 
-                <ul id="demo">
-            <treePlanProgramme class="item" v-for="plan_programme in plans_programmes_parents"
-            :key="plan_programme.id"
-             :item="plan_programme"
-             @make-modification="afficherModalModifierPlanProgramme"
-              @create-children="makeChildren" 
-              @make-delete="supp"
-              ></treePlanProgramme>
-          </ul>
-             </div>
-        </div>
-      </div>
-    </div> 
-        <!--
     <div class="row-fluid">
       <div class="span12">
+         <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste plan programme "
+                                              name ="Liste plan programme"
+                                              worksheet = "plan programme"
+                                            :data="localisationsFiltre">
+                     <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des plans programmes</h5>
@@ -77,7 +68,7 @@
                 </tr>
               </tbody>
             </table>
-            <div v-if="plans_programmes.length">
+            <div v-if="localisationsFiltre.length">
             </div>
             <div v-else>
               <div align="center">
@@ -88,75 +79,9 @@
         </div>
       </div>
               </div>
-  -->
-
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalStructure"
-        bg-color="green"
-
-  ></fab>
-
-
-  <!----- ajouter modal plan enfant  ---->
-
-
- <div id="modalAjouterPlanEnfant" class="modal hide">
-              <div class="modal-header">
-                <button data-dismiss="modal" class="close" type="button">×</button>
-                <h3>Ajouter plan programme</h3>
-              </div>
-              <div class="modal-body">
-                <form class="form-horizontal">
-
-                     <div class="control-group">
-              <label class="control-label">Code Parent:</label>
-              <div class="controls">
-                <input type="text" readonly v-model="planParent.code" class="span" placeholder="Saisir le code" />
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Libelle Parent:</label>
-              <div class="controls">
-                <input type="text" readonly v-model="planParent.libelle" class="span" placeholder="Saisir le libelle" />
-              </div>
-            </div>
-
-               <div class="control-group">
-              <label class="control-label">Structure programme:</label>
-              <div class="controls">
-              <select v-model="nouveauPlanEnfant.structure_programme_id" >
-                <option v-for="structure in structures_programmes " :key="structure.id" 
-                 :value="structure.id">{{structure.libelle}} </option>
-              </select>
-            </div>
-            </div>
-
-
-            <div class="control-group">
-              <label class="control-label">Code:</label>
-              <div class="controls">
-                <input type="text" v-model="nouveauPlanEnfant.code" class="span" placeholder="Saisir le code" />
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Libelle:</label>
-              <div class="controls">
-                <input type="text" v-model="nouveauPlanEnfant.libelle" class="span" placeholder="Saisir le libelle" />
-              </div>
-            </div>
-           
-          </form>              
-          </div>
-           <div class="modal-footer"> 
-             <button 
-              @click.prevent="ajouterProgrammeEnfant" class="btn btn-primary"
-              href="#">Valider</button>
-              <a data-dismiss="modal" class="btn" href="#">Fermer</a> </div>
-            </div>
-
-<!----- fin modal  ajouter plan Enfant  ---->
+       
 
 <!----- ajouter modal   ---->
 
@@ -254,9 +179,17 @@
 <!----- fin modifier modal  ---->
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterPlanProgramme()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterPlanProgramme"
+        bg-color="green"
 
+  ></fab>
 
+<notifications  />
 
 
   </div>
@@ -266,12 +199,15 @@
 <script>
 //import axios from '../../../../urls/api_parametrage/api'
 import {mapGetters, mapActions} from 'vuex'
-import treePlanProgramme from './components/TreePlanProgramme'
 export default {
-    components: {treePlanProgramme},
-
+  
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle',
+        'structure programme':'structure_programme.libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -282,15 +218,6 @@ export default {
               //     icon: 'add_alert'
               // }
           ],
-
-          planParent: {},
-          nouveauPlanEnfant: {
-            parent: "",
-            code: "",
-            libelle: "",
-            structure_programme_id:""
-
-          },
      
         formData : {
                 code: "",
@@ -299,7 +226,6 @@ export default {
         },
 
         editPlanProgramme: {
-          parent: "",
             code: "",
              libelle: "",
           structure_programme_id:""
@@ -316,7 +242,7 @@ export default {
   computed: {
 // methode pour maper notre guetter
    ...mapGetters('parametreGenerauxAdministratif', [ 'structures_programmes',
-    'plans_programmes', 'plans_programmes_parents']),
+    'plans_programmes']) ,
 
        localisationsFiltre(){
 
@@ -338,43 +264,12 @@ return this.plans_programmes.filter((item) => {
    ...mapActions('parametreGenerauxAdministratif', ['getPlanProgramme', 
    'ajouterPlanProgramme','modifierPlanProgramme','supprimerPlanProgramme']),   
    
-    afficherModalStructure(){
+    afficherModalAjouterPlanProgramme(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
              });
     },
-
-    supp(item){
-      this.supprimerPlanProgramme(item.id)
-      this.getPlanProgramme();
-    },
-
-    makeChildren(item) {
-    this.planParent = this.plans_programmes.find(plan => plan.id == item.id)
-   
-     this.nouveauPlanEnfant.parent = this.planParent.id
-    // this.nouveauPlanEnfant.code = parseInt(this.planParent.code) + 1
-
-      this.$('#modalAjouterPlanEnfant').modal({
-              backdrop: 'static',
-              keyboard: false
-             });
-
-   // console.log(item.id)
-    },
-
-    // ajouter plan programme enfant
-         ajouterProgrammeEnfant () {
-      this.ajouterPlanProgramme(this.nouveauPlanEnfant)
-       this.getPlanProgramme();
-      this.$('#modalAjouterPlanEnfant').modal('hide')
-        this.nouveauPlanEnfant = {
-             libelle: "",
-          structure_programme_id:""
-        }
-    },
-    // fin
    // fonction pour vider l'input
     ajouetProgrammeLocal () {
       this.ajouterPlanProgramme(this.formData)
@@ -386,26 +281,26 @@ return this.plans_programmes.filter((item) => {
         }
     },
 // afficher modal
-afficherModalModifierPlanProgramme(item){
-  this.editPlanProgramme = item;
-// var index = this.plans_programmes.findIndex(plan => plan.id == item.id)
+afficherModalModifierPlanProgramme(index){
+
  this.$('#modifierModal').modal({
          backdrop: 'static',
          keyboard: false
         });
-  //console.log(item)
- // this.editPlanProgramme = this.plans_programmes[index];
 
-      
+        this.editPlanProgramme = this.plans_programmes[index];
+
+
+        
  },
  // vider l'input de modifier
  modifierPlanProgrammeLocal(){
 
-  this.modifierPlanProgramme(this.editPlanProgramme)
-  this.editPlanProgramme = {
-    code:"",
-    libelle:"",
-    structure_programme_id:""
+this.modifierPlanProgramme(this.editPlanProgramme)
+this.editPlanProgramme = {
+  code:"",
+  libelle:"",
+  structure_programme_id:""
 }
  }
 
@@ -413,16 +308,4 @@ afficherModalModifierPlanProgramme(item){
   }
 };
 </script>
-
-<style scoped>
-
-.bold {
-  font-weight: bold;
-}
-ul {
-  padding-left: 1em;
-  line-height: 1.5em;
-  list-style-type: none;
-}
-</style>
 

@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                     <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structure administrative "
+                                              name ="Liste structure administrative"
+                                              worksheet = "structure administrative"
+                                            :data="localisationsFiltre">
+                        <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des structures administratives</h5>
@@ -50,17 +64,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucune structure administrative enregistrée! </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterStructureAdministrative"
-        bg-color="green"
-
-  ></fab>
+        
 
 <!----- ajouter modal   ---->
 
@@ -126,7 +143,7 @@
           </div>
            <div class="modal-footer"> 
              <button v-show="editStructureAdministrative.niveau.length && editStructureAdministrative.libelle.length" 
-             @click.prevent="modifierStructureAdministrative(editStructureAdministrative)" class="btn btn-primary"
+             @click.prevent="modifierStructureLocal(editStructureAdministrative)" class="btn btn-primary"
               href="#">Modifier</button>
               <button data-dismiss="modal" class="btn" >Fermer</button> </div>
             </div>
@@ -137,7 +154,16 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterStructureAdministrative()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterStructureAdministrative"
+        bg-color="green"
+
+  ></fab>
+<notifications  />
 
 
   </div>
@@ -151,6 +177,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Niveau':'niveau',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -189,7 +219,8 @@ export default {
 
 return this.structures_administratives.filter((item) => {
   
-    return item.libelle.toLowerCase().includes(searchTerm) 
+    // item.niveau.toLowerCase().includes(searchTerm) 
+    return  item.libelle.toLowerCase().includes(searchTerm) 
    
   
 
@@ -230,7 +261,15 @@ afficherModalModifierStructureAdministrative(index){
 
         
  },
+modifierStructureLocal()
+{
+  this.modifierStructureAdministrative(this.editStructureAdministrative)
+  this.editStructureAdministrative = {
 
+          niveau: "",
+             libelle: ""
+  }
+}
 
   }
 };

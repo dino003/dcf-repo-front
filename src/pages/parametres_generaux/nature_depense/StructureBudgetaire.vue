@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                       <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structure budgetaire "
+                                              name ="Liste structure budgetaire"
+                                              worksheet = "structure budgetaire"
+                                            :data="localisationsFiltre">
+                   <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste structures budgetaires</h5>
@@ -25,7 +39,6 @@
               <thead>
                 <tr>
                   <th>Niveau</th>
-                    <!-- <th>Code</th> -->
                   <th>Libelle</th>
                    <th>Action</th>
                 </tr>
@@ -50,17 +63,21 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align ="center">
+                <h6 style="color:red;">Aucune structure budgetaire enregistrée </h6>
+              </div>
+            </div>
+                  
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterFinancement"
-        bg-color="green"
-
-  ></fab>
+        
 
 <!----- ajouter modal   ---->
 
@@ -151,7 +168,16 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterStructureBudgetaire()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterStructureBudgetaire"
+        bg-color="green"
+
+  ></fab>
+<notifications  />
 
 
   </div>
@@ -165,6 +191,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -206,7 +236,9 @@ export default {
 
 return this.structures_budgetaires.filter((item) => {
   
-    return item.libelle.toLowerCase().includes(searchTerm)
+    return item.libelle.toLowerCase().includes(searchTerm) 
+    // || item.code.toLowerCase().includes(searchTerm)
+    // || item.libelle.toLowerCase().includes(searchTerm)
 
    
   
@@ -222,7 +254,7 @@ return this.structures_budgetaires.filter((item) => {
    ...mapActions('parametreGenerauxBudgetaire', ['getStructureBudgetaire', 'ajouterStructureBudgetaire', 
    'modifierStructureBudgetaire','supprimerStructureBudgetaire']),   
    
-    afficherModalAjouterFinancement(){
+    afficherModalAjouterStructureBudgetaire(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false

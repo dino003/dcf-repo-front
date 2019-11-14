@@ -72,18 +72,8 @@
 </template>
 
 <script>
-/*import Navbar from "./Navbar";
-import Milieu from "./Milieu";
-import Nfooter from "./Nfooter";*/
 
 export default {
-  /* components: {
-    Navbar,
-    Milieu,
-    Nfooter
-  },*/
-  mounted() {
-    console.log("Component mounted.");
-  }
+
 };
 </script>

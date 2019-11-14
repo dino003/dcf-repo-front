@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+         <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste localisation geigraphique "
+                                              name ="Liste localistaion geographique"
+                                              worksheet = "localisation geographique"
+                                            :data="localisationsFiltre">
+                               <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des localisations geographiques</h5>
@@ -58,7 +72,7 @@
             </div>
             <div v-else>
               <div align="center">
-                <h6 style="color:red;">Aucunne localisattion géogrphique enregistrée</h6>
+                <h6 style="color:red;">Aucune localisattion géogrphique enregistrée</h6>
               </div>
             </div>
           </div>
@@ -67,11 +81,7 @@
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
+     
 
 <!----- ajouter modal   ---->
 
@@ -169,7 +179,15 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterLocalisationGeographie()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterLocalisationGeographie"
+        bg-color="green"
+
+  ></fab>
 
 
 
@@ -184,6 +202,11 @@ export default {
   
   data() {
     return {
+      json_fields:{
+               'Code':'code',
+               'Libelle':'lielle',
+               'structure localistion':'structure_localisation_geographique.libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -239,7 +262,7 @@ return this.localisations_geographiques.filter((item) => {
     'ajouterLocalisationGeographique', 
    'supprimerLocalisationGeographique', 'modifierLocalisationGeographique']),     
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterLocalisationGeographie(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false

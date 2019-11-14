@@ -9,7 +9,7 @@ const defaultstate = {
     ControlPerfor: 6,
     OpRaportAct: 7,
     OpDispoContrInter: 8,
-    active_el: 0
+    active_el: 11
 };
 
  export default defaultstate

@@ -7,46 +7,26 @@ const sections = state => state.sections
 const structures_programmes = state=>state.structures_programmes
 const structures_administratives = state => state.structures_administratives
 const plans_programmes = state => state.plans_programmes
-export const plans_programmes_parents = (state, getters) => getters.plans_programmes.filter(plan => plan.parent == null)
 const services_gestionnaires = state => state.services_gestionnaires
-export const services_gestionnaires_parents = (state, getters) => getters.services_gestionnaires.filter(plan => plan.parent == null)
-
 const chapitres = state => state.chapitres
 const grandes_natures = state => state.grandes_natures
 const structures_geographiques = state => state.structures_geographiques
 const localisations_geographiques = state => state.localisations_geographiques
+const type_Unite_admins = state => state.type_Unite_admins
+// export const titreFiltres = (state, search) => {
 
-//  export const monGetterAParcourir = state =>  state.parents.map(element => {
-//       if(element.cle_etrangere !== null){
-//         element = {
-//           ...element,
-//           uniteAdmin: state.enfants.find(ua => ua.id == element.cle_etrangere)
-//         }
-//       }
+// const searchTerm = search.toLowerCase();
 
-//       return element;
-//    })
- 
+// return state.titres.filter((item) => {
+  
+//     return item.code.toLowerCase().includes(searchTerm) 
+//     // || item.prenom.toLowerCase().includes(searchTermPrenom) 
+//     || item.libelle.toLowerCase().includes(searchTerm) 
 
-export const maxNiveauPlanProgramme = state => {
-    let tab = []
-  state.structures_programmes.forEach(element => {
-    tab.push(element.niveau)
-  })
+//    }
+// )
 
-    let max = Math.max(...tab)
-    return max
-  }
-
-  export const maxNiveauStructureAdministrative = state => {
-    let tab = []
-  state.structures_programmes.forEach(element => {
-    tab.push(element.niveau)
-  })
-
-    let max = Math.max(...tab)
-    return max
-  }
+// }
 
 
 export {
@@ -61,7 +41,8 @@ export {
     chapitres,
     grandes_natures,
     structures_geographiques,
-    localisations_geographiques
+    localisations_geographiques,
+ type_Unite_admins
 }
 
 

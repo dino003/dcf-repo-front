@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                            <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structure geographique "
+                                              name ="Liste structure geographique"
+                                              worksheet = "structure geographique"
+                                            :data="localisationsFiltre">
+                      <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste structures geographique</h5>
@@ -52,17 +66,19 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucune structure géographique enregistrée! </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
 
 <!----- ajouter modal   ---->
 
@@ -141,6 +157,16 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterStructureGeographique()">Open</button>
+
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterStructureGeographique"
+        bg-color="green"
+
+  ></fab>
+<notifications  />
 
   </div>
   
@@ -153,6 +179,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+         'Niveau':'niveau',
+         'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -193,6 +223,7 @@ export default {
 
 return this.structures_geographiques.filter((item) => {
   
+    // return item.niveau.toLowerCase().includes(searchTerm) 
     return item.libelle.toLowerCase().includes(searchTerm) 
    
   
@@ -208,7 +239,7 @@ return this.structures_geographiques.filter((item) => {
    'ajouterStructureGeographique', 
    'supprimerStructureGeographique', 'modifierStructureGeographique']),   
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterStructureGeographique(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false

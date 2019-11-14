@@ -11,8 +11,7 @@
           data-target="#excution"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Excution budgetaire
+          <span class="text">EXECUTION BUDGETAIRE
                </span>
           <b class="caret"></b>
         </a>
@@ -154,18 +153,9 @@
 </template>
 
 <script>
-/*import Navbar from "./Navbar";
-import Milieu from "./Milieu";
-import Nfooter from "./Nfooter";*/
 
 export default {
-  /* components: {
-    Navbar,
-    Milieu,
-    Nfooter
-  },*/
-  mounted() {
-    console.log("Component mounted.");
-  }
+
+
 };
 </script>

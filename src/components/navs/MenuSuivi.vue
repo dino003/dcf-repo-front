@@ -11,41 +11,45 @@
           data-target="#excution"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Excution m.
+          <span class="text">EXECUTION DES MARCHES ET CONTRATS
                </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li>
-            <router-link :to="{name: ''}" tag="a">
+            <router-link :to="{name: 'SecteurActivite'}" tag="a">
               <i class="icon-user"></i>
             Secteur d'activité
             </router-link>
           </li>
           <li class="divider"></li>
-        
+          <li>
+            <router-link :to="{name: 'Entreprise'}" tag="a">
+              <i class="icon-check"></i>
+             Entrprise
+            </router-link>
+          </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i>Suivi des obligations sociales
             </a>
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i> Marchés & Contrats
             </a>
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i> Avenants
             </a>
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i> suivi du respects des delais contratuels
             </a>
           </li>
@@ -57,8 +61,7 @@
       <li class="dropdown" id="plant">
         <a title="Excution budgetaire" href="#" data-toggle="dropdown" data-target="#plant" 
         class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Excution b.</span>
+          <span class="text">EXECUTION BUDGETAIRE </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -71,7 +74,7 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i>Suivi des mandats
             </a>
           </li>
@@ -84,7 +87,7 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i>
               Op hors SIGFIP provisoires
 
@@ -101,7 +104,7 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i>
               Document op hors SIGFIP
             </a>
@@ -115,10 +118,91 @@
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <a href="#">
               <i class="icon-key"></i>
              Suivi du délai de traitement des dossiers
 
+            </a>
+          </li>
+
+           <li>
+            <router-link :to="{name: 'SourceFinancement'}" tag="a">
+              <i class="icon-user"></i>
+           Suivi d'une activité particulière 
+            </router-link>
+          </li>
+          <li class="divider"></li>
+     
+          
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Suivre l'exécution et les régularisations des régies
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i> Suivi de certaines catégories d'opérations
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Suivi du respect du référentiel des prix
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i> Suivi du respect du glossaire des natures de dépense
+            </a>
+          </li>
+
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Suivi du patrimoine
+
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Suivi de la répartition des ressources
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Suivi des dépenses improductives
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i> Suivi des projets et programmes en transferts
+
+            </a>
+          </li>
+          
+           <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i> Suivi des actes de modification budgétaire
+            </a>
+          </li>
+
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Comptabilisation des lettres d'avance
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="login.html">
+              <i class="icon-key"></i>Gestion des mandats-provision
             </a>
           </li>
 
@@ -126,7 +210,7 @@
       </li>
       <!-- document
       -->
-      <li class="dropdown" id="mission">
+       <li class="dropdown" id="mission">
         <a
           title="Suivi des missions"
           href="#"
@@ -134,24 +218,37 @@
           data-target="#mission"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Suivi m.</span>
+          <span class="text">SUIVI DES MISSIONS </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li class="divider"></li>
           <li>
-            <a href="#">
+            <router-link :to ="{name: 'CategorieMission'}" tag="a">
               <i class="icon-key"></i> Catégories de missions
+            </router-link>
+          
+          </li>
 
-            </a>
+            <li class="divider"></li>
+          <li>
+            <router-link :to ="{name: 'NormeMission'}" tag="a">
+              <i class="icon-key"></i> Norme de missions
+            </router-link>
+          
           </li>
           <li class="divider"></li>
+            <li> 
+              <router-link :to ="{name: 'Imputation'}" tag="a">
+                <i class="icon-user"></i> Imputation budget en mission
+              </router-link>
+            </li>
+          <li class="divider"></li>
           <li>
-            <a href="#">
+            <router-link :to ="{name: 'Mission'}" tag="a">
               <i class="icon-check"></i>
              Missions
-            </a>
+            </router-link>
           </li>
         </ul>
       </li>
@@ -160,111 +257,135 @@
       
       <!-- Activite
       -->
-      <li class="dropdown" id="tableau">
-        <a title="Suivi des immobilisations" href="#" data-toggle="dropdown" data-target="#tableau" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Suivi I. </span>
+     <li class="dropdown" id="tableau">
+        <a
+          title="Suivi des immobilisations"
+          href="#"
+          data-toggle="dropdown"
+          data-target="#tableau"
+          class="dropdown-toggle"
+        >
+          <span class="text">SUIVI DES IMMOBILISATIONS </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li class="divider"></li>
           <li>
-            <a href="login.html">
-              <i class="icon-key"></i>Familles
-
-            </a>
+            <router-link :to="{name:'listeEquipement'}" tag="a">
+              <i class="icon-key"></i>
+              <span class="text">Types équipements</span>
+            </router-link>
           </li>
           <li>
-            <a href="login.html">
-              <i class="icon-key"></i>Services
-            </a>
+            <router-link :to="{name:'famille'}" tag="a">
+              <i class="icon-key"></i>
+              <span class="text">Articles</span>
+            </router-link>
           </li>
           <li>
-            <a href="login.html">
-              <i class="icon-key"></i>Immobilisation
-
-            </a>
-          </li>
-          <li>
-            <a href="login.html">
-              <i class="icon-key"></i>Amortissements
-            </a>
+            <router-link :to="{name:'service'}" tag="a">
+              <i class="icon-key"></i>
+              <span class="text">Services</span>
+            </router-link>
           </li>
 
-          
+          <li title="Bessoin Immobilisation">
+            <router-link :to="{name:'besionImmolisation'}" tag="a">
+              <i class="icon-key"></i>
+              <span class="text">Demande d'équipement</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{name:'immobilisation'}" tag="a">
+              <i class="icon-key"></i>
+              <span class="text">Immobilisations</span>
+            </router-link>
+          </li>
+
+           <li>
+            <router-link :to="{name:'simulationAmortissement'}" tag="a">
+              <i class="icon-table"></i>
+              <span class="text">Simulateur Amortissement</span>
+            </router-link>
+          </li>
+
+     
         </ul>
       </li>
 
   <!-- out put
       -->
-      <li class="" id="put">
+     <li class="dropdown" id="bord1">
         <a
-          title="Out put"
+          title="Out Put"
           href="#"
-         
-          data-target="#put"
-          class=""
+          data-toggle="dropdown"
+          data-target="#bord1"
+          class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Out put</span>
-          <b class="caret"></b>
-        </a>
+          <span class="text">OUT PUT </span>
+                    <b class="caret"></b>
+
+          </a>
+        <ul class="dropdown-menu">
         
+          <!-- <li>
+            <router-link :to="{name:'listeBesoinParUniteAdmin'}" tag="a" title>
+              <i class="icon-key"></i>
+              <span class="text">Besoin Par Unite d'administrative</span>
+            </router-link>
+          </li> -->
+         
+          <li>
+            <router-link :to="{name:'listeImmobilisationParUa'}" tag="a" title>
+              <i class="icon-key"></i>
+              <span class="text">Recherche Immobilisation</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{name:'listeStructureMoinEquipe'}" tag="a" title>
+              <i class="icon-key"></i>
+              <span class="text">Structure Moin équipé</span>
+            </router-link>
+          </li>
+           <li>
+            <router-link :to="{name:'listeStructurePlusEquipe'}" tag="a" title>
+              <i class="icon-key"></i>
+              <span class="text">Structure Plus équipé</span>
+            </router-link>
+          </li>
+           <li>
+            <router-link :to="{name:'listeActeurEquipe'}" tag="a" title>
+              <i class="icon-key"></i>
+              <span class="text">Acteur équipé</span>
+            </router-link>
+          </li>
+        </ul>
       </li>
 
   <!-- indicateur
       -->
-       <li class="" id="indicateur">
-        <a
-          title="Indicateur"
-          href="#"
-         
-          data-target="#indicateur" >
-          <i class="icon icon-user"></i>
-          <span class="text">Indicateur</span>
-          <b class="caret"></b>
-        </a>
-        
-      </li>
+     
       <!-- Généraux
       -->
-         <li class="dropdown" id="bord">
-        <a
-          title="Tableau de bord"
-          href="#"
-          data-toggle="dropdown"
-          data-target="#bord"
-          class="dropdown-toggle"
-        >
-          <i class="icon icon-user"></i>
-          <span class="text">Tableau de bord</span>
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li class="divider"></li>
-          <li>
-            <a href="login.html">
-              <i class="icon-key"></i>tableau de bord
-
-            </a>
-          </li>
-        </ul>
+        <li>
+        <router-link
+              :to="{name:'TableauBordImmo'}"
+              tag="a"
+              title="Tableau de Bord Immobilisation"
+            >
+          <span class="text">TABLEAU DE BOARD</span>
+          
+        </router-link>
+      
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-/*import Navbar from "./Navbar";
-import Milieu from "./Milieu";
-import Nfooter from "./Nfooter";*/
 
 export default {
-  /* components: {
-    Navbar,
-    Milieu,
-    Nfooter
-  },*/
+  
  
 };
 </script>

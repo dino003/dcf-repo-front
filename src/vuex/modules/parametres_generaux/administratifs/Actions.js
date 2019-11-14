@@ -29,14 +29,14 @@ export  function ajouterTitre({commit}, objetAjoute){
 
 // supprimer titre
 export function supprimerTitre({commit}, id){
-    this.$app.$dialog
-  .confirm("Voulez vouz vraiment supprimer ?.")
-  .then(dialog => {
-     commit('SUPPRIMER_TITRE', id)
-    // // dialog.loading(false) // stops the proceed button's loader
-      axios.delete('/delete_titre/' + id).then(() => dialog.close() )   
-  })
+    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
+    if(conf){
+        commit('SUPPRIMER_TITRE', id)
+        axios.delete('/delete_titre/' + id)
+
+
+    }
 }
 
 // modifier titre 
@@ -268,7 +268,6 @@ export function modifierStructureProgramme({commit}, objetModifie){
 // ajouter plan programme
 export  function ajouterPlanProgramme({commit}, nouveauObjet){
  axios.post('/ajouterPlan_Programme',{
-     parent: nouveauObjet.parent,
      code:nouveauObjet.code,
      libelle:nouveauObjet.libelle,
  structure_programme_id:nouveauObjet.structure_programme_id
@@ -292,8 +291,7 @@ export function supprimerPlanProgramme({commit}, id){
  let conf = confirm('voulez-vous vraiment supprimer?')
  if(conf){
      commit('SUPPRIMER_PLAN_PROGRAMME', id)
-     axios.delete('/supprimer_Plan_Programme/' + id)
-    //console.log(id)
+     axios.delete('/supprimer_Plan_Programme/', + id)
  }
 }
 
@@ -545,4 +543,49 @@ export function supprimerGrandeNature({commit}, id){
             axios.delete('/delete_grande_nature/' + id)
         }
 }
+// get all type unite administrative
+export function getTypeUniteAdministrative({ commit }) {
+    queue.push(() => axios.get('/type_uas').then((response) => {
+        commit('GET_TYPE_UNITE_ADMINISTRATIVE', response.data)
+
+    }).catch(error => console.log(error)))
+}
+
+
+// ajouter type ua
+export function ajouterTypeUniteAdministrative({ commit }, objetAjoute) {
+    axios.post('/ajouter_type_ua', {
+       
+        libelle: objetAjoute.libelle
+    }).then(res => {
+        if (res.status == 201) {
+            commit('AJOUTER_TYPE_UNITE_ADMINISTRATIVE', res.data)
+
+        }
+    }).catch(error => console.log(error))
+}
+
+// supprimer type ua
+export function supprimerTypeUniteAdministrative({ commit }, id) {
+    let conf = confirm("Voulez vouz vraiment supprimer ?")
+
+    if (conf) {
+        commit('SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE', id)
+        axios.delete('/supprimer_type_ua/' + id)
+
+
+    }
+}
+
+// modifier type ua 
+export function modifierTypeUniteAdministrative({ commit }, typeua) {
+    axios.put('/modifier_type_ua/' + typeua.id, {
+       
+        libelle: typeua.libelle
+    }).then(response => {
+        commit('MODIFIER_TYPE_UNITE_ADMINISTRATIVE', response.data)
+    }).catch(error => console.log(error))
+
+}
+
 

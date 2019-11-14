@@ -2,7 +2,7 @@
 <template>
     <div>
 
-
+        <notifications />
 
         <!-- End Page Header -->
         <!-- Default Light Table -->
@@ -52,6 +52,7 @@
         </div>
 
         <fab :actions="fabActions"
+             main-icon="apps"
              @cache="afficherModalAjouterTitre"
              bg-color="green"
 

@@ -11,17 +11,17 @@
           data-target="#administratif"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Configuration b.
+          <span class="text">CONFIGURATIONS BUDGETAIRES.
                </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
+         
           <li>
-            <router-link :to="{name: 'SourceFinancement'}" tag="a">
-              <i class="icon-user"></i>
-             Budget general
-            </router-link>
+            <a href="login.html">
+              <i class="icon-key"></i> Budget general
+
+            </a>
           </li>
           <li class="divider"></li>
         
@@ -54,39 +54,38 @@
         </ul>
       </li>
       <!--Plan des passations des marche-->
-      <li class="dropdown" id="plant">
+     <li class="dropdown" id="plant">
         <a title="Plan de passation des marchés" href="#" data-toggle="dropdown" data-target="#plant" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Plan de passation m. </span>
+          <span class="text">PLAN DES PASSATION DES MARCHES </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li class="divider"></li>
           <li>
-            <a href="#">
+            <router-link :to="{name: 'TypeMarche'}" tag="a">
               <i class="icon-check"></i>
              Type de marché
-            </a>
+            </router-link>
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <router-link :to="{name: 'ModePassation'}" tag="a">
               <i class="icon-key"></i> Mode de passation
-            </a>
+            </router-link>
           </li>
           <li class="divider"></li>
           <li>
-            <a href="#">
+            <router-link :to="{name: 'EtapeMarche'}" tag="a">
               <i class="icon-check"></i>
              Etapes de marchés
-            </a>
+            </router-link>
           </li>
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <router-link :to="{name: 'MarcheContrat'}" tag="a">
               <i class="icon-key"></i>
               Marchés et contrats
-            </a>
+            </router-link>
           </li>
           
         </ul>
@@ -101,16 +100,15 @@
           data-target="#document"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Documentations m.</span>
+          <span class="text">DOCUMENTATION DES MARCHES</span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+            <router-link :to="{name: 'DocsPTPAPPM'}" tag="a">
               <i class="icon-key"></i> Document PTBA-PPM
-            </a>
+            </router-link>
           </li>
           <li class="divider"></li>
           <li>
@@ -125,42 +123,19 @@
       
       <!-- out put
       -->
-      <li class="" id="Depense">
-        <a title="Out put" href="#" >
-          <i class="icon icon-user"></i>
-          <span class="text">Out put</span>
-          <b class="caret"></b>
-        </a>
-        
-      </li>
+ 
        <!-- indicateur
       -->
-      <li class="" id="Depense">
-        <a title="Indicateur" href="#">
-          <i class="icon icon-user"></i>
-          <span class="text">Indicateur</span>
-          <b class="caret"></b>
-        </a>
-        
-      </li>
+    
       <!-- Activite
       -->
-      <li class="dropdown" id="tableau">
-        <a title="Tableau de bord" href="#" data-toggle="dropdown" data-target="#tableau" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Tableau bord</span>
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li class="divider"></li>
-          <li>
-            <a href="login.html">
-              <i class="icon-key"></i>tableau de bord
-            </a>
+
+       <li>
+            <router-link :to="{name: 'TableauBordMarche'}" tag="a">
+              TABLEAU DE BOARD
+            </router-link>
           </li>
-          
-        </ul>
-      </li>
+    
       <!-- Généraux
       -->
      
@@ -169,9 +144,6 @@
 </template>
 
 <script>
-/*import Navbar from "./Navbar";
-import Milieu from "./Milieu";
-import Nfooter from "./Nfooter";*/
 
 export default {
 

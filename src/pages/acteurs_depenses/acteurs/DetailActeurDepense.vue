@@ -1,35 +1,54 @@
 <template>
     <div>
         <div class="container-fluid">
-            <div class="quick-actions_homepage">
-                <ul class="quick-actions">
-                    <li class="bg_lb"> <a href="#"> <h3>{{delais_mise_disposition_act}}</h3> Délai disposition l’acte de nomination </a> </li>
-                    <li class="bg_lb"> <a href="#">  <h3>{{temp_moyen_fin_activite_interruption}}</h3> Temps moyen fin des activités et l'interruption</a> </li>
-                    <li class="bg_lb"> <a href="#"> <h3>{{jour_conge_disponible_acteur}}</h3>   Les jours de congés disponibles  </a> </li>
+            <div class="quick-actions_homepage span12" >
+                <ul class="quick-actions" style="margin: 0px !important;">
+                    <li class="bg_lb">
+                        <a href="#">
+                            <i class="icon-dashboard"></i> <span class="label label-important">{{delais_mise_disposition_act}}</span>  Délai disposition l’acte de nomination(Jours)
+                        </a>
+                    </li>
+                    <li class="bg_lg">
+                        <a href="#"> <i class="icon-signal"></i> Acteur en activité
+                        </a>
+                    </li>
+                    <li class="bg_lo" v-if="salaire_actuel_acteur.date_fin_contrat">
+                        <a href="#"> <i class="icon-info-sign"></i> <span class="label label-important">Fin de contrat</span> Temps moyen fin des activités
+                        </a>
+                    </li>
+                    <li class="bg_ls" v-if="salaire_actuel_acteur.date_interuption">
+                        <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{temp_moyen_fin_activite_interruption}}</span>Temps moyen etre fin activite et interruption
+                        </a>
+                    </li>
+                    <li class="bg_ly">
+                        <a href="#">
+                            <i class="icon-inbox"></i><span class="label label-important">{{jour_conge_disponible_acteur}}</span> Les jours de congés disponibles
+                        </a>
+                    </li>
+                    <!--<li class="bg_lb"> <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{totalActeurNonAccredite}}</span> Total acteur non accredité</a> </li>
+                    <li class="bg_ls"> <a href="#"> <i class="icon-fullscreen"></i> <span class="label label-important" v-if="tauxActeurAccredite!='NaN'">{{tauxActeurAccredite || '0' }} %</span>
+                        Taux acteurs acredité
+                    </a> </li>-->
                 </ul>
             </div>
+
+          <!--  <div class="">
+                <div class="form-actions">
+                    <button type="button" class="btn btn-info span4"><h4>{{delais_mise_disposition_act}} jours</h4></button>
+                    <button type="button" class="btn btn-info"><h4>{{temp_moyen_fin_activite_interruption}}</h4> </button>
+                    <button type="button" class="btn btn-info"><h4>{{jour_conge_disponible_acteur}}</h4>   Les jours de congés disponibles</button>
+                </div>
+            </div>-->
             <div class="widget-box">
                 <div class="widget-title bg_lg"><span class="icon"><i class="icon-list"></i></span>
                     <h5 class="span5">{{detail_acteurs.nom}} {{detail_acteurs.prenom}}</h5>
                 </div>
                 <div class="widget-content">
-                    <div class="row-fluid">
-                       <!-- <div class="span3">
-                            <ul class="site-stats">
-                                <li class="bg_lh"><i class="icon-user"></i> <strong>2540</strong> <small>Total Users</small></li>
-                                <li class="bg_lh"><i class="icon-plus"></i> <strong>120</strong> <small>New Users </small></li>
-                                <li class="bg_lh" v-if="delais_mise_disposition_act"> <strong>{{delais_mise_disposition_act}}</strong>
-                                <small>Délai disposition l’acte de nomination </small></li>
-                                <li class="bg_lh" v-if="temp_moyen_fin_activite_interruption"> <strong>{{temp_moyen_fin_activite_interruption}}</strong> <small>Temps moyen fin des activités et l'interruption  </small></li>
-                                <li class="bg_lh"><i class="icon-repeat"></i> <strong>10</strong> <small>Pending Orders</small></li>
-                                <li class="bg_lh"><i class="icon-globe"></i> <strong>8540</strong> <small>Online Orders</small></li>
-                            </ul>
-                        </div>-->
+                    <div class="row-fluid" style="margin: 0px !important;">
                         <div class="span12">
                            <div align="right">
-
-                               <a href="#affeter" data-toggle="modal" class="btn btn-success" v-if="salaire_actuel_acteur.date_fin_contrat"><i class="icon-plus-sign"></i></a>
-                               <a href="#interompe" data-toggle="modal" class="btn btn-warning" v-if="!salaire_actuel_acteur.date_interuption"><i class="icon-minus-sign"></i></a>
+                               <a href="#affeter" data-toggle="modal" class="btn btn-success" v-if="salaire_actuel_acteur.date_interuption"><i class="icon-plus-sign"></i></a>
+                               <a href="#interompe" data-toggle="modal" class="btn btn-warning" v-if="salaire_actuel_acteur.date_fin_contrat"><i class="icon-minus-sign"></i></a>
                                <a href="#fin_contrat" data-toggle="modal" class="btn btn-danger" v-if="!salaire_actuel_acteur.date_fin_contrat">
                                    <i class=" icon-remove"></i></a>
                            </div>
@@ -51,11 +70,11 @@
                                                     <tbody>
                                                     <tr>
                                                         <td>Structure actuel</td>
-                                                        <td>UA Micro</td>
+                                                        <td>{{nomUniteAdmine(salaire_actuel_acteur.unite_administrative_id)}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Salaires actuel</td>
-                                                        <td><a href="#" class="btn btn-success btn-mini" v-if="salaire_actuel_acteur.salaire">{{salaire_actuel_acteur.salaire[0].montant}} FCFA</a>
+                                                        <td><a href="#" class="btn btn-success btn-mini" v-if="salaire_actuel_acteur.salaire">{{formatageSomme(parseFloat(salaire_actuel_acteur.salaire[0].montant))}}  </a>
                                                             </td>
                                                     </tr>
                                                     <tr>
@@ -181,17 +200,16 @@
                                                 <tbody>
                                                 <tr v-for="item in all_salaires_acteurs" :key="item.id">
                                                     <td>
-                                                        {{item.date_debut_contrat}} /  {{item.date_fin_contrat}}
+                                                        {{item.date_debut_contrat | moment("DD/MM/YYYY")}}  -  {{item.date_fin_contrat | moment("DD/MM/YYYY") || "En cours d'activite"}}
                                                     </td>
-                                                    <td>Unite micro service</td>
-                                                    <td>{{item.salaire[0].montant}} FCFA</td>
+                                                    <td>{{nomUniteAdmine(item.unite_administrative_id)}}</td>
+                                                    <td>{{ formatageSomme(parseFloat(item.salaire[0].montant))}} </td>
                                                 </tr>
 
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-
                                     <div id="tab4" class="tab-pane">
 
                                         <div class="widget-box span6">
@@ -319,7 +337,7 @@
                     <div class="widget-box">
 
                         <div class="row-fluid">
-                            <div class="span4">
+                            <div class="span6">
                                 <div class="control-group">
                                     <label class="control-label">Type acte de personnel</label>
                                     <div class="controls">
@@ -335,7 +353,13 @@
                                 <div class="control-group">
                                     <label class="control-label">L'unite administrative:</label>
                                     <div class="controls">
-                                        <input type="text" v-model="formData.unite_administrative_id" class="span" placeholder="Saisir l'unite administrative" />
+                                        <select v-model="formData.unite_administrative_id">
+                                            <option></option>
+                                            <option v-for="item in uniteAdministratives" :key="item.id" :value="item.id">
+                                                {{item.libelle}}
+                                            </option>
+
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -350,12 +374,6 @@
                                         <input type="text" v-model="formData.code" class="span" placeholder="Saisir la reference" />
                                     </div>
                                 </div>
-
-
-
-
-                            </div>
-                            <div class="span4">
                                 <div class="control-group">
                                     <label class="control-label">Type salarie</label>
                                     <div class="controls">
@@ -367,7 +385,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="control-group">
                                     <label class="control-label">Type contrat</label>
                                     <div class="controls">
@@ -380,6 +397,9 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="span6">
+
 
                                 <div class="control-group">
                                     <label class="control-label">Type niveau etude</label>
@@ -394,18 +414,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="span4">
+                            <div class="span6">
                                 <div class="control-group">
                                     <label class="control-label">Exercice budgetaire:</label>
                                     <div class="controls">
-                                        <input type="text" v-model="formData.exercice_budgetaire_id" class="span" placeholder="Saisir l'exercice budgetaire" />
+                                        <select v-model="formData.exercice_budgetaire_id">
+                                            <option v-for="item in exercices_budgetaires" :key="item.id" :value="item.id">
+                                                {{item.annee}}
+                                            </option>
+
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="control-group">
                                     <label class="control-label">Ligne budgetaires:</label>
                                     <div class="controls">
-                                        <input type="text" v-model="formData.plan_budgetaire_id" class="span" placeholder="Saisir le plan budgetaire" />
+                                        <select v-model="formData.plan_budgetaire_id">
+                                            <option v-for="item in plans_budgetaires" :key="item.id" :value="item.id">
+                                                {{item.libelle}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -436,7 +465,7 @@
                                 <div class="control-group">
                                     <label class="control-label">Salaire:</label>
                                     <div class="controls">
-                                        <input type="text" v-model="formData.salaires" class="span" placeholder="Saisir le nom de la mere" />
+                                        <input type="text" v-model="formData.salaires" class="span" placeholder="Saisi le salaire" />
                                     </div>
                                 </div>
 
@@ -480,7 +509,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success">Fin contrat</button>
+                    <button type="submit" class="btn btn-warning">Interruption de contrat</button>
                 </div>
                 </form>
             </div>
@@ -489,7 +518,7 @@
 </template>
 
 <script>
-
+    import {formatageSomme} from "../../../vuex/modules/guei/Repositories/Repository"
     import {mapGetters, mapActions} from 'vuex'
     export default {
         data() {
@@ -532,6 +561,7 @@
                     type_acte_id:"",
                     grade_id:"",
                     fonction_id:"",
+                    plan_budgetaire_id:''
                 },
                 conges:{
                     code: "",
@@ -543,7 +573,9 @@
                 editTitre: {
                     code: "",
                     libelle: ""
-                }
+                },
+                temp_moyen_testFI:"",
+
 
             };
         },
@@ -551,20 +583,43 @@
         created() {
             this.acteur_id=this.$route.params.id;
             this.DetailActeur(this.$route.params.id);
+
             this.getSalaireActuelActeur(this.$route.params.id)
             this.getAllSallairesActeurs(this.$route.params.id)
             this.getLoadActeurDepense(this.$route.params.id)
             this.loadCongeActeur(this.$route.params.id)
-           // console.log(salaire_actuel_acteur.code)
             this.tempMoyenFinActiviteInterruption(this.$route.params.id)
+
+            setInterval(function(){
+                this.tempMoyenFinActiviteInterruption(this.$route.params.id)
+            }.bind(this), 3000);
+
             this.delaiMiseDispositionAct(this.$route.params.id)
             this.jourCongeDisponible(this.$route.params.id)
+            this.tempMoyenTest(this.$route.params.id)
         },
         computed: {
 // methode pour maper notre guetter
             ...mapGetters('personnelUA', ['acteur_depenses',"type_salaries","type_contrats","type_acte_personnels","fonctions","grades",
                 "niveau_etudes","nbr_acteur_actredite_taux","detail_acteurs","salaire_actuel_acteur","all_salaires_acteurs","acte_personnels",
-                "load_act_personnel_acteur","conge_acteur_depense","temp_moyen_fin_activite_interruption","delais_mise_disposition_act","jour_conge_disponible_acteur"])
+                "load_act_personnel_acteur","conge_acteur_depense","temp_moyen_fin_activite_interruption","delais_mise_disposition_act","jour_conge_disponible_acteur"]),
+            ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
+            ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
+            ...mapGetters("parametreGenerauxBudgetaire", ["plans_budgetaires"]),
+            nomUniteAdmine(){
+                return uniteAdmin_id=>{
+                    console.log(uniteAdmin_id)
+                    if (uniteAdmin_id!=undefined){
+
+                        var ObjetUniteAdmin=this.uniteAdministratives.find(element=>element.id ===uniteAdmin_id);
+                        return ObjetUniteAdmin.libelle;
+                    }
+
+                }
+            }
+        },
+        watch : {
+
         },
         methods: {
             // methode pour notre action
@@ -584,11 +639,11 @@
                     date_fin_contrat:"",
                         id:""
                 }
-                this.DetailActeur(this.acteur_id);
-                this.getSalaireActuelActeur(this.acteur_id)
-                this.getAllSallairesActeurs(this.acteur_id)
-                this.getLoadActeurDepense(this.acteur_id)
-                this.loadCongeActeur(this.acteur_id)
+
+                setTimeout(function () {  this.getAllSallairesActeurs(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () { this.tempMoyenFinActiviteInterruption(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
+
             }
             ,
             interrumContrat(){
@@ -598,11 +653,10 @@
                     date_interuption:"",
                         id:""
                 }
-                this.DetailActeur(this.acteur_id);
-                this.getSalaireActuelActeur(this.acteur_id)
-                this.getAllSallairesActeurs(this.acteur_id)
-                this.getLoadActeurDepense(this.acteur_id)
-                this.loadCongeActeur(this.acteur_id)
+
+                setTimeout(function () {  this.getAllSallairesActeurs(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () { this.tempMoyenTest(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
             }
             ,
         affecteActeurDepense(){
@@ -622,12 +676,13 @@
                     grade_id:"",
                     fonction_id:"",
             }
-            this.DetailActeur(this.acteur_id);
-            this.getSalaireActuelActeur(this.acteur_id)
-            this.getAllSallairesActeurs(this.acteur_id)
-            this.getLoadActeurDepense(this.acteur_id)
-            this.loadCongeActeur(this.acteur_id)
-    },
+
+
+            setTimeout(function () {  this.getAllSallairesActeurs(this.acteur_id) }.bind(this), 3000)
+            setTimeout(function () {   this.tempMoyenFinActiviteInterruption(this.acteur_id) }.bind(this), 3000)
+            setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
+
+        },
             // fonction pour vider l'input  salaire_actuel_acteur
             addActNomination () {
                 const formData = new FormData();
@@ -641,13 +696,11 @@
                     }
                 }
                 this.modifierActeurDepense(formData,config)
-                this.date_arrivee_act_nomination="";
-                this.formData = {
-                    code: "",
-                    libelle: ""
-                }
-                this.getActeur()
-                this.getNbrActeurAcrediteTaux();
+
+
+
+                setTimeout(function () {  this.delaiMiseDispositionAct(this.acteur_id) }.bind(this), 3000)
+
             },
             ajouterConge () {
 
@@ -660,18 +713,8 @@
                         date_debut: "",
                         date_fin: "",
                 }
+            },
 
-                this.DetailActeur(this.acteur_id);
-                this.getSalaireActuelActeur(this.acteur_id)
-                this.getAllSallairesActeurs(this.acteur_id)
-                this.getLoadActeurDepense(this.acteur_id)
-                this.loadCongeActeur(this.acteur_id)
-            },
-            suprimer(id){
-                this.supprimerActeurs(id)
-                this.getActeur()
-                this.getNbrActeurAcrediteTaux();
-            },
             afficherModalModifierTitre(index){
 
                 this.$('#modifierModal').modal({
@@ -721,8 +764,18 @@
                 };
                 reader.readAsDataURL(file);
             },
+            /**
+             * Juste pour le test
+             * @param id
+             */
+            tempMoyenTest(id) {
+                axios.get('/temps_moyen_fin_activite_and_interuption/'+id).then(response => {
+                  this.temp_moyen_testFI=response.data;
+                  console.log("Juste test "+this.temp_moyen_testFI)
+                }).catch(error => console.log(error))
 
-
+            },
+            formatageSomme:formatageSomme,
         }
     };
 </script>

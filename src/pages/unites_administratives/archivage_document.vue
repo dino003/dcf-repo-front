@@ -21,6 +21,19 @@
             </div>
           </div>
           <div class="control-group">
+            <label class="control-label">Date:</label>
+            <div class="controls">
+              <input type="date" v-model="formData.date_jours" class="span" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Fichier Join</label>
+            <div class="controls">
+              <!-- <input type="file" @change="onFichierChange"/> -->
+                <input type="file" />
+            </div>
+          </div>
+          <div class="control-group">
             <label class="control-label">Unite Administrative</label>
             <div class="controls">
               <select v-model="formData.uniteadministrative_id">
@@ -42,19 +55,6 @@
                   :value="typetexte.id"
                 >{{typetexte.libelle}}</option>
               </select>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <label class="control-label">Fichier Join</label>
-            <div class="controls">
-              <input type="file" id="file" ref="myFiles" @change="previewFiles" multiple />
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">Date:</label>
-            <div class="controls">
-              <input type="date" v-model="formData.date_jours" class="span" />
             </div>
           </div>
         </form>
@@ -142,6 +142,18 @@
       <hr />
       <div class="row-fluid">
         <div class="span12">
+          <download-excel
+            class="btn btn-default pull-right"
+            style="cursor:pointer;"
+            :fields="json_fields"
+            title="Liste des Archivages document"
+            :data="filtre_archivage_document"
+            name="Liste des Archivages document"
+          
+            worksheet="Archivage de document"
+          >
+            <i title="Exporter en excel" ref="excel" class="icon-table">&nbsp;&nbsp;Exporter en excel</i>
+          </download-excel>
           <div class="widget-box">
             <div class="widget-title">
               <span class="icon">
@@ -149,12 +161,15 @@
               </span>
               <h5>Listes Archivages Documents</h5>
               <div align="right">
-                Search:
-                <input type="search" placeholder v-model="search" />
+                Recherche:
+                <input type="search" placeholder="Saisie ua ou type texte" v-model="search" />
               </div>
             </div>
 
-            <div class="widget-content nopadding">
+            <div
+              class="widget-content nopadding"
+              v-if="uniteAdministratives.length &&  filtre_archivage_document.length"
+            >
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -180,7 +195,7 @@
                     >{{archivagedocument.fichier || 'Non renseigné'}}</td>
                     <td
                       @dblclick="afficherArchivageDocumentLocal(index)"
-                    >{{archivagedocument.date_jours || 'Non renseigné'}}</td>
+                    >{{formaterDate(archivagedocument.date_jours) || 'Non renseigné'}}</td>
                     <td
                       @dblclick="afficherArchivageDocumentLocal(index)"
                     >{{archivagedocument.unite_administrative.libelle || 'Non renseigné'}}</td>
@@ -201,23 +216,27 @@
                   </tr>
                 </tbody>
               </table>
-              <div v-if="filtre_archivage_document.length"></div>
-              <div v-else>
-                <p style="text-align:center;font-size:20px;color:red;">Aucun Document</p>
-              </div>
+            </div>
+            <div v-else>
+              <p style="text-align:center;font-size:20px;color:red;">Aucun Document</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <fab :actions="fabActions" @cache="afficherModalAjouterTitre" main-icon="apps" bg-color="green"></fab>
+    <fab :actions="fabActions" @cache="afficherModalAjouterArchivage" main-icon="apps" bg-color="green"></fab>
+     <button style="display:none;" v-shortkey.once="['ctrl', 'f']" @shortkey="afficherModalAjouterArchivage()">Open</button>
+     <button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button>
+     <notifications  />
   </div>
 </template>
   
 <script>
 import { mapGetters, mapActions } from "vuex";
+import moment from "moment";
 export default {
+  name:'archivagedocument',
   data() {
     return {
       fabActions: [
@@ -230,12 +249,20 @@ export default {
         //   icon: "add_alert"
         // }
       ],
+      json_fields: {
+        REFERENCE: "reference",
+        UNITEADMINISTRATIVE: "unite_administrative.libelle",
+        TYPETEXTE: "type_texte.libelle",
+        FICHIER: "fichier_join",
+        DATE: "date_jours"
+      },
       formData: {
         reference: "",
         uniteadministrative_id: "",
         typetexte_id: "",
         fichier_join: "",
         date_jours: ""
+       
       },
       editArchivageDocument: {
         reference: "",
@@ -243,6 +270,7 @@ export default {
         typetexte_id: "",
         fichier_join: "",
         date_jours: ""
+      
       },
       search: "",
       files: []
@@ -275,10 +303,12 @@ export default {
       "modifierArchivageDocument",
       "supprimerArchivageDocument"
     ]),
-    previewFiles() {
-      this.files = this.$refs.myFiles.files;
+
+    //fichier joint
+ onFichierChange(e){
+      this.formData.fichier_join = e.target.files[0]
     },
-    afficherModalAjouterTitre() {
+    afficherModalAjouterArchivage() {
       this.$("#exampleModal").modal({
         backdrop: "static",
         keyboard: false
@@ -299,14 +329,14 @@ export default {
     // fonction pour vider l'input modifier
     modifierArchivageDocumentLocal() {
       this.modifierArchivageDocument(this.editArchivageDocument);
-
-      this.editArchivageDocument = {
-        reference: "",
-        uniteadministrative_id: "",
-        typetexte_id: "",
-        fichier_join: "",
-        date_jours: ""
-      };
+      this.$("#modificationModal").modal('hide');
+      // this.editArchivageDocument = {
+      //   reference: "",
+      //   uniteadministrative_id: "",
+      //   typetexte_id: "",
+      //   fichier_join: "",
+      //   date_jours: ""
+      // };
     },
     // afficher modal de modification
     afficherArchivageDocumentLocal(index) {
@@ -320,8 +350,14 @@ export default {
     alert() {
       console.log("ok");
     },
-    handleFileChange(e) {
-      this.$emit("input", e.target.files[0]);
+
+    formaterDate(date) {
+      return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
+    },
+    
+
+    ExporterEnExel(){
+      this.$refs.excel.click()
     }
   }
 };

@@ -1,4 +1,4 @@
-
+﻿
 
 // get all titres
 const GET_TITRES = (state, tableau_titres) => {
@@ -192,7 +192,9 @@ const MODIFIER_PLAN_PROGRAMME = (state, nouveau_objet) =>{
 
 // supprimer plan programme
 const SUPPRIMER_PLAN_PROGRAMME = (state,id) =>{
-    state.plans_programmes = state.plans_programmes.filter(plan_proramme => plan_proramme.id != id)
+    state.plans_programmes = state.plans_programmes.filter( plan_proramme =>{
+        plan_proramme.id != id
+    })
 }
 
 
@@ -219,7 +221,7 @@ const MODIFIER_SERVICE_GESTIONNAIRE = (state, objetModifie) => {
 // supprimer service gestionnaire
 const SUPPRIMER_SERVICE_GESTIONNAIRE = (state, id) => {
     state.services_gestionnaires = state.services_gestionnaires.filter(service_gestionnaire => {
-        service_gestionnaire.id != id
+        service_gestionnaire.id !=id
     })
 }
 
@@ -338,7 +340,33 @@ const GET_LOCALISATION_GEOGRAPHIQUE = (state, tableau_localisation_geographique)
 
   }
 
+// get all type ua
+const GET_TYPE_UNITE_ADMINISTRATIVE = (state, tableau_typeUa) => {
+  state.type_Unite_admins = tableau_typeUa;
+};
 
+// ajouter un titre
+const AJOUTER_TYPE_UNITE_ADMINISTRATIVE = (state, nouvel_objet) => {
+  state.type_Unite_admins.unshift(nouvel_objet);
+  // state.titres = [...nouvel_objet, ...state.titres]
+};
+
+// supprimer titre
+const SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE = (state, id) => {
+  state.type_Unite_admins = state.type_Unite_admins.filter(
+    typeua => typeua.id != id
+  );
+};
+
+// modifier titre
+const MODIFIER_TYPE_UNITE_ADMINISTRATIVE = (state, objetModifie) => {
+  state.type_Unite_admins = state.type_Unite_admins.map(typeua => {
+    if (typeua.id == objetModifie.id) {
+      typeua = { ...objetModifie };
+    }
+    return typeua;
+  });
+};
 
 
 
@@ -412,7 +440,13 @@ SUPPRIMER_STRUCTURE_GEOGRAPHIQUE,
 GET_LOCALISATION_GEOGRAPHIQUE,
 AJOUTER_LOCALISATION_GEOGRAPHIQUE,
 MODIFIER_LOCALISATION_GEOGRAPHIQUE,
-SUPPRIMER_LOCALISATION_GEOGRAPHIQUE
+SUPPRIMER_LOCALISATION_GEOGRAPHIQUE,
+
+// exportation type unite administative
+  GET_TYPE_UNITE_ADMINISTRATIVE,
+  AJOUTER_TYPE_UNITE_ADMINISTRATIVE,
+  SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE,
+  MODIFIER_TYPE_UNITE_ADMINISTRATIVE
 }
 
 

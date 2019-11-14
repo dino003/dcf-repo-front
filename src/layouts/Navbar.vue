@@ -6,7 +6,6 @@
     <MenuActeurDepense v-if="active_el == 2"></MenuActeurDepense>
     <MenuPlanification v-if="active_el ==3"></MenuPlanification>
     <MenuSuivi v-if="active_el == 4"></MenuSuivi>
-    <MenuBudgetControl v-if="active_el ==13"></MenuBudgetControl>
     <MenuCatographie v-if="active_el ==5"></MenuCatographie>
     <MenuControlAxe v-if="active_el ==6"></MenuControlAxe>
     <MenuOperationRapport v-if="active_el ==7"></MenuOperationRapport>
@@ -30,7 +29,6 @@ import MenuUA from "../components/navs/menuUA";
 import MenuActeurDepense from "../components/navs/MenuActeurDepense";
 import MenuPlanification from "../components/navs/MenuPlanification";
 import MenuSuivi from "../components/navs/MenuSuivi";
-import MenuBudgetControl from "../components/navs/MenuBudgetControl";
 import MenuCatographie from "../components/navs/MenuCatographie";
 import MenuControlAxe from "../components/navs/MenuControlAxe";
 import MenuOperationRapport from "../components/navs/MenuOperationRapport.vue";
@@ -46,7 +44,6 @@ export default {
     MenuActeurDepense,
     MenuPlanification,
     MenuSuivi,
-    MenuBudgetControl,
     MenuCatographie,
    MenuControlAxe,
    MenuOperationRapport,
@@ -87,7 +84,28 @@ export default {
     'getStructureAdministrative', 'getServiceGestionnaire', 'getStructureGeographique',
     'getLocalisationGeographique', 'getChapitre']),
 
-        ...mapActions('personnelUA', ['getTypeSalarie',"getEchelons","getTypeContrat","getNiveauEtude","getFonctions","getTypeActPersonnel","getClasses","getEchelons","getActeur","getGrades","getNbrActeurAcrediteTaux","getActPersonnel","getConges","allActeurDepense"]),
+
+            ...mapActions('personnelUA', ['getTypeSalarie',"getEchelons",
+            "getTypeContrat","getNiveauEtude","getFonctions","getTypeActPersonnel",
+            "getClasses","getEchelons","getActeur","getGrades","getNbrActeurAcrediteTaux",
+            "getActPersonnel","getConges","allActeurDepense"]),
+
+      ...mapActions('gestionMarche',['getTypeMarche','getModePassation',"getSecteurActivite",
+        "getEntreprise","getEtapeMarche","getDocumentPTBAPPM","getMarcheContrat","getPresenceCF",
+        "getDocumentPresence","getNombreMarcheByProcedure","sourcePersonnalise",
+        "getSourceFinnancementByMarche"]),
+
+        ...mapActions("SuiviImmobilisation", [
+      "getAllFamille",
+      "getAllService",
+      "getAllEquipement",
+      "getAllBesoinImmo",
+      "getAllImmobilisation",
+      "getAllAmortissement"
+    ]),
+
+    	 ...mapActions('suivi_controle_budgetaire', ['getCategorieMission', 'getNormeMission',
+    'getMission'])
 
   },
 
@@ -133,6 +151,46 @@ export default {
         this.getActPersonnel()
         this.getConges();
         this.allActeurDepense()
+
+            /**Gestion des marche*/
+      this.getTypeMarche()
+      this.getModePassation()
+      this.getSecteurActivite()
+      this.getEntreprise()
+      this.getEtapeMarche()
+      this.getDocumentPTBAPPM()
+    this.getMarcheContrat()
+    this.getPresenceCF()
+    this.getDocumentPresence()
+    this.getNombreMarcheByProcedure()
+    this.sourcePersonnalise()
+    this.getSourceFinnancementByMarche()
+      /**Fin gestion des marche**/
+
+      /**
+       * suivi des immo
+       */
+       this.getAllFamille();
+    this.getAllService();
+    this.getAllEquipement();
+    this.getAllBesoinImmo();
+    this.getAllImmobilisation();
+    //this.getAllAmortissement();
+      /**
+       * fin suivi des immo
+       */
+
+      /**
+       * missions
+       */
+       this.getCategorieMission()
+     this.getNormeMission()
+   
+      this.getMission()
+
+      /**
+       * fin missions
+       */
   }
 
 };

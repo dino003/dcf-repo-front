@@ -10,7 +10,22 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+          <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste exercice budgetaire "
+                                              name ="Liste exrcice budgetaire"
+                                              worksheet = "Exercice budgetaire"
+                                            :data="titreFiltres">
+                     <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
+          
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste exercice budgetaire</h5>
              <div align="right">
@@ -73,11 +88,7 @@
               </div>
             </div>
 
-                <fab :actions="fabActions"
-          @cache="afficherModalExerciceBudgetaire"
-        bg-color="green"
-
-  ></fab>
+               
 
 <!----- ajouter modal   ---->
 
@@ -197,8 +208,17 @@
 
 <!----- fin modifier modal  ---->
 
+  <button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalExerciceBudgetaire()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalExerciceBudgetaire"
+        bg-color="green"
 
+  ></fab>
+
+<notifications  />
 
 
 
@@ -214,6 +234,16 @@ export default {
   
   data() {
     return {
+
+      
+         json_fields: {
+            'Annee': 'annee',
+            'Date debut': 'date_debut',
+            'Date fin': 'date_fin',
+            'Encours': 'encours',
+           
+           
+        },
         fabActions: [
               {
                   name: 'cache',

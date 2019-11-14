@@ -10,7 +10,24 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
-        <div class="widget-box">
+         <div>
+          
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structures activites "
+                                              name ="Liste  structures activites"
+                                              worksheet = "Structure activite"
+                                            :data="localisationsFiltre">
+                                 <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+
+                                         </div> <br>
+                                <div class="widget-box">
+
+                                    
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste structures activites</h5>
              <div align="right">
@@ -51,17 +68,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucune structure activité enregistrée </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterFinancement"
-        bg-color="green"
-
-  ></fab>
+   
 
 <!----- ajouter modal   ---->
 
@@ -76,7 +96,7 @@
             <div class="control-group">
               <label class="control-label">Niveau:</label>
               <div class="controls">
-                <input type="number" v-model="formData.code" class="span" placeholder="Saisir le niveau" />
+                <input type="number" v-model="formData.niveau" class="span" placeholder="Saisir le niveau" />
               </div>
             </div>
 
@@ -90,7 +110,7 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="formData.code.length  && formData.libelle.length"
+             <button v-show="formData.niveau.length  && formData.libelle.length"
               @click.prevent="ajouterBudgetaireLocal" class="btn btn-primary"
               href="#">Valider</button>
               <button data-dismiss="modal" class="btn" href="#">Fermer</button> </div>
@@ -113,7 +133,7 @@
             <div class="control-group">
               <label class="control-label">Niveau:</label>
               <div class="controls">
-                <input type="number" v-model="editBudgetaire.code" class="span" placeholder="" />
+                <input type="number" v-model="editBudgetaire.niveau" class="span" placeholder="" />
               </div>
             </div>
           
@@ -127,7 +147,7 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="editBudgetaire.code.length  && editBudgetaire.libelle.length" 
+             <button v-show="editBudgetaire.niveau.length  && editBudgetaire.libelle.length" 
              @click.prevent="modifierBudgetaireLocal(editBudgetaire)" class="btn btn-primary"
               href="#">Modifier</button>
               <button data-dismiss="modal" class="btn" href="#">Fermer</button> </div>
@@ -137,10 +157,16 @@
 <!----- fin modifier modal  ---->
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterStructureActivite()">Open</button>
 
+         <fab :actions="fabActions"
+                main-icon="apps"
+       @cache="afficherModalAjouterStructureActivite"
+        bg-color="green"
 
-
-
+  ></fab>
+<notifications  />
 
   </div>
   
@@ -153,6 +179,10 @@ export default {
   
   data() {
     return {
+       json_fields: {
+            'Niveau': 'niveau',
+            'Libelle': 'libelle',  
+        },
         fabActions: [
               {
                   name: 'cache',
@@ -166,13 +196,13 @@ export default {
      
         formData : {
 
-                code:"",
+                niveau:"",
              libelle: "",
             
         },
 
         editBudgetaire: {
-            code:"",
+            niveau:"",
              libelle: "",
             
         },
@@ -195,6 +225,7 @@ export default {
 
 return this.structures_activites.filter((item) => {
   
+    // return item.niveau.toLowerCase().includes(searchTerm) 
     return item.libelle.toLowerCase().includes(searchTerm)
 
    
@@ -210,7 +241,7 @@ return this.structures_activites.filter((item) => {
    ...mapActions('parametreGenerauxActivite', ['getStructureActivite', 'ajouterStructureActivite', 
    'modifierStructureActivite','supprimerStructureActivite']),   
    
-    afficherModalAjouterFinancement(){
+    afficherModalAjouterStructureActivite(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
@@ -221,7 +252,7 @@ return this.structures_activites.filter((item) => {
       this.ajouterStructureActivite(this.formData)
 
         this.formData = {
-              code:"",
+              niveau:"",
              libelle: "",
             
         }
@@ -243,7 +274,7 @@ afficherModalModifierBudgetaire(index){
 modifierBudgetaireLocal(){
   this.modifierStructureActivite(this.editBudgetaire)
   this.editBudgetaire = {
-    code:"",
+    niveau:"",
     libelle:"",
    
   }

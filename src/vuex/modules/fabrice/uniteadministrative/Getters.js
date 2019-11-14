@@ -1,7 +1,10 @@
-const typeTextes = state => state.typeTextes;
+const typeTextes = state =>
+  state.typeTextes.sort((a, b) => (a.code > b.code ? 1 : -1));
 
-const uniteAdministratives = state => state.uniteAdministratives;
-const archivageDocuments = state => state.archivageDocuments;
+const uniteAdministratives = state =>
+  state.uniteAdministratives.sort((a, b) => (a.code > b.code ? 1 : -1));
+const archivageDocuments = state =>
+  state.archivageDocuments.sort((a, b) => (a.reference > b.reference ? 1 : -1));
 
 export const nombreUniteAdministratives = state =>
   state.uniteAdministratives.length;
@@ -12,45 +15,38 @@ export const nombreTypeText = state => state.typeTextes.length;
 // const nbreUniteAdministratives = state => state.nbreUniteAdministratives;
 // const nbreTypeTextes = state => state.nbreTypeTextes;
 
-export const Unite_Administrative = (state, getters, rootState, rootGetters) =>
+export const nbreNouveauProjet = state =>
+  state.uniteAdministratives.filter(
+    nouveauProjet => nouveauProjet.date_creation == null
+  ).length;
+
+export const jointureUaChapitreSection = (
+  state,
+  getters,
+  rootState,
+  rootGetters
+) =>
   state.uniteAdministratives.map(element => {
-    if (element.section_id !== null && element.chapitre_id !== null) {
+    if (
+      element.chapitre_id !== null &&
+      element.section_id !== null &&
+      element.type_ua_id !== null
+    ) {
       element = {
         ...element,
-        sections: rootGetters['parametreGenerauxAdministratif/sections'].find(
-          section => section.id == element.section_id
-         
+        chpitr: rootGetters["parametreGenerauxAdministratif/chapitres"].find(
+          chapitre1 => chapitre1.id == element.chapitre_id
         ),
-        chapitres: rootGetters['parametreGenerauxAdministratif/chapitres'].find(
-          chapitre => chapitre.id == element.chapitre_id
-        )
+        secti: rootGetters["parametreGenerauxAdministratif/sections"].find(
+          Secti => Secti.id == element.section_id
+        ),
+        typeua: rootGetters[
+          "parametreGenerauxAdministratif/type_Unite_admins"
+        ].find(typeUadmin => typeUadmin.id == element.type_ua_id)
       };
     }
-
     return element;
   });
-
-  // export const nom_du_getter = (state, getters, rootState, rootGetters) =>
-  // state.nom_du_state_parent.map(element => {
-  //   if (element.cle_etrangere1 !== null && element.cle_etrangere2 !== null) {
-  //     element = {
-  //       ...element,
-  //       variableAjouter1: rootGetters['module/getterDuModule'].find(
-  //         section => section.id == element.cle_etrangere1
-         
-  //       ),
-  //       variableAjouter2: rootGetters['module/getterDuModule'].find(
-  //         chapitre => chapitre.id == element.cle_etrangere2
-  //       )
-  //     };
-  //   }
-
-  //   return element;
-  // });
-
-
-
-
 export {
   typeTextes,
   uniteAdministratives,

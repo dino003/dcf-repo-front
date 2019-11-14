@@ -3,22 +3,31 @@
     <!--Header-part-->
     <div id="header">
       <h1>
-        <a href="dashboard.html">Matrix Admin</a>
+        <a href="#">S I D C F</a>
       </h1>
     </div>
     <!--close-Header-part-->
     <!--sidebar-menu-->
     <div id="sidebar" style="position: fixed;">
-      <a title=" Dashboard" href="#" class="visible-phone">
+      <!-- <a title=" Dashboard" href="#" class="visible-phone">
         <i class="icon icon-home"></i>Dashboard
-      </a>
+      </a> -->
       <ul>
-        <li :class="{active: active_el == 0 }" @click.prevent="activate(0)">
+        <!-- <li :class="{active: active_el == 0 }" @click.prevent="activate(0)">
           <a href="index.html">
             <i class="icon icon-home"></i>
             <span>Dashboard</span>
           </a>
-        </li>
+        </li> -->
+          <!-- <li class="submenu"> <a href="#">
+            <i class="icon icon-key"></i> <span>UTILISATEURS && ACCES</span>
+             </a>
+          <ul>
+            <li><a href="index2.html">UTILISATEURS</a></li>
+            <li><a href="gallery.html">ACCES</a></li>
+          
+          </ul>
+       </li> -->
         <li :class="{active: active_el == 11 }" @click.prevent="navigateToParametreGeneraux">
           <a title="PARAMETRES GENERAUX" href="#">
             <i class="icon icon-signal"></i>
@@ -48,13 +57,8 @@
             <span>SUIVI ET CONTRÔLE B.</span>
             <span class="label label-important"></span>
           </a>
-        
-        <li @click.prevent="activate(13)" :class="{active: active_el ==13}">
-          <a title="SUIVIB ET CONTROLE BUDGETAIRE 2" href="#">
-            <i class="icon icon-tint"></i>
-            <span>SUIVI ET CONTRÔLE B.</span>
-          </a>
         </li>
+        
         <li @click.prevent="activate(5)" :class="{active: active_el ==5}">
           <a title="CARTOGRAPHIE DES OPERATIONS BUDGETAIRES" href="#">
             <i class="icon icon-pencil"></i>

@@ -34,7 +34,18 @@ Vue.prototype.$ = Jquery
  import VuejsDialog from 'vuejs-dialog'; 
 // include the default style
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
- 
+import VueLoading from 'vuejs-loading-plugin'
+
+
+// using default options
+//Vue.use(VueLoading)
+
+Vue.use(VueLoading, {
+  dark: true, // default false
+  text: 'Patientez ...', // default 'Loading'
+  //loading: true, // default false
+ // background: 'rgb(255,255,255)', // set custom background
+})
 // Tell Vue to install the plugin.
 // Vue.use(VuejsDialog);
 Vue.use(VuejsDialog, {
@@ -44,6 +55,13 @@ Vue.use(VuejsDialog, {
   cancelText: 'Annuler',
   animation: 'bounce'
 });
+
+Vue.use(require('vue-shortkey')) 
+//jfj
+
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
+
 
 import fab from 'vue-fab'
 Vue.component('fab', fab)
@@ -58,9 +76,9 @@ Vue.component('jw-pagination', JwPagination);
 // }).$mount("#app");
 
 const app = new Vue({
-  el: '#app',
-  render: h => h(App),
+ // el: '#app',
   router,
-  store
-});
+  store,
+  render: h => h(App)
+}).$mount("#app");
 store.$app = app;

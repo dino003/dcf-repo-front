@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                     <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste service gestionnaire "
+                                              name ="Liste service gestionnaire"
+                                              worksheet = "service gestionnaire"
+                                            :data="localisationsFiltre">
+                      <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste service gestionnaires</h5>
@@ -24,8 +38,8 @@
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Ordre</th>
-                  <th>Code</th>
+                   <th>Code</th>
+                  <!-- <th>Ordre</th> -->
                   <th>libelle</th>
                   <th>structure administrative</th>
                    <th>Action</th>
@@ -34,12 +48,12 @@
               <tbody>
                 <tr class="odd gradeX" v-for="(service_gestionnaire, index) 
                 in localisationsFiltre" :key="service_gestionnaire.id">
+                <!-- <td @dblclick="afficherModalModifierService(index)">
+                    {{service_gestionnaire.ordre || 'Non renseigné'}}</td> -->
                   <td @dblclick="afficherModalModifierService(index)">
                     {{service_gestionnaire.code || 'Non renseigné'}}</td>
                   <td @dblclick="afficherModalModifierService(index)">
                     {{service_gestionnaire.libelle || 'Non renseigné'}}</td>
-                     <td @dblclick="afficherModalModifierService(index)">
-                    {{service_gestionnaire.ordre || 'Non renseigné'}}</td>
                     <td @dblclick="afficherModalModifierService(index)">
                       {{service_gestionnaire.structure_administrative.libelle || 'Non renseigné'}}</td>
                        
@@ -57,17 +71,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucun service gestionnaire enregistré ! </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
+        
 
 <!----- ajouter modal   ---->
 
@@ -84,18 +101,18 @@
               <label class="control-label">structure administrative:</label>
               <div class="controls">
                 <select  v-model="formData.structure_administrative_id">
-            <option v-for="service in structures_administratives" :key="service.id" 
-            :value="service.id">{{service.libelle}}</option>
+            <option v-for="administrative in structures_administratives" :key="administrative.id" 
+            :value="administrative.id">{{administrative.libelle}}</option>
                 </select>
               </div>
             </div>
 
-            <div class="control-group">
+            <!-- <div class="control-group">
               <label class="control-label">Ordre:</label>
               <div class="controls">
-                <input type="number" v-model="formData.ordre" class="span" placeholder="Saisir le code" />
+                <input type="number" v-model="formData.ordre" class="span" placeholder="Saisir l'ordre" />
               </div>
-            </div>
+            </div> -->
             <div class="control-group">
               <label class="control-label">Code:</label>
               <div class="controls">
@@ -105,7 +122,7 @@
             <div class="control-group">
               <label class="control-label">Libelle:</label>
               <div class="controls">
-                <input type="text" v-model="formData.libelle" class="span" placeholder="Saisir le code" />
+                <input type="text" v-model="formData.libelle" class="span" placeholder="Saisir le libelle" />
               </div>
             </div>
             
@@ -117,7 +134,7 @@
           </div>
            <div class="modal-footer"> 
              <button  v-show="formData.code.length && formData.libelle.length && 
-             formData.ordre.length && formData.structure_administrative_id" 
+            formData.structure_administrative_id" 
              @click.prevent="ajouterTitreLocal" class="btn btn-primary"
               href="#">Valider</button>
               <button data-dismiss="modal" class="btn" href="#">Fermer</button> </div>
@@ -141,8 +158,8 @@
               <label class="control-label">structure administrative:</label>
               <div class="controls">
                 <select  v-model="editGestionnaire.structure_administrative_id">
-            <option v-for="service in structures_administratives" :key="service.id" 
-            :value="service.id">{{service.libelle}}</option>
+            <option v-for="administrative in structures_administratives" :key="administrative.id" 
+            :value="administrative.id">{{administrative.libelle}}</option>
                 </select>
               </div>
             </div>
@@ -160,12 +177,12 @@
               </div>
             </div>
             
-               <div class="control-group">
+               <!-- <div class="control-group">
               <label class="control-label">Ordre:</label>
               <div class="controls">
                 <input type="text" v-model="editGestionnaire.ordre" class="span" placeholder="" />
               </div>
-            </div>
+            </div> -->
 
              
 
@@ -173,7 +190,7 @@
           </div>
            <div class="modal-footer"> 
              <button  v-show="editGestionnaire.code.length && editGestionnaire.libelle.length && 
-             editGestionnaire.ordre.length && editGestionnaire.structure_administrative_id"
+                 editGestionnaire.structure_administrative_id"
              @click.prevent="modifierServiceGestionnaireLocal(editGestionnaire)" class="btn btn-primary"
               >Modifier</button>
               <button data-dismiss="modal" class="btn" >Fermer</button> </div>
@@ -185,9 +202,17 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterServicegestionnaire()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterServicegestionnaire"
+        bg-color="green"
 
+  ></fab>
 
+<notifications  />
   </div>
   
 </template>
@@ -199,6 +224,11 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle',
+        'structure administrative':'structure_administrative.libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -213,14 +243,14 @@ export default {
         formData : {
                 code: "",
              libelle: "",
-             ordre:"",
+            //  ordre:"",
              structure_administrative_id:""
         },
 
         editGestionnaire: {
             code: "",
              libelle: "",
-             ordre:"",
+            //  ordre:"",
               structure_administrative_id:""
         },
         search:"",
@@ -257,7 +287,7 @@ return this.services_gestionnaires.filter((item) => {
    ...mapActions('parametreGenerauxAdministratif', ['getServiceGestionnaire', 'ajouterServiceGestionnaire', 
    'supprimerServiceGestionnaire', 'modifierServiceGestionnaire']),   
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterServicegestionnaire(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
@@ -270,7 +300,7 @@ return this.services_gestionnaires.filter((item) => {
         this.formData = {
                 code: "",
              libelle: "",
-             ordre:"",
+            //  ordre:"",
               structure_administrative_id:""
         }
     },
@@ -293,7 +323,7 @@ afficherModalModifierService(index){
     this.editGestionnaire = {
       code:"",
       libelle:"",
-      ordre:"",
+      // ordre:"",
     structure_administrative_id:""
 
     }

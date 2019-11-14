@@ -14,6 +14,15 @@ import SousModuleParametreGenerauxProgrammeUnite from './modules/parametres_gene
 import SousModuleParametreGenerauxFonctionnelle from './modules/parametres_generaux/plan-fonctionnelle/index'
 import SousModuleParametreGenerauxBudgetaire from './modules/parametres_generaux/nature_depense/index'
 import SousModuleParametreGenerauxActivite from './modules/parametres_generaux/activite/index'
+//gestion des marches
+import ModuleGestionMarche from "./modules/guei/gestion_marche/index"
+// suivi des immo
+import ModuleSuiviImmobilisation from "./modules/fabrice/SuiviImmobilisation/index";
+
+// suivi des missions
+import ModuleSuiviMission from './modules/suivi_controle_budgetaire/index'
+
+
 
 
 
@@ -30,7 +39,14 @@ export default new Vuex.Store({
       parametreGenerauxProgrammeUnite: SousModuleParametreGenerauxProgrammeUnite,
       parametreGenerauxFonctionnelle: SousModuleParametreGenerauxFonctionnelle ,
       parametreGenerauxBudgetaire: SousModuleParametreGenerauxBudgetaire,
-      parametreGenerauxActivite:SousModuleParametreGenerauxActivite
+      parametreGenerauxActivite:SousModuleParametreGenerauxActivite,
+      gestionMarche:ModuleGestionMarche,
+      SuiviImmobilisation: ModuleSuiviImmobilisation,
+      suivi_controle_budgetaire : ModuleSuiviMission
+
+
+      
+
 
     }
   })

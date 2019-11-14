@@ -2,7 +2,7 @@
 <template>
     <div>
 
-
+        <notifications />
 
         <!-- End Page Header -->
         <!-- Default Light Table -->

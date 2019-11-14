@@ -90,6 +90,17 @@
       <hr />
       <div class="row-fluid">
         <div class="span12">
+          <download-excel
+            class="btn btn-default pull-right"
+            style="cursor:pointer;"
+            :fields="json_fields"
+            title="Liste type texte"
+            :data="filtre_type_teste"
+            name="Liste type texte"
+            worksheet="Liste type texte"
+          >
+            <i title="Exporter en excel" ref="excel" class="icon-table">&nbsp;&nbsp;Exporter en excel</i>
+          </download-excel>
           <div class="widget-box">
             <div class="widget-title">
               <span class="icon">
@@ -97,8 +108,8 @@
               </span>
               <h5>Liste des type text</h5>
               <div align="right">
-                Search:
-                <input type="search" placeholder v-model="search" />
+                Recherche:
+                <input type="search" placeholder="Saisie code ou libelle" v-model="search" />
               </div>
             </div>
 
@@ -141,6 +152,9 @@
     </div>
 
     <fab :actions="fabActions" @cache="afficherModalAjouterTitre" main-icon="apps" bg-color="green"></fab>
+    <button style="display:none;" v-shortkey.once="['ctrl', 'f']" @shortkey="afficherModalAjouterTitre()">Open</button>
+<button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button>
+<notifications  />
     <!-- <fab :actions="fabActions1" @cache="afficherModalModifierTypeTexte" bg-color="red"></fab> -->
   </div>
 </template>
@@ -148,6 +162,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
+  name:'typetext',
   data() {
     return {
       fabActions: [
@@ -161,7 +176,10 @@ export default {
         //   class: ""
         // }
       ],
-
+      json_fields: {
+        CODE: "code",
+        LIBELLE: "libelle"
+      },
       formData: {
         code: "",
         libelle: ""
@@ -217,19 +235,25 @@ export default {
         keyboard: false
       });
 
+     
       this.editTypeTexte = this.typeTextes[index];
     },
     // fonction pour vider l'input modification
     modifierTypeTexteLocal() {
       this.modifierTypeTexte(this.editTypeTexte);
-
-      this.editTypeTexte = {
-        code: "",
-        libelle: ""
-      };
+this.$("#modificationModal").modal('hide');
+      // this.editTypeTexte = {
+      //   code: "",
+      //   libelle: ""
+      // };
+       
     },
     alert() {
       console.log("ok");
+    },
+    
+ExporterEnExel(){
+      this.$refs.excel.click()
     }
   }
 };

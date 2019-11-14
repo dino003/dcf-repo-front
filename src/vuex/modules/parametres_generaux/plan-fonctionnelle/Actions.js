@@ -58,7 +58,6 @@ export  function getPlanFonctionnelle({commit}){
 // ajouter plan fonctionnelle
 export function ajouterPlanFonctionnel({commit}, objetAjout){
     axios.post('/ajouter_Planfontionnelle' , {
-        parent: objetAjout.parent,
         code:objetAjout.code,
         libelle:objetAjout.libelle,
     structure_fonctionnelle_id:objetAjout.structure_fonctionnelle_id

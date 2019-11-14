@@ -10,9 +10,23 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                          <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste plan budgetaire "
+                                              name ="Liste plan budgetaire"
+                                              worksheet = "plan budgetaire"
+                                            :data="localisationsFiltre">
+           <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Liste des structures budgetaires</h5>
+            <h5>Liste des plans budgetaires</h5>
              <div align="right">
         Rechercher: <input type="text" v-model="search">
 
@@ -30,17 +44,18 @@
                    <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody> 
                 <tr class="odd gradeX" v-for="(plans, index) 
                 in localisationsFiltre" :key="plans.id">
                   <td @dblclick="afficherMoadlModifierLocalisation(index)">
                     {{plans.code || 'Non renseigné'}}</td>
                    <td @dblclick="afficherMoadlModifierLocalisation(index)">
                     {{plans.libelle || 'Non renseigné'}}</td>
-                    
+
                    <td @dblclick="afficherMoadlModifierLocalisation(index)">
-                      {{plans.structure_budgetaire.libelle || 'Non renseigné'}}</td>
+                  {{(plans.structure_budgetaire.libelle) || 'Non renseigné'}}</td>
                   <td>
+
 
 
 
@@ -54,17 +69,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucun plan budgetaire enregistré ! </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
+     
 
 <!----- ajouter modal   ---->
 
@@ -76,6 +94,17 @@
               </div>
               <div class="modal-body">
                 <form class="form-horizontal">
+
+                 <div class="control-group">
+              <label class="control-label">Structure budgetaire:</label>
+              <div class="controls">
+                <select  v-model="formData.structure_budgetaire_id">
+            <option v-for="budget in structures_budgetaires" :key="budget.id" 
+            :value="budget.id">{{budget.libelle}}</option>
+                </select>
+              </div>
+            </div>
+
             <div class="control-group">
               <label class="control-label">Code:</label>
               <div class="controls">
@@ -88,22 +117,15 @@
                 <input type="text" v-model="formData.libelle" class="span" placeholder="Saisir le libelle" />
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Plans budgetairee:</label>
-              <div class="controls">
-                <select  v-model="formData.structure_budgetaire_id">
-            <option v-for="budget in structures_budgetaires" :key="budget.id" 
-            :value="budget.id">{{budget.libelle}}</option>
-                </select>
-              </div>
-            </div>
+            
             
 
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="formData.code.length && formData.libelle.length"
-              @click.prevent="ajouterTitreLocal" class="btn btn-primary"
+             <button v-show="formData.code.length && formData.libelle.length 
+             && formData.structure_budgetaire_id"
+             @click.prevent="ajouterTitreLocal" class="btn btn-primary"
               href="#">Valider</button>
               <button data-dismiss="modal" class="btn" href="#">Fermer</button> </div>
             </div>
@@ -121,6 +143,16 @@
               </div>
               <div class="modal-body">
                 <form class="form-horizontal">
+
+                  <div class="control-group">
+              <label class="control-label">Structure budgetaire:</label>
+              <div class="controls">
+                <select  v-model="editTitre.structure_budgetaire_id">
+            <option v-for="budget in structures_budgetaires" :key="budget.id" 
+            :value="budget.id">{{budget.libelle}}</option>
+                </select>
+              </div>
+            </div>
             <div class="control-group">
               <label class="control-label">Code:</label>
               <div class="controls">
@@ -133,31 +165,33 @@
                 <input type="text" v-model="editTitre.libelle" class="span" placeholder="" />
               </div>
             </div>
-             <div class="control-group">
-              <label class="control-label">Plan budgetaire:</label>
-              <div class="controls">
-                <select  v-model="editTitre.structure_budgetaire_id">
-            <option v-for="budget in structures_budgetaires" :key="budget.id" 
-            :value="budget.id">{{budget.libelle}}</option>
-                </select>
-              </div>
-            </div>
+             
 
           </form>              
           </div>
            <div class="modal-footer"> 
-             <a @click.prevent="modifierLocalisationLocal(editTitre)" class="btn btn-primary"
-              href="#">Modifier</a>
-              <a data-dismiss="modal" class="btn" href="#">Fermer</a> </div>
+             <button v-show="editTitre.code.length && editTitre.libelle.length 
+             && editTitre.structure_budgetaire_id"
+             @click.prevent="modifierLocalisationLocal(editTitre)" class="btn btn-primary"
+              >Modifier</button>
+              <button data-dismiss="modal" class="btn" >Fermer</button> </div>
             </div>
 
 
 <!----- fin modifier modal  ---->
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterPlanBudgetaire()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterPlanBudgetaire"
+        bg-color="green"
 
+  ></fab>
 
+<notifications  />
 
 
   </div>
@@ -171,6 +205,11 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle',
+
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -227,7 +266,7 @@ return this.plans_budgetaires.filter((item) => {
     'ajouterPlanBudgetaire', 
    'supprimerPlanBudgetaire', 'modifierPlanbudgetaire']),     
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterPlanBudgetaire(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
@@ -240,7 +279,7 @@ return this.plans_budgetaires.filter((item) => {
         this.formData = {
                 code: "",
              libelle: "",
-              structure_budgetaire_id:""
+          structure_budgetaire_id:""
         }
     },
 // afficher modal

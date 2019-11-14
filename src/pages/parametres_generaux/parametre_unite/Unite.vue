@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                    <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste unite "
+                                              name ="Liste unite"
+                                              worksheet = "unite"
+                                            :data="localisationsFiltre">
+           <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des unites</h5>
@@ -52,17 +66,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucune unité enregistrée ! </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
+        
 
 <!----- ajouter modal   ---->
 
@@ -138,8 +155,17 @@
 <!----- fin modifier modal  ---->
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterUnite()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterUnite"
+        bg-color="green"
 
+  ></fab>
+
+<notifications  />
 
 
 
@@ -154,6 +180,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -207,7 +237,7 @@ return this.unites.filter((item) => {
    ...mapActions('parametreGenerauxProgrammeUnite', ['getUnite', 'ajouterUnite', 
    'supprimerUnite', 'modifierUnite']),   
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterUnite(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false

@@ -13,28 +13,59 @@ export async function  getTypeActPersonnel({commit}) {
 }
 // ajouter type acte personnel
 export  function ajouterTypeActPersonnel({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_type_acte_personnel', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_TYPE_ACTE_PERSONNELS', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error => {
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    } )
 }
 
 // supprimer type act
 export function supprimerTypeActPersonnel({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_TYPE_ACTE_PERSONNELS', id)
-        axios.delete('/delete_type_acte_personnel/' + id)
-
-    }
+        axios.delete('/delete_type_acte_personnel/' + id).then(() => dialog.close() )
+    })
 }
 
 
 export function modifierTypeAct({commit}, formData){
+    this.$app.$loading(true)
     axios.put('/update_type_acte_personnel' ,formData).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
         commit('MODIFIER_TYPE_ACTE_PERSONNELS', response.data)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 
 }
@@ -52,27 +83,53 @@ export  function  getFonctions({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterFonction({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_fonction', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_FOCNTIONS', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerFonction({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_FONCTIONS', id)
-        axios.delete('/delete_fonction/' + id)
-
-    }
+        axios.delete('/delete_fonction/' + id).then(() => dialog.close() )
+    })
 }
 
 export function modifierFonction({commit}, formData){
+    this.$app.$loading(true)
     axios.put('/update_fonction' ,formData).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
         commit('MODIFIER_FONCTIONS', response.data)
+        this.$app.$loading(false)
     })
 
 }
@@ -101,27 +158,55 @@ export  function  getClasses({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterClasses({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_classes', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_CLASSES', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerClasse({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
-    if(conf){
+
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_CLASSES', id)
-        axios.delete('/delete_classes/' + id)
+        axios.delete('/delete_classes/' + id).then(() => dialog.close() )
+    })
 
-    }
 }
 
 export function modifierClasse({commit}, formData){
+    this.$app.$loading(true)
     axios.put('/update_classes' ,formData).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
         commit('MODIFIER_CLASSES', response.data)
+        this.$app.$loading(false)
     })
 
 }
@@ -156,27 +241,53 @@ export  function  getNiveauEtude({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterNiveauEtude({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_niveau_etude', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_NIVEAU_ETUDE', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error => {
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerNiveauEtude({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_NIVEAU_ETUDE', id)
-        axios.delete('/delete_niveau_etude/' + id)
-
-    }
+        axios.delete('/delete_niveau_etude/' + id).then(() => dialog.close() )
+    })
 }
 
 export function modifierNiveauEtude({commit}, formData){
+    this.$app.$loading(true)
     axios.put('/update_niveau_etude' ,formData).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
         commit('MODIFIER_NIVEAU_ETUDE', response.data)
+        this.$app.$loading(false)
     })
 
 }
@@ -207,27 +318,53 @@ export  function  getTypeContrat({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterTypeContrat({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_type_contrats', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_TYPE_CONTRAT', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerTypeContrat({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_TYPE_CONTRAT', id)
-        axios.delete('/delete_type_contrats/' + id)
-
-    }
+        axios.delete('/delete_type_contrats/' + id).then(() => dialog.close() )
+    })
 }
 
 export function modifierTypeContrat({commit}, formData){
+    this.$app.$loading(false)
     axios.put('/update_type_contrats' ,formData).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
         commit('MODIFIER_TYPE_CONTRAT', response.data)
+        this.$app.$loading(false)
     })
 
 }
@@ -260,25 +397,48 @@ export  function  getTypeSalarie({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterTypeSalarie({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_type_salarie', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_SALARIE', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerTypeSalarie({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-    if(conf){
+
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_TYPE_SALARIE', id)
-        axios.delete('/delete_type_salarie/' + id)
-    }
+        axios.delete('/delete_type_salarie/' + id).then(() => dialog.close() )
+    })
 }
 
 export function modifieTypeSalaire({commit}, formData){
+    this.$app.$loading(true)
     axios.put('/update_type_salarie' ,formData).then(response => {
         commit('MODIFIER_TYPE_SALARIE', response.data)
+        this.$app.$loading(false)
     })
 
 }
@@ -320,22 +480,41 @@ export  function  getEchelons({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterEchelons({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_echellon', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_ECHELONS', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerEchelons({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
 
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_ECHELONS', id)
-        axios.delete('/delete_echellon/' + id)
-
-    }
+        axios.delete('/delete_echellon/' + id).then(() => dialog.close() )
+    })
 }
 
 // modifier type acte personnel
@@ -371,22 +550,40 @@ export  function  getGrades({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterGrades({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_grade', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_GRADE', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerGrades({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_GRADE', id)
-        axios.delete('/delete_grade/' + id)
-
-    }
+        axios.delete('/delete_grade/' + id).then(() => dialog.close() )
+    })
 }
 
 // modifier type acte personnel
@@ -413,21 +610,40 @@ export  function  getActeur({commit}) {
 
 // ajouter type acte personnel
 export  function ajouterActeur({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/nouveau_acteur_depense', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_ACTEURS', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 // supprimer type act
 export function supprimerActeurs({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-
-    if(conf){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_ACTEURS', id)
-        axios.delete('/delete_acteur_depense/' + id)
-    }
+        axios.delete('/delete_acteur_depense/' + id).then(() => dialog.close() )
+    })
 }
 
 
@@ -468,19 +684,41 @@ export  function  getActPersonnel({commit}) {
 
 // ajouter type acte personnel
 export  function modifierActeurDepense({commit}, objetModifie,config){
+    this.$app.$loading(true)
     axios.post('/add_act_nomination', objetModifie,config ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Modification effectuer',
+                type:"success"
+            });
             commit('MODIFIER_ACT_PERSONNEL', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
-// ajouter type acte personnel
+// Modififie acter depense
 export  function modifierActeurDepenses({commit}, objetModifie){
+    this.$app.$loading(true)
     axios.put('/update_act_personnel', objetModifie ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Modification effectuer',
+                type:"success"
+            });
             commit('MODIFIER_ACT_PERSONNEL', res.data)
         }
+        this.$app.$loading(false)
     }).catch(error => console.log(error))
 }
 
@@ -522,45 +760,96 @@ export  function  jourCongeDisponible({commit}, id) {
 }
 
 export  function ajouterConges({commit}, objetModifie){
+    this.$app.$loading(true)
     axios.post('/add_conge_acteur', objetModifie ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_CONGES', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 export function supprimerConge({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-    if(conf){
+
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
         commit('SUPPRIMER_CONGES', id)
-        axios.delete('/delete_conge_acteur/' + id)
-    }
+        axios.delete('/delete_conge_acteur/' + id).then(() => dialog.close() )
+    })
 }
 
 export  function modifierConges({commit}, objetModifie){
+    this.$app.$loading(true)
     axios.post('/update_conge_acteur', objetModifie ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Modification effectuer',
+                type:"success"
+            });
             commit('MODIFIER_CONGES', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 export  function ajouterActeDepense({commit}, objetAjoute){
+    this.$app.$loading(true)
     axios.post('/add_act_personnel', objetAjoute ).then(res => {
         if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Enregistrement effectuer',
+                type:"success"
+            });
             commit('AJOUTER_ACT_PERSONNEL', res.data)
+            this.$app.$loading(false)
         }
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 export  function  tempMoyenFinActiviteInterruption({commit}, id) {
+    console.log("tempMoyenFinActiviteInterruption" + id)
     axios.get('/temps_moyen_fin_activite_and_interuption/'+id).then(response => {
-        // console.log(response.data)
+
         commit('LOAD_TEMPS_MOYEN_FIN_ACTIVITE_AND_INTERRUPRION', response.data)
+
     }).catch(error => console.log(error))
 
 }
-
 
 export  function  delaiMiseDispositionAct({commit}, id) {
     axios.get('/delaisMiseDispositionActnomination/'+id).then(response => {

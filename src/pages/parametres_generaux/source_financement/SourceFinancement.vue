@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                        <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structure de financement "
+                                              name ="Liste structure de  financement"
+                                              worksheet = "structure de  financement"
+                                            :data="localisationsFiltre">
+                  <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des sources de financements</h5>
@@ -33,15 +47,17 @@
               <tbody>
                 <tr class="odd gradeX" v-for="(source_financement, index) in 
                 localisationsFiltre" :key="source_financement.id">
-                  <td @dblclick="afficherModalModifierFinancement(index)">{{source_financement.code || 'Non renseigné'}}</td>
-                  <td @dblclick="afficherModalModifierFinancement(index)">{{source_financement.libelle || 'Non renseigné'}}</td>
-                  <td @dblclick="afficherModalModifierFinancement(index)">{{source_financement.sigle || 'Non renseigné'}}</td>
+                  <td @dblclick="afficherModalModifierFinancement(index)">
+                    {{source_financement.code || 'Non renseigné'}}</td>
+                  <td @dblclick="afficherModalModifierFinancement(index)">
+                    {{source_financement.libelle || 'Non renseigné'}}</td>
+                  <td @dblclick="afficherModalModifierFinancement(index)">
+                    {{source_financement.sigle || 'Non renseigné'}}</td>
                   <td>
 
-
-
               <div class="btn-group">
-              <button @click.prevent="supprimerSourceFinancement(source_financement.id)"  class="btn btn-danger ">
+              <button @click.prevent="supprimerSourceFinancement(source_financement.id)"  
+              class="btn btn-danger ">
                 <span class=""><i class="icon-trash"></i></span></button>
              
             </div>
@@ -50,17 +66,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+               <h6 style="color:red;"> Aucune source de financement enregistrée ! </h6>
           </div>
+            </div>
+           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterFinancement"
-        bg-color="green"
-
-  ></fab>
+     
 
 <!----- ajouter modal   ---->
 
@@ -147,8 +166,16 @@
 <!----- fin modifier modal  ---->
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterSourceFinancement()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterSourceFinancement"
+        bg-color="green"
 
+  ></fab>
+<notifications  />
 
 
 
@@ -163,6 +190,11 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle',
+        'Sigle':'sigle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -219,7 +251,7 @@ return this.sources_financements.filter((item) => {
    'modifierFinancement',
     'supprimerSourceFinancement']),   
    
-    afficherModalAjouterFinancement(){
+    afficherModalAjouterSourceFinancement(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
@@ -232,7 +264,7 @@ return this.sources_financements.filter((item) => {
         this.formData = {
                 code: "",
              libelle: "",
-             sigle:""
+               sigle:""
         }
     },
 // afficher modal

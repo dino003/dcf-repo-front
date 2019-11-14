@@ -1,6 +1,7 @@
 
 <template>
     <div>
+        <notifications />
         <div class="container-fluid">
             <hr>
             <div class="row-fluid">
@@ -44,8 +45,8 @@
                 </div>
             </div>
         </div>
-
         <fab :actions="fabActions"
+             main-icon="apps"
              @cache="afficherModalAjouterTitre"
              bg-color="green"
 

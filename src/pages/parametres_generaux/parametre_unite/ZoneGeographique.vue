@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                      <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste zone geographique "
+                                              name ="Liste zone geographique"
+                                              worksheet = "zone geographique"
+                                            :data="localisationsFiltre">
+            <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des zones geographiques</h5>
@@ -52,17 +66,19 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;"> Aucune zone géographique enregistrée !</h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
 
 <!----- ajouter modal   ---->
 
@@ -138,7 +154,16 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterZonegeographique()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterZonegeographique"
+        bg-color="green"
+
+  ></fab>
+<notifications  />
 
 
 
@@ -153,6 +178,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -207,7 +236,7 @@ return this.zones_geographiques.filter((item) => {
    ...mapActions('parametreGenerauxProgrammeUnite', ['getZone', 'ajouterZone', 
    'supprimerZone', 'modifierZone']),   
    
-    afficherModalAjouterTitre(){
+    afficherModalAjouterZonegeographique(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false

@@ -10,6 +10,20 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                               <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structure programme "
+                                              name ="Liste structure programme"
+                                              worksheet = "structure programme"
+                                            :data="localisationsFiltre">
+                  <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des structures programmes</h5>
@@ -30,9 +44,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="odd gradeX" v-for="(structure_programme, index) in localisationsFiltre" :key="structure_programme.id">
-                  <td @dblclick="afficherModalModifierStructure(index)">{{structure_programme.niveau || 'Non renseigné'}}</td>
-                  <td @dblclick="afficherModalModifierStructure(index)">{{structure_programme.libelle || 'Non renseigné'}}</td>
+                <tr class="odd gradeX" v-for="(structure_programme, index) in 
+                localisationsFiltre" :key="structure_programme.id">
+                  <td @dblclick="afficherModalModifierStructure(index)">
+                    {{structure_programme.niveau || 'Non renseigné'}}</td>
+                  <td @dblclick="afficherModalModifierStructure(index)">
+                    {{structure_programme.libelle || 'Non renseigné'}}</td>
                   <td>
 
 
@@ -47,11 +64,11 @@
                 </tr>
               </tbody>
             </table>
-            <div v-if="structures_programmes.length">
+            <div v-if="localisationsFiltre.length">
             </div>
             <div v-else>
               <div align="center">
-              <h4 style="color:red;">Acune structure programme trouvée</h4>
+              <h4 style="color:red;">Aucune structure programme trouvée</h4>
               </div>
           </div>
            </div>
@@ -60,12 +77,7 @@
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalStructure"
-        bg-color="green"
-
-  ></fab>
-
+      
 <!----- ajouter modal   ---->
 
 
@@ -79,7 +91,7 @@
             <div class="control-group">
               <label class="control-label">Niveau:</label>
               <div class="controls">
-                <input type="number" v-model="formData.code" class="span" placeholder="Saisir le niveau" />
+                <input type="number" v-model="formData.niveau" class="span" placeholder="Saisir le niveau" />
               </div>
             </div>
             <div class="control-group">
@@ -93,7 +105,7 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="formData.code.length && formData.libelle.length"
+             <button v-show="formData.niveau.length && formData.libelle.length"
               @click.prevent="ajouetProgrammeLocal" class="btn btn-primary"
               >Valider</button>
               <a data-dismiss="modal" class="btn" >Fermer</a> </div>
@@ -115,7 +127,7 @@
             <div class="control-group">
               <label class="control-label">Niveau:</label>
               <div class="controls">
-                <input type="number" v-model="editProgramme.code" class="span" placeholder="" />
+                <input type="number" v-model="editProgramme.niveau" class="span" placeholder="" />
               </div>
             </div>
             <div class="control-group">
@@ -129,7 +141,7 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="editProgramme.code.length && editProgramme.libelle.length"
+             <button v-show="editProgramme.niveau.length && editProgramme.libelle.length"
               @click.prevent="modifierModalStructureprogrammeLocal(editProgramme)" class="btn btn-primary"
               >Modifier</button>
               <button data-dismiss="modal" class="btn" >Fermer</button> </div>
@@ -137,6 +149,21 @@
 
 
 <!----- fin modifier modal  ---->
+
+
+
+
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterStructureProgramme()">Open</button>
+
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterStructureProgramme"
+        bg-color="green"
+
+  ></fab>
+
+<notifications  />
 
   </div>
   
@@ -149,6 +176,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Niveau':'niveau',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -161,12 +192,12 @@ export default {
           ],
      
         formData : {
-                code: "",
+                niveau: "",
              libelle: ""
         },
 
         editProgramme: {
-            code: "",
+            niveau: "",
              libelle: ""
         },
          search:""
@@ -177,26 +208,31 @@ export default {
    // this.getStructureProgramme()
   },
   computed: {
-// methode pour maper notre guetter
+// methode pour maper le guetter
    ...mapGetters('parametreGenerauxAdministratif', ['structures_programmes']) ,
    // methode pour trier le tableau
        localisationsFiltre(){
 
      const searchTerm = this.search.toLowerCase();
 
-    return this.structures_programmes.filter((item) => {
-        return item.libelle.toLowerCase().includes(searchTerm) 
-        }
-    )
+return this.structures_programmes.filter((item) => {
+  
+    return item.libelle.toLowerCase().includes(searchTerm) 
+    // || item.libelle.toLowerCase().includes(searchTerm) 
+   
+  
+
+   }
+)
    }
 
   },
   methods: {
-    // methode pour notre action
+    // methode pour l'action
    ...mapActions('parametreGenerauxAdministratif', ['getStructureProgramme', 
    'ajouterStructureProgramme','modifierStructureProgramme','supprimerStructureProgramme']),   
    
-    afficherModalStructure(){
+    afficherModalAjouterStructureProgramme(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
@@ -207,7 +243,7 @@ export default {
       this.ajouterStructureProgramme(this.formData)
 
         this.formData = {
-                code: "",
+                niveau: "",
              libelle: ""
         }
     },
@@ -227,7 +263,7 @@ afficherModalModifierStructure(index){
  modifierModalStructureprogrammeLocal(){
    this.modifierStructureProgramme(this.editProgramme)
    this.editProgramme = {
-                code: "",
+                niveau: "",
                libelle: ""
    }
  }

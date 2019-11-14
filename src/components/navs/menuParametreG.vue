@@ -12,39 +12,38 @@
           data-target="#administratifs"
           class="dropdown-toggle"
         >
-          <i class="icon icon-user"></i>
-          <span class="text">Administratifs</span>
+          <span class="text">ADMINISTRATIFS </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li>
             <router-link :to="{name: 'ExerciceBudgetaire'}" tag="a">
               <i class="icon-user"></i>
-              Exercise budgetaire
+              Exercises budgétaires
             </router-link>
           </li>
           <li class="divider"></li>
           <li>
             <router-link :to="{name: 'Titre'}" tag="a">
               <i class="icon-check"></i>
-              Titre
+              Les Titres
             </router-link>
           </li>
           <li class="divider"></li>
           <li>
             <router-link :to="{name:'NatureSection'}" tag="a">
-              <i class="icon-plus"></i> Nature de section
+              <i class="icon-plus"></i> Les Natures de section
             </router-link>
           </li>
            <li>
             <router-link :to="{name:'Section'}" tag="a">
-              <i class="icon-key"></i> Section
+              <i class="icon-key"></i> Les Sections
             </router-link>
           </li>
           <li class="divider"></li>
           <li>
             <router-link :to="{name:'StructureProgramme'}" tag="a">
-              <i class=" icon-star"></i> Structure progragmme
+              <i class=" icon-star"></i> Les Structures progragmmes
             </router-link>
           </li>
           <li class="divider"></li>
@@ -98,32 +97,33 @@
       <!--Source de financement-->
       <li class="dropdown" id="source_financement">
         <a title = "Source de financement" href="#" data-toggle="dropdown" data-target="#source_financement" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Source de f.</span>
+          <span class="text"> FINANCEMENTS </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li class="divider"></li>
+
+           <li>
+            <router-link :to="{name:'TypeFinancement'}" tag="a">
+              <i class="icon-key"></i> Type de Financement
+            </router-link>
+          </li>
+             <li class="divider"></li>
+
           <li>
            
              <router-link :to="{name:'SourceFinancement'}" tag="a">
               <i class="icon-check"></i> Source de Financement
             </router-link>
           </li>
-          <li class="divider"></li>
-          <li>
-            <router-link :to="{name:'TypeFinancement'}" tag="a">
-              <i class="icon-key"></i> Type de Financement
-            </router-link>
-          </li>
+         
         </ul>
       </li>
       <!-- fonctionnelle
       -->
        <li class="dropdown" id="fonctionnelle">
         <a title = "fonctionnelle" href="#" data-toggle="dropdown" data-target="#fonctionnelle" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Fonctionnelle</span>
+          <span class="text">FONCTIONNEL </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -169,8 +169,7 @@
       -->
       <li class="dropdown" id="Depense">
         <a title="Nature de depense" href="#" data-toggle="dropdown" data-target="#Depense" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Nature d.</span>
+          <span class="text">NATURES DE DEPENSES </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -193,8 +192,7 @@
       -->
       <li class="dropdown" id="Activite">
         <a title="Activité" href="#" data-toggle="dropdown" data-target="#Activite" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Activité</span>
+          <span class="text">ACTIVITES </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -205,20 +203,14 @@
             </router-link>
           </li>
           <li class="divider"></li>
-          <li>
-            <router-link :to="{name: 'PlanActivite'}" tag="a">
-              <i class="icon-check"></i>
-              Plan Activité
-            </router-link>
-          </li>
+         
         </ul>
       </li>
       <!-- Généraux
       -->
       <li class="dropdown" id="generaux">
         <a title="Parametres généraux" href="#" data-toggle="dropdown" data-target="#generaux" class="dropdown-toggle">
-          <i class="icon icon-user"></i>
-          <span class="text">Parametre G.</span>
+          <span class="text">PARAMETRES GENERAUX </span>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -264,16 +256,10 @@
 </template>
 
 <script>
-/*import Navbar from "./Navbar";
-import Milieu from "./Milieu";
-import Nfooter from "./Nfooter";*/
+
 
 export default {
-  /* components: {
-    Navbar,
-    Milieu,
-    Nfooter
-  },*/
+
  
 };
 </script>

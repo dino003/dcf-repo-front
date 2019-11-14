@@ -25,6 +25,18 @@ import BudgetaireRoutesAdoni from './parametres_generaux/BudgetaireRoutesAdoni'
 // route activite
 import ActiviteRoutesAdoni from './parametres_generaux/ActiviteRoutesAdoni'
 
+//gestion des marches
+import GestionMarcheRoutes from "./gestion_marche/GestionMarcheRoutes"
+
+// suivi des immo
+import suiviImmobilisationRoute from "./suiviImmobilisation/suiviImmobilisationRoute";
+
+// route suivi mission
+import MissionRoutes from './suivi_control/MissionRoutes';
+
+
+
+
 
 // authentitification 
 import AuthRoutes from './auth/AuthRoutes' 
@@ -49,7 +61,11 @@ const regroupementDesRoutes = [
   parametreUniteRoutesAdoni,
   FonctionnelleRoutesAdoni,
   BudgetaireRoutesAdoni,
-  ActiviteRoutesAdoni
+  ActiviteRoutesAdoni,
+  GestionMarcheRoutes,
+  suiviImmobilisationRoute,
+  MissionRoutes
+
 ];
 const routes = [].concat(...regroupementDesRoutes);
 
@@ -70,7 +86,7 @@ router.beforeEach((to, from, next) => {
 
   // if logged in redirect to dashboard
   if(to.path === '/' && store.state.Utilisateurs.isLoggedIn) {
-    // next({ path: 'titre' })
+     next({ name: 'ExerciceBudgetaire' })
       return
   }
 

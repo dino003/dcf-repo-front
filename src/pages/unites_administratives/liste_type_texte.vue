@@ -7,14 +7,17 @@
       <hr />
       <div class="row-fluid">
         <div class="span12">
-          <!-- <div align="right">
-            <div class="controls">
-              <div data-toggle="buttons-checkbox" class="btn-group">
-                <button class="btn btn-primary" type="button">Imprimer</button>
-                <button class="btn btn-success" type="button">Exporter Excel</button>
-              </div>
-            </div>
-          </div>-->
+          <download-excel
+            class="btn btn-default pull-right"
+            style="cursor:pointer;"
+            :fields="json_fields"
+            title="Liste type texte"
+            :data="filtre_archivage_document"
+            name="Liste type texte"
+            worksheet="Liste type texte"
+          >
+            <i title="Exporter en excel" ref="excel" class="icon-table">&nbsp;&nbsp;Exporter en excel</i>
+          </download-excel>
           <div class="widget-box">
             <div class="widget-title">
               <span class="icon">
@@ -22,8 +25,8 @@
               </span>
               <h5>Liste des type text</h5>
               <div align="right">
-                Search:
-                <input type="search" placeholder="Code ou libelle" v-model="search" />
+                Recherche:
+                <input type="search" placeholder="Saisie Code ou libelle" v-model="search" />
               </div>
             </div>
 
@@ -51,12 +54,14 @@
         </div>
       </div>
     </div>
+      <button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button>
   </div>
 </template>
   
 <script>
 import { mapGetters } from "vuex";
 export default {
+  name:'listetypetexte',
   data() {
     return {
       fabActions: [
@@ -65,6 +70,10 @@ export default {
           icon: "add"
         }
       ],
+      json_fields: {
+        CODE: "code",
+        LIBELLE: "libelle"
+      },
       search: ""
     };
   },
@@ -80,6 +89,12 @@ export default {
           type.libelle.toLowerCase().includes(st)
         );
       });
+    }
+  },
+  methods: {
+   
+    ExporterEnExel(){
+      this.$refs.excel.click()
     }
   }
 };

@@ -3,6 +3,8 @@ import router from '../../../routes/index'
 import axios from '../../../../urls/api_parametrage/api'
 var housecall = require('housecall');
 var queue = housecall({ concurrency: 2, cooldown: 1000 });
+import { asyncLoading } from 'vuejs-loading-plugin'
+
 
 
 
@@ -10,19 +12,19 @@ var queue = housecall({ concurrency: 2, cooldown: 1000 });
 export function login({commit}, user){
     if(user.email && user.password){
        // this.loader = true;
-       commit('SET_LOADER_TRUE')
+      // commit('SET_LOADER_TRUE')
     //  this.error = false
         commit('SET_ERROR_FALSE')
             //   this.loginError = false;
-               apiGuest.post('/login', {
-                   email: user.email,
-                   password: user.password
-               }).then(response => {
+              asyncLoading( apiGuest.post('/login', {
+                email: user.email,
+                password: user.password
+            })).then(response => {
               
                     commit('LOGIN_USER', response.data.user)
                     localStorage.setItem('token', response.data.access_token)
                    // localStorage.setItem('user', response.data.user)
-                   commit('SET_LOADER_FALSE')
+                  // commit('SET_LOADER_FALSE')
 
                      router.push({ name: 'Titre' })                   
                    

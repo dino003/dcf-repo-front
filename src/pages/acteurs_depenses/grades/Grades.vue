@@ -1,6 +1,7 @@
 
 <template>
     <div>
+        <notifications />
         <!-- End Page Header -->
         <!-- Default Light Table -->
         <div class="container-fluid">

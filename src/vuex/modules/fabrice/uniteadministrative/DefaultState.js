@@ -5,12 +5,13 @@ const defaultState = {
 
   archivageDocuments: [],
 
-  listeDocUniteAdministratives: [],
+  // listeDocUniteAdministratives: [],
 
-  nbreUniteAdministratives: [],
+  // nbreUniteAdministratives: [],
 
-  nbreTypeTextes: [],
-  nbreArchivageDocuments: []
+  // nbreTypeTextes: [],
+
+  // nbreArchivageDocuments: []
 };
 
 export default defaultState;

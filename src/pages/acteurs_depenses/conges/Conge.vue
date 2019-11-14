@@ -1,7 +1,7 @@
 
 <template>
     <div>
-
+        <notifications />
 
 
         <!-- End Page Header -->

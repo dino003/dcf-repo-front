@@ -10,34 +10,28 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+                                         <div>
 
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste titre "
+                                              name ="Liste titre"
+                                              worksheet = "titre"
+                                            :data="titreFiltres">
+             <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
-             <div class="widget-title">
-
-                <span class="icon"> <i class="icon-th"></i> </span>
+             <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des titres</h5>
              <div align="right">
         Rechercher: <input type="text" v-model="search" >
 
           </div>
              
-          </div>
-
-          <div class="widget-content nopadding">
-            <div align="left">
-              Montrer: <select name="pagination" @change="getPagination($event)">
-                     <option value="2">2</option>
-                     <option value="3">3</option>
-
-                  <option value="5">5</option>
-                   <option value="10">10</option>
-                  <option value="15">15</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-
-              </select>
-            </div>
           </div>
          
            <div class="widget-content nopadding">
@@ -50,7 +44,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="odd gradeX" v-for="(titre, index) in displayedPosts" :key="titre.id">
+                <tr class="odd gradeX" v-for="(titre, index) in titreFiltres" :key="titre.id">
                   <td @dblclick="afficherModalModifierTitre(index)">{{titre.code || 'Non renseigné'}}</td>
                   <td @dblclick="afficherModalModifierTitre(index)">{{titre.libelle || 'Non renseigné'}}</td>
                   <td>
@@ -67,16 +61,11 @@
                 </tr>
               </tbody>
             </table>
-               <div class="clearfix btn-group col-md-2 offset-md-5 pull-right">
-            <button type="button" class="btn btn-sm btn-outline-secondary" v-if="page != 1" @click="page--"> << </button>
-            <button type="button" class="btn btn-sm btn-outline-secondary"  v-for="pageNumber in pages.slice(page-1, page+5)" :key="pageNumber" @click="page = pageNumber"> {{pageNumber}} </button>
-            <button type="button" @click="page++" v-if="page < pages.length" class="btn btn-sm btn-outline-secondary"> >> </button>
-          </div>
             <div v-if="titreFiltres.length">
             </div>
             <div v-else>
               <div align="center">
-                <h6 style="color:red;">Aucun titre enregistrer !</h6>
+                <h6 style="color:red;">Aucun titre enregistré !</h6>
               </div>
             </div>
           </div>
@@ -85,11 +74,6 @@
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterTitre"
-        bg-color="green"
-
-  ></fab>
 
 <!----- ajouter modal   ---->
 
@@ -115,6 +99,7 @@
               </div>
             </div>
             
+            <span v-if="codeExist" class="form-control" style="color: red;">Ce code est déja enregistré</span>
           </form>              
           </div>
            <div class="modal-footer"> 
@@ -165,9 +150,17 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterTitre()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterTitre"
+        bg-color="green"
 
+  ></fab>
 
+<notifications  />
 
   </div>
   
@@ -175,18 +168,16 @@
    
 <script>
 //import axios from '../../../../urls/api_parametrage/api'
-  import { ModelSelect, ModelListSelect } from 'vue-search-select'
-
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 //import Filtrer from '../../../../utils/filtre'
 export default {
-    components:{
-        //resultat,
-        ModelSelect,
-        ModelListSelect,
-    },
+  
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -197,9 +188,6 @@ export default {
               //     icon: 'add_alert'
               // }
           ],
-          page: 1,
-        perPage: 2,
-        pages: [],
      
         formData : {
                 code: "",
@@ -218,33 +206,10 @@ export default {
   created() {
    // this.getTitres()
    //console.log(typeof(VERIF_CODE()))
-  //  this.$dialog
-  // .confirm("If you delete this record, it'll be gone forever.", {
-  //    // default: false - when set to true, the proceed button shows a loader when clicked.
-  //   // And a dialog object will be passed to the then() callback
-  // })
-  // .then(dialog => {
-  //   // Triggered when proceed button is clicked
- 
-  //   // dialog.loading(false) // stops the proceed button's loader
-  //   // dialog.loading(true) // starts the proceed button's loader again
-  //   // dialog.close() // stops the loader and close the dialog
- 
-  //   // do some stuff like ajax request.
-  //   setTimeout(() => {
-  //     console.log('Delete action completed ');
-  //     dialog.close();
-  //   }, 2500);
-  // })
-  // .catch(() => {
-  //   // Triggered when cancel button is clicked
- 
-  //   console.log('Delete aborted');
-  // });
   },
   computed: {
 // methode pour maper notre guetter
-   ...mapGetters('parametreGenerauxAdministratif', ['titres']),  
+   ...mapGetters('parametreGenerauxAdministratif', ['titres', 'codeExist']),  
 
   titreFiltres() {
 
@@ -258,44 +223,14 @@ return this.titres.filter((item) => {
    }
 )
 
-},
-
- displayedPosts () {
-            return this.paginate(this.titreFiltres);
-        }
+}
   },
-
-     watch: {
-        titreFiltres (newValue) {
-            this.setPages();
-        }
-    },
-
   methods: {
-        setPages () {
-            let numberOfPages = Math.ceil(this.titreFiltres.length / this.perPage);
-            for (let index = 1; index <= numberOfPages; index++) {
-                this.pages.push(index);
-            }
-        },
-
-        getPagination(event){
-          this.perPage = parseInt(event.target.value)
-            // let numberOfPages = Math.ceil(this.titreFiltres.length / this.perPage);
-            // for (let index = 1; index <= numberOfPages; index++) {
-            //     this.pages.push(index);
-            // }
-        },
-        paginate (titreFiltres) {
-            let page = this.page;
-            let perPage = this.perPage;
-            let from = (page * perPage) - perPage;
-            let to = (page * perPage);
-            return  titreFiltres.slice(from, to);
-        },
     // methode pour notre action
    ...mapActions('parametreGenerauxAdministratif', ['ajouterTitre', 'supprimerTitre', 'modifierTitre']),   
    
+
+
     afficherModalAjouterTitre(){
        this.$('#exampleModal').modal({
               backdrop: 'static',

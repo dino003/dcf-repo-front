@@ -54,15 +54,15 @@ export function supprimerStructureActivite({commit}, id){
 
 
 // get all plan activite
-// export  function getPlanActivite({commit}) {
+export  function getPlanActivite({commit}) {
 
-//     queue.push(() =>  axios.get('/liste_activites').then((response) => {
-//         commit('GET_PLAN_ACTIVITE', response.data)
-//         console.log(response.data)
-//     }).catch(error => console.log(error)))
+    queue.push(() =>  axios.get('/liste_activites').then((response) => {
+        commit('GET_PLAN_ACTIVITE', response.data)
+        console.log(response.data)
+    }).catch(error => console.log(error)))
 
 
-// }
+}
 // ajouter plan activite
 export function ajouterPlanActivite({commit}, objetAjout){
     axios.post('/add_activites',{

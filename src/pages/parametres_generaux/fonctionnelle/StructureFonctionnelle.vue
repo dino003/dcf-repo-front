@@ -10,6 +10,21 @@
         <hr>
     <div class="row-fluid">
       <div class="span12">
+        
+                                              <div>
+
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste structure fonctionnelle "
+                                              name ="Liste structure fonctionnelle"
+                                              worksheet = "structure foncttionnelle"
+                                            :data="localisationsFiltre">
+                       <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
+
+                                                 </download-excel> 
+                                     </div> <br>
         <div class="widget-box">
              <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Liste des structures fonctionnelles</h5>
@@ -30,7 +45,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="odd gradeX" v-for="(structure_fonctionnelle, index) in localisationsFiltre"
+                <tr class="odd gradeX" v-for="(structure_fonctionnelle, index) in
+                 localisationsFiltre"
                  :key="structure_fonctionnelle.id">
                   <td @dblclick="afficherModalModifierType(index)">
                     {{structure_fonctionnelle.niveau || 'Non renseigné'}}</td>
@@ -51,17 +67,20 @@
                 </tr>
               </tbody>
             </table>
+            <div v-if="localisationsFiltre.length">
+            </div>
+            <div v-else>
+              <div align="center">
+                <h6 style="color:red;">Aucune structure fonctionnelle enregistrée </h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
               </div>
             </div>
 
-                <fab :actions="fabActions"
-       @cache="afficherModalAjouterType"
-        bg-color="green"
-
-  ></fab>
+       
 
 <!----- ajouter modal   ---->
 
@@ -76,7 +95,7 @@
             <div class="control-group">
               <label class="control-label">Niveau:</label>
               <div class="controls">
-                <input type="number" v-model="formData.code" class="span" placeholder="Saisir le niveau" />
+                <input type="number" v-model="formData.niveau" class="span" placeholder="Saisir le niveau" />
               </div>
             </div>
             <div class="control-group">
@@ -89,7 +108,7 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="formData.code.length && formData.libelle.length" 
+             <button v-show="formData.niveau.length && formData.libelle.length" 
              @click.prevent="ajouterTypeLocal" class="btn btn-primary"
               href="#">Valider</button>
               <button data-dismiss="modal" class="btn" href="#">Fermer</button> </div>
@@ -111,7 +130,7 @@
             <div class="control-group">
               <label class="control-label">Niveau:</label>
               <div class="controls">
-                <input type="niveau" v-model="editFonctionnelle.code" class="span" placeholder="" />
+                <input type="number" v-model="editFonctionnelle.niveau" class="span" placeholder="" />
               </div>
             </div>
             <div class="control-group">
@@ -125,7 +144,8 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="editFonctionnelle.code.length && editFonctionnelle.libelle.length" 
+             <button v-show="editFonctionnelle.niveau.length &&
+              editFonctionnelle.libelle.length" 
              @click.prevent="modifierTypeLocal(editFonctionnelle)" class="btn btn-primary"
               >Modifier</button>
               <button data-dismiss="modal" class="btn" >Fermer</button> </div>
@@ -136,7 +156,16 @@
 
 
 
+<button style="display:none;" v-shortkey.once="['ctrl', 'f']"
+  @shortkey="afficherModalAjouterStructureFonctionnelle()">Open</button>
 
+ <fab :actions="fabActions"
+                main-icon="apps"
+          @cache="afficherModalAjouterStructureFonctionnelle"
+        bg-color="green"
+
+  ></fab>
+<notifications  />
 
 
 
@@ -151,6 +180,10 @@ export default {
   
   data() {
     return {
+      json_fields:{
+        'Code':'code',
+        'Libelle':'libelle'
+      },
         fabActions: [
               {
                   name: 'cache',
@@ -163,13 +196,13 @@ export default {
           ],
      
         formData : {
-                code: "",
+                niveau: "",
              libelle: "",
             
         },
 
         editFonctionnelle: {
-            code: "",
+            niveau: "",
              libelle: "",
         
         },
@@ -190,7 +223,8 @@ export default {
 
 return this.structures_fonctionnelles.filter((item) => {
   
-    return  item.libelle.toLowerCase().includes(searchTerm) 
+    //  item.niveau.toLowerCase().includes(searchTerm) 
+    return item.libelle.toLowerCase().includes(searchTerm) 
    
   
 
@@ -204,7 +238,7 @@ return this.structures_fonctionnelles.filter((item) => {
    ...mapActions('parametreGenerauxFonctionnelle', ['getStructureFonctionnelle', 
    'ajouterStructureFonctionnelle','modifierStructureFonctionnelle','supprimerStructureFonctionnelle']),   
    
-    afficherModalAjouterType(){
+    afficherModalAjouterStructureFonctionnelle(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
@@ -215,7 +249,7 @@ return this.structures_fonctionnelles.filter((item) => {
       this.ajouterStructureFonctionnelle(this.formData)
 
         this.formData = {
-                code: "",
+                niveau: "",
              libelle: "",
            
         }
@@ -237,7 +271,7 @@ afficherModalModifierType(index){
 modifierTypeLocal(){
   this.modifierStructureFonctionnelle(this.editFonctionnelle)
   this.editFonctionnelle = {
-    code:"",
+    niveau:"",
     libelle:""
   }
 }
