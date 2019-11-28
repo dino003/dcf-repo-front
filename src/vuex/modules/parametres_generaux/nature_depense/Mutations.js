@@ -50,7 +50,7 @@ const MODIFIER_PLAN_BUDGETAIRE = (state , objetModifie) => {
 // supprimer plan budgetaire
 const SUPPRIMER_PLAN_BUDGETAIRE = (state , id) =>{
 
-    state.plans_budgetaires = state.plans_budgetaires.filter( budgetaire => budgetaire.id != id)
+state.plans_budgetaires = state.plans_budgetaires.filter( budgetaire => budgetaire.id != id)
 }
 
 

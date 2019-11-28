@@ -1,8 +1,8 @@
-const structures_activites = state=> state.structures_activites
-const plans_activites = state => state.plans_activites
+const structures_activites = state=> state.structures_activites.sort((a,b)=>(a.niveau>b.niveau)? 1:-1)
+
 
 export{
 structures_activites,
-plans_activites
+
 
 }

@@ -1,5 +1,5 @@
 import axios from '../../../../../urls/api_parametrage/api'
-
+import { asyncLoading } from 'vuejs-loading-plugin'
 
 var housecall= require('housecall')
 var queue = housecall({concurrency: 2, cooldown: 1000})
@@ -16,12 +16,18 @@ export  function  getTitres({commit}) {
 
 // ajouter titre
 export  function ajouterTitre({commit}, objetAjoute){
-    axios.post('/add_titre', {
-        code: objetAjoute.code,
-        libelle: objetAjoute.libelle
-    } ).then(res => {
+   asyncLoading( axios.post('/add_titre', {
+    code: objetAjoute.code,
+    libelle: objetAjoute.libelle
+} )).then(res => {
         if(res.status == 201){
             commit('AJOUTER_TITRE', res.data)
+
+            this.$app.$notify({
+                title: 'success ',
+                text: 'Enregistrement effectué avec success !',
+                type:"success"
+              })
         
         }
     }).catch(error => console.log(error))
@@ -29,23 +35,29 @@ export  function ajouterTitre({commit}, objetAjoute){
 
 // supprimer titre
 export function supprimerTitre({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-
-    if(conf){
-        commit('SUPPRIMER_TITRE', id)
-        axios.delete('/delete_titre/' + id)
-
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_TITRE', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/delete_titre/' + id).then(() => dialog.close() )   
+    })
 }
 
 // modifier titre 
 export function modifierTitre({commit}, titre){
-    axios.put('/update_titre/' + titre.id, {
-        code: titre.code,
-        libelle: titre.libelle
-    }).then(response => {
+   asyncLoading( axios.put('/update_titre/' + titre.id, {
+    code: titre.code,
+    libelle: titre.libelle
+})).then(response => {
         commit('MODIFIER_TITRE', response.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 
 }
@@ -62,16 +74,22 @@ export  function getExercicesBudgetaires({commit}) {
 }
 // ajouter execice budgetaire
 export function ajouterExerciceBudgetaire({commit}, objetAjout){
-    axios.post('/add_exercice_budgetaire',{
-      annee: objetAjout.annee,
-       date_debut:objetAjout.date_debut,
-       date_fin:objetAjout.date_fin,
-       encours:objetAjout.encours,
-       date_cloture:objetAjout.date_cloture  
-    }).then(adoni=>{
-        if(adoni.status == 201)
+  asyncLoading(  axios.post('/add_exercice_budgetaire',{
+    annee: objetAjout.annee,
+     date_debut:objetAjout.date_debut,
+     date_fin:objetAjout.date_fin,
+     encours:objetAjout.encours,
+     date_cloture:objetAjout.date_cloture  
+  })).then(varExerciceBudgetaire=>{
+        if(varExerciceBudgetaire.status == 201)
         {
-            commit('AJOUTER_EXERCICE_BUDGETAIRES', adoni.data)
+            commit('AJOUTER_EXERCICE_BUDGETAIRES', varExerciceBudgetaire.data)
+
+            this.$app.$notify({
+                title: 'success ',
+                text: 'Enregistrement effectué avec success !',
+                type:"success"
+              })
         }
     }).catch(error => console.log(error))
 }
@@ -79,14 +97,18 @@ export function ajouterExerciceBudgetaire({commit}, objetAjout){
 //modification exercice budgetaire
 export function modifierExerciceBudgetaire({commit}, exercice_budgetaire) {
 
-    axios.put('/update_exercice_budgetaire/'+ exercice_budgetaire.id,{
+    asyncLoading(axios.put('/update_exercice_budgetaire/'+ exercice_budgetaire.id,{
         annee:exercice_budgetaire.annee,
         date_debut:exercice_budgetaire.date_debut,
         date_fin:exercice_budgetaire.date_fin,
-        date_cloture:exercice_budgetaire.date_cloture,
         encours:exercice_budgetaire.encours
-    }).then(response => {
+    })).then(response => {
         commit('MODIFIER_EXERCICE_BUDGETAIRE', response.data)
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
    
 }
@@ -95,14 +117,14 @@ export function modifierExerciceBudgetaire({commit}, exercice_budgetaire) {
 // supprimer exercice budgetaire
 
 export function supprimerExerciceBudgetaire({commit}, id){
-    let conf = confirm('Voulez-vous vraiment supprimer?')
-   
-    if(conf){
-        commit('SUPPRIMER_EXERCICE_BUDGETAIRE', id)
-        axios.delete('/delete_exercice_budgetaire/' + id)
-          
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_EXERCICE_BUDGETAIRE', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/delete_exercice_budgetaire/' + id).then(() => dialog.close() )   
+    })
 }
 
 // get all nature de section
@@ -117,39 +139,51 @@ export  function getNatureSection({commit}) {
 
 // ajouter nature de section
 export function ajouterNatureSection({commit},objetAjout){
-    axios.post('/ajouter_nature_section',{
-        code:objetAjout.code,
-        libelle:objetAjout.libelle
+   asyncLoading( axios.post('/ajouter_nature_section',{
+    code:objetAjout.code,
+    libelle:objetAjout.libelle
 
-    }).then(response => {
+})).then(response => {
         if(response.status == 201){
             commit('AJOUTER_NATURE_SECTION', response.data)
+
+            this.$app.$notify({
+                title: 'success ',
+                text: 'Enregistrement effectué avec success !',
+                type:"success"
+              })
         }
     }).catch(error => console.log(error))
 
 }
 // modififer nature de section
 export function modifierNatureSection({commit}, objetModifie){
-    axios.put('/modifier_nature_section/'+ objetModifie.id,{
+  asyncLoading(  axios.put('/modifier_nature_section/'+ objetModifie.id,{
 
-        code:objetModifie.code,
-        libelle:objetModifie.libelle
-    }).then(res => {
+    code:objetModifie.code,
+    libelle:objetModifie.libelle
+})).then(res => {
         commit('MODIFIER_NATURE_SECTION', res.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
    
 }
 // supprimer nature de setion
 
 export function supprimerNatureSection({commit}, id){
-    let conf = confirm('Voulez-vous vraiment supprimer?')
-   
-    if(conf){
-        commit('SUPPRIMER_NATURE_SECTION', id)
-        axios.delete('/supprimer_nature_section/' + id)
-          
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_NATURE_SECTION', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/supprimer_nature_section/' + id).then(() => dialog.close() )   
+    })
 }
 
 
@@ -168,25 +202,31 @@ export  function getSection({commit}) {
 
 // ajouter  section
 export function ajouterSection({commit},objetAjout){
-    axios.post('/ajouter_section',{
-        code:objetAjout.code,
-        nom_section:objetAjout.nom_section,
-        naturesection_id: objetAjout.naturesection_id
-    }).then(response => {
+   asyncLoading( axios.post('/ajouter_section',{
+    code:objetAjout.code,
+    nom_section:objetAjout.nom_section,
+    naturesection_id: objetAjout.naturesection_id
+})).then(response => {
         if(response.status == 201){
             commit('AJOUTER_SECTION', response.data)
+
+            this.$app.$notify({
+                title: 'success ',
+                text: 'Enregistrement effectué avec success !',
+                type:"success"
+              })
         }
     }).catch(error => console.log(error))
 
 }
 // modififer de section
 export function modifierSection({commit}, objetModifie){
-    axios.put('/modifier_section/'+ objetModifie.id,{
+  asyncLoading(  axios.put('/modifier_section/'+ objetModifie.id,{
 
-        code:objetModifie.code,
-        nom_section:objetModifie.nom_section,
-        naturesection_id:objetModifie.naturesection_id
-    }).then(res => {
+    code:objetModifie.code,
+    nom_section:objetModifie.nom_section,
+    naturesection_id:objetModifie.naturesection_id
+})).then(res => {
         commit('MODIFIER_SECTION', res.data)
     }).catch(error => console.log(error))
    
@@ -196,14 +236,15 @@ export function modifierSection({commit}, objetModifie){
 // supprimer de setion
 
 export function supprimerSection({commit}, id){
-    let conf = confirm('Voulez-vous vraiment supprimer?')
-   
-    if(conf){
-        commit('SUPPRIMER_SECTION', id)
-        axios.delete('/supprimer_section/' + id)
-          
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_SECTION', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/supprimer_section/' + id).then(() => dialog.close() )   
+    })
+    
 }
 
 
@@ -221,24 +262,36 @@ export function supprimerSection({commit}, id){
  }
  // ajouter structure programme
  export function ajouterStructureProgramme({commit}, elementAjout){
-     axios.post('/ajouter_Structure_Programme',{
-         code:elementAjout.code,
-         libelle:elementAjout.libelle
-     }).then(response => {
+     asyncLoading(axios.post('/ajouter_Structure_Programme',{
+        code:elementAjout.code,
+        libelle:elementAjout.libelle
+    })).then(response => {
          if(response.status == 201){
              commit('AJOUTER_STRUCTURE_PROGRAMME', response.data)
+
+             this.$app.$notify({
+                title: 'success ',
+                text: 'Enregistrement effectué avec success !',
+                type:"success"
+              })
          }
      }).catch(error => console.log(error))
  }
 
 // modifier la structure programme
 export function modifierStructureProgramme({commit}, objetModifie){
-    axios.put('/modifier_Structure_Programme/'+ objetModifie.id,{
+  asyncLoading(  axios.put('/modifier_Structure_Programme/'+ objetModifie.id,{
 
-        code:objetModifie.code,
-        libelle:objetModifie.libelle
-    }).then(res => {
+    code:objetModifie.code,
+    libelle:objetModifie.libelle
+})).then(res => {
         commit('MODIFIER_STRUCTURE_PROGRAMME', res.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
    
 }
@@ -247,11 +300,14 @@ export function modifierStructureProgramme({commit}, objetModifie){
  // souprime structure programme
  export function supprimerStructureProgramme({commit},id) {
  
-      let conf = confirm('voulez-vous vraiment supprimer?')
-  if(conf){
-       commit('SUPPRIMER_STRUCTURE_PROGRAMME', id)
-       axios.delete('/supprimer_Structure_Programme/'+ id)
-  }
+
+  this.$app.$dialog
+  .confirm("Voulez vouz vraiment supprimer ?.")
+  .then(dialog => {
+     commit('SUPPRIMER_STRUCTURE_PROGRAMME', id)
+    // // dialog.loading(false) // stops the proceed button's loader
+      axios.delete('/supprimer_Structure_Programme/' + id).then(() => dialog.close() )   
+  })
  }
 
 
@@ -266,33 +322,47 @@ export function modifierStructureProgramme({commit}, objetModifie){
 
 }
 // ajouter plan programme
-export  function ajouterPlanProgramme({commit}, nouveauObjet){
- axios.post('/ajouterPlan_Programme',{
-     code:nouveauObjet.code,
-     libelle:nouveauObjet.libelle,
- structure_programme_id:nouveauObjet.structure_programme_id
- }).then(response =>{
+export  function ajouterPlanProgramme({commit, dispatch}, nouveauObjet){
+asyncLoading( axios.post('/ajouterPlan_Programme', nouveauObjet)).then(response => {
      commit('AJOUTER_PLAN_PROGRAMME', response.data)
+     dispatch('getPlanProgramme')
+
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Enregistrement effectué avec success !',
+        type:"success"
+      })
  }).catch(error => console.log(error))
 }
 
 // modifier plan programme
 export function modifierPlanProgramme({commit}, nouveauObjet){
- axios.put('/modifier_Plan_Programme/'+ nouveauObjet.id,{
-     code:nouveauObjet.code,
-     libelle:nouveauObjet.libelle,
-     structure_programme_id:nouveauObjet.structure_programme_id
- }).then( resultat =>{
+asyncLoading( axios.put('/modifier_Plan_Programme/'+ nouveauObjet.id,{
+    code:nouveauObjet.code,
+    libelle:nouveauObjet.libelle,
+    structure_programme_id:nouveauObjet.structure_programme_id
+})).then( resultat =>{
      commit('MODIFIER_PLAN_PROGRAMME',resultat.data)
+
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Modification effectué avec success !',
+        type:"success"
+      })
  })
 }
 // supprimer le plan programme
-export function supprimerPlanProgramme({commit}, id){
- let conf = confirm('voulez-vous vraiment supprimer?')
- if(conf){
-     commit('SUPPRIMER_PLAN_PROGRAMME', id)
-     axios.delete('/supprimer_Plan_Programme/', + id)
- }
+export function supprimerPlanProgramme({commit, dispatch}, id){
+
+ this.$app.$dialog
+ .confirm("Voulez vouz vraiment supprimer ?.")
+ .then(dialog => {
+    commit('SUPPRIMER_PLAN_PROGRAMME', id)
+    dispatch('getPlanProgramme')
+
+   // // dialog.loading(false) // stops the proceed button's loader
+     axios.delete('/supprimer_Plan_Programme/' + id).then(() => dialog.close() )   
+ })
 }
 
 
@@ -312,33 +382,48 @@ export function supprimerPlanProgramme({commit}, id){
  }
  // ajouter structure administrative
  export function ajouterStructureAdministrative({commit}, objetAjoute){
-     axios.post('/ajouter_structure_administrative',{
-        niveau:objetAjoute.niveau,
-        libelle:objetAjoute.libelle,
+  asyncLoading(   axios.post('/ajouter_structure_administrative',{
+    niveau:objetAjoute.niveau,
+    libelle:objetAjoute.libelle,
 
-     }).then(response =>{
+ })).then(response =>{
          if(response.status == 201){
 commit('AJOUTER_STRUCTURE_ADMINISTRATIVE', response.data)
+
+this.$app.$notify({
+    title: 'success ',
+    text: 'Enregistrement effectué avec success !',
+    type:"success"
+  })
          } 
-     }).catch(error => console.log(error))
+     }).catch(error => console.log(error)) 
  }
  // modifier structure administrative
  export function modifierStructureAdministrative({commit}, nouveauObjet){
- axios.put('/modifier_structure_administrative/'+ nouveauObjet.id,{
-     niveau:nouveauObjet.niveau,
-     libelle:nouveauObjet.libelle
- }).then( resultat =>{
+asyncLoading( axios.put('/modifier_structure_administrative/'+ nouveauObjet.id,{
+    niveau:nouveauObjet.niveau,
+    libelle:nouveauObjet.libelle
+})).then( resultat =>{
      commit('MODIFIER_STRUCTURE_ADMINISTRATIVE',resultat.data)
+
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Modification effectué avec success !',
+        type:"success"
+      })
  })
 }
 
 // supprimer structure administrative
 export function supprimerStructureAdministrative({commit}, id){
-   let conf = confirm('voulez-vous vraiment supprimer?')
-   if(conf){
-       commit('SUPPRIMER_STRUCTURE_ADMINISTRATIVE', id)
-       axios.delete('/supprimer_structure_administrative/', + id)
-   }
+
+   this.$app.$dialog
+   .confirm("Voulez vouz vraiment supprimer ?.")
+   .then(dialog => {
+      commit('SUPPRIMER_STRUCTURE_ADMINISTRATIVE', id)
+     // // dialog.loading(false) // stops the proceed button's loader
+       axios.delete('/supprimer_structure_administrative/' + id).then(() => dialog.close() )   
+   })
 }
  
   
@@ -352,34 +437,46 @@ export function supprimerStructureAdministrative({commit}, id){
 
 }
 // ajouter  service gestionnaire
-export  function ajouterServiceGestionnaire({commit}, nouveauObjet){
- axios.post('/ajouter_service_gestionnaire',{
-     code:nouveauObjet.code,
-     libelle:nouveauObjet.libelle,
-     ordre:nouveauObjet.ordre,
-structure_administrative_id:nouveauObjet.structure_administrative_id
- }).then(response =>{
+export  function ajouterServiceGestionnaire({commit, dispatch}, nouveauObjet){
+asyncLoading( axios.post('/ajouter_service_gestionnaire', nouveauObjet)).then(response =>{
      commit('AJOUTER_SERVICE_GESTIONNAIRE', response.data)
+    dispatch('getServiceGestionnaire')
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Enregistrement effectué avec success !',
+        type:"success"
+      })
  }).catch(error => console.log(error))
 }
 // modifier service gestionnaire
 export function modifierServiceGestionnaire({commit}, nouveauObjet){
- axios.put('/modifier_service_gestionnaire/'+ nouveauObjet.id,{
-     code:nouveauObjet.code,
-     libelle:nouveauObjet.libelle,
-     ordre:nouveauObjet.ordre,
-     structure_administrative_id:nouveauObjet.structure_administrative_id
- }).then( resultat =>{
+ asyncLoading(axios.put('/modifier_service_gestionnaire/'+ nouveauObjet.id,{
+    code:nouveauObjet.code,
+    libelle:nouveauObjet.libelle,
+    ordre:nouveauObjet.ordre,
+    structure_administrative_id:nouveauObjet.structure_administrative_id
+})).then( resultat =>{
      commit('MODIFIER_SERVICE_GESTIONNAIRE',resultat.data)
+
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Modification effectué avec success !',
+        type:"success"
+      })
  })
 }
 // supprimer service gestionnaire
-export function supprimerServiceGestionnaire({commit}, id){
-    let conf = confirm('voulez-vous vraiment supprimer?')
-    if(conf){
-        commit('SUPPRIMER_SERVICE_GESTIONNAIRE', id)
-        axios.delete('/supprimer_service_gestionnaire/', + id)
-    }
+export function supprimerServiceGestionnaire({commit, dispatch}, id){
+   
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_SERVICE_GESTIONNAIRE', id)
+       dispatch('getServiceGestionnaire')
+
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/supprimer_service_gestionnaire/' + id).then(() => dialog.close() )   
+    })
  }
 
 
@@ -396,29 +493,43 @@ export  function getStructureGeographique({commit}) {
 
 //  ajouter struture geographique
 export function ajouterStructureGeographique({commit}, nouveauObjet){
-    axios.post('/ajouter_structure_localgeo',{
-        niveau:nouveauObjet.niveau,
-        libelle:nouveauObjet.libelle
-    }).then( response => {
+   asyncLoading( axios.post('/ajouter_structure_localgeo',{
+    niveau:nouveauObjet.niveau,
+    libelle:nouveauObjet.libelle
+})).then( response => {
         commit('AJOUTER_STRUCTURE_GEOGRAPHIQUE', response.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Enregistrement effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 }
 // modifier struture geographique
 export function modifierStructureGeographique({commit}, objetModifie){
-    axios.put('/modifier_structure_localgeo/'+ objetModifie.id, {
-         niveau:objetModifie.niveau,
-         libelle:objetModifie.libelle
-    }).then( response => {
+   asyncLoading( axios.put('/modifier_structure_localgeo/'+ objetModifie.id, {
+    niveau:objetModifie.niveau,
+    libelle:objetModifie.libelle
+})).then( response => {
         commit('MODIFIER_STRUCTURE_GEOGRAPHIQUE', response.data)
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 }
 // supprimer struture geographique
 export function supprimerStructureGeographique({commit}, id){
-    let conf = confirm('voulez-vous vraiment supprimer?')
-        if(conf){
-            commit('SUPPRIMER_STRUCTURE_GEOGRAPHIQUE', id)
-            axios.delete('/supprimer_structure_localgeo/' + id)
-        }
+   
+        this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.")
+        .then(dialog => {
+           commit('SUPPRIMER_STRUCTURE_GEOGRAPHIQUE', id)
+          // // dialog.loading(false) // stops the proceed button's loader
+            axios.delete('/supprimer_structure_localgeo/' + id).then(() => dialog.close() )   
+        })
 }
 
 
@@ -433,32 +544,46 @@ export  function getLocalisationGeographique({commit}) {
 }
 
 //  ajouter localisation geographique
-export function ajouterLocalisationGeographique({commit}, objetElement){
-    axios.post('/ajouter_localisation_geo',{
-        code:objetElement.code,
-        libelle:objetElement.libelle,
-structure_localisation_geographique_id:objetElement.structure_localisation_geographique_id
-    }).then( response => {
+export function ajouterLocalisationGeographique({commit, dispatch}, objetElement){
+   asyncLoading( axios.post('/ajouter_localisation_geo',objetElement)).then( response => {
         commit('AJOUTER_LOCALISATION_GEOGRAPHIQUE', response.data)
+        dispatch('getLocalisationGeographique')
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Enregistrement effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 }
 // modifier localisation geographique
-export function modifierLocalisationGeographique({commit}, objetModifie){
-    axios.put('/modifier_localisation_geo/'+ objetModifie.id, {
-         code:objetModifie.code,
-         libelle:objetModifie.libelle,
-        structure_localisation_geographique_id:objetModifie.structure_localisation_geographique_id
-    }).then( response => {
-        commit('MODIFIER_LOCALISATION_GEOGRAPHIQUE', response.data)
+export function modifierLocalisationGeographique({commit, dispatch}, objetModifie){
+   asyncLoading( axios.put('/modifier_localisation_geo/'+ objetModifie.id, {
+    code:objetModifie.code,
+    libelle:objetModifie.libelle,
+   structure_localisation_geographique_id:objetModifie.structure_localisation_geographique_id
+})).then( response => {
+        commit('MODIFIER_LOCALISATION_GEOGRAPHIQUE', response.data) 
+        dispatch('getLocalisationGeographique')
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 }
 // supprimer localisation geographique
-export function supprimerLocalisationGeographique({commit}, id){
-    let conf = confirm('voulez-vous vraiment supprimer?')
-        if(conf){
-            commit('SUPPRIMER_LOCALISATION_GEOGRAPHIQUE', id)
-            axios.delete('/supprimer_localisation_geo/' + id)
-        }
+export function supprimerLocalisationGeographique({commit, dispatch}, id){
+    
+        this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.")
+        .then(dialog => {
+           commit('SUPPRIMER_LOCALISATION_GEOGRAPHIQUE', id)
+           dispatch('getLocalisationGeographique')
+
+          // // dialog.loading(false) // stops the proceed button's loader
+            axios.delete('/supprimer_localisation_geo/' + id).then(() => dialog.close() )   
+        })
 }
 
 
@@ -476,33 +601,50 @@ export function supprimerLocalisationGeographique({commit}, id){
 }
 // ajouter  chapitre
 export  function ajouterChapitre({commit}, nouveauObjet){
- axios.post('/ajouter_chapitre',{
+asyncLoading( axios.post('/ajouter_chapitre',{
     code:nouveauObjet.code,
     libelle:nouveauObjet.libelle,
-    localisation_geographique_id:nouveauObjet.localisation_geographique_id
- }).then(response =>{
+    localisation_geographique_id:nouveauObjet.localisation_geographique_id,
+    servicegestionnaires_id:nouveauObjet.servicegestionnaires_id
+ })).then(response =>{
      commit('AJOUTER_CHAPITRE', response.data)
+
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Enregistrement effectué avec success !',
+        type:"success"
+      })
+
  }).catch(error => console.log(error))
 }
 // modifier chapitre
 export function modifierChapitre({commit}, nouveauObjet){
- axios.put('/modifier_chapitre/'+ nouveauObjet.id,{
-     code:nouveauObjet.code,
+ asyncLoading(axios.put('/modifier_chapitre/'+ nouveauObjet.id,{
+    codeChapitre:nouveauObjet.codeChapitre,
      libelle:nouveauObjet.libelle,
- localisation_geographique_id:nouveauObjet.localisation_geographique_id
- }).then( resultat =>{
+ localisation_geographique_id:nouveauObjet.localisation_geographique_id,
+ servicegestionnaires_id:nouveauObjet.servicegestionnaires_id
+ 
+ })).then( resultat =>{
      commit('MODIFIER_CHAPITRE',resultat.data)
+
+     this.$app.$notify({
+        title: 'success ',
+        text: 'Modification effectué avec success !',
+        type:"success"
+      })
  })
 }
 // supprimer chapitre
 export function supprimerChapitre({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-    if(conf){
-        commit('SUPPRIMER_CHAPITRE', id)
-        axios.delete('/supprimer_chapitre/'+ id)
-
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_CHAPITRE', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/supprimer_chapitre/' + id).then(() => dialog.close() )   
+    })
 }
 
 
@@ -519,73 +661,43 @@ export async function getGrandeNature({commit}) {
 
 //  ajouter grande nature
 export function ajouterGrandeNature({commit}, nouveauObjet){
-    axios.post('/add_grande_nature',{
-        code:nouveauObjet.code,
-        libelle:nouveauObjet.libelle
-    }).then( response => {
+   asyncLoading( axios.post('/add_grande_nature',{
+    code:nouveauObjet.code,
+    libelle:nouveauObjet.libelle
+})).then( response => {
         commit('AJOUTER_GRANDE_NATURE', response.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Enregistrement effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 }
 // modifier grande nature
 export function modifierGrandeNature({commit}, objetModifie){
-    axios.put('/update_grande_nature/'+ objetModifie.id, {
-         code:objetModifie.code,
-         libelle:objetModifie.libelle
-    }).then( response => {
+    asyncLoading(axios.put('/update_grande_nature/'+ objetModifie.id, {
+        code:objetModifie.code,
+        libelle:objetModifie.libelle
+   })).then( response => {
         commit('MODIFIER_GRANDE_NATURE', response.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 }
 // supprimer grande nature
 export function supprimerGrandeNature({commit}, id){
-    let conf = confirm('voulez-vous vraiment supprimer?')
-        if(conf){
-            commit('SUPPRIMER_GRANDE_NATURE', id)
-            axios.delete('/delete_grande_nature/' + id)
-        }
+   
+        this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.")
+        .then(dialog => {
+           commit('SUPPRIMER_GRANDE_NATURE', id)
+          // // dialog.loading(false) // stops the proceed button's loader
+            axios.delete('/delete_grande_nature/' + id).then(() => dialog.close() )   
+        })
 }
-// get all type unite administrative
-export function getTypeUniteAdministrative({ commit }) {
-    queue.push(() => axios.get('/type_uas').then((response) => {
-        commit('GET_TYPE_UNITE_ADMINISTRATIVE', response.data)
-
-    }).catch(error => console.log(error)))
-}
-
-
-// ajouter type ua
-export function ajouterTypeUniteAdministrative({ commit }, objetAjoute) {
-    axios.post('/ajouter_type_ua', {
-       
-        libelle: objetAjoute.libelle
-    }).then(res => {
-        if (res.status == 201) {
-            commit('AJOUTER_TYPE_UNITE_ADMINISTRATIVE', res.data)
-
-        }
-    }).catch(error => console.log(error))
-}
-
-// supprimer type ua
-export function supprimerTypeUniteAdministrative({ commit }, id) {
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-
-    if (conf) {
-        commit('SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE', id)
-        axios.delete('/supprimer_type_ua/' + id)
-
-
-    }
-}
-
-// modifier type ua 
-export function modifierTypeUniteAdministrative({ commit }, typeua) {
-    axios.put('/modifier_type_ua/' + typeua.id, {
-       
-        libelle: typeua.libelle
-    }).then(response => {
-        commit('MODIFIER_TYPE_UNITE_ADMINISTRATIVE', response.data)
-    }).catch(error => console.log(error))
-
-}
-
 

@@ -1,18 +1,18 @@
-const titres = state => state.titres
+const titres = state => state.titres.sort((a,b)=>(a.code>b.code)? 1:-1)
 
-const exercices_budgetaires = state => state.exercices_budgetaires
+const exercices_budgetaires = state => state.exercices_budgetaires.sort((a,b)=>(a.annee>b.annee)? 1:-1)
 
-const natures_sections = state => state.natures_sections
-const sections = state => state.sections
-const structures_programmes = state=>state.structures_programmes
-const structures_administratives = state => state.structures_administratives
-const plans_programmes = state => state.plans_programmes
-const services_gestionnaires = state => state.services_gestionnaires
-const chapitres = state => state.chapitres
-const grandes_natures = state => state.grandes_natures
-const structures_geographiques = state => state.structures_geographiques
-const localisations_geographiques = state => state.localisations_geographiques
-const type_Unite_admins = state => state.type_Unite_admins
+const natures_sections = state => state.natures_sections.sort((a,b)=>(a.code>b.code)? 1:-1)
+const sections = state => state.sections.sort((a,b)=>(a.code>b.code)? 1:-1)
+const structures_programmes = state=>state.structures_programmes.sort((a,b)=>(a.niveau>b.niveau)? 1:-1)
+const structures_administratives = state => state.structures_administratives.sort((a,b)=>(a.niveau>b.niveau)? 1:-1)
+const plans_programmes = state => state.plans_programmes.sort((a,b)=>(a.code>b.code)? 1:-1)
+const services_gestionnaires = state => state.services_gestionnaires.sort((a,b)=>(a.code>b.code)? 1:-1)
+const chapitres = state => state.chapitres.sort((a,b)=>(a.code>b.code)? 1:-1)
+const grandes_natures = state => state.grandes_natures.sort((a,b)=>(a.code>b.code)? 1:-1)
+const structures_geographiques = state => state.structures_geographiques.sort((a,b)=>(a.niveau>b.niveau)? 1:-1)
+const localisations_geographiques = state => state.localisations_geographiques.sort((a,b)=>(a.code>b.code)? 1:-1)
+
 // export const titreFiltres = (state, search) => {
 
 // const searchTerm = search.toLowerCase();
@@ -41,8 +41,7 @@ export {
     chapitres,
     grandes_natures,
     structures_geographiques,
-    localisations_geographiques,
- type_Unite_admins
+    localisations_geographiques
 }
 
 

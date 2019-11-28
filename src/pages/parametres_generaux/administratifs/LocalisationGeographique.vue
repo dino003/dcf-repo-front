@@ -34,8 +34,8 @@
              
           </div>
          
-           <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
+           <div class="widget-content">
+            <!-- <table class="table table-bordered table-striped">
               <thead>
                 <tr>
                  <th>Code</th>
@@ -67,8 +67,15 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
-            <div v-if="localisationsFiltre.length">
+            </table> -->
+                <ul id="demo">
+            <Tree class="item" v-for="plan in lesPlansParents"
+            :key="plan.id" :item="plan"   
+              @ajouterElementEnfant="ajouterElementEnfant(plan)" 
+              @supprimer="supprimerPlanProgrammeLocal"
+              @modifier="afficherModalModifierPlanProgramme(plan)"></Tree>
+          </ul>
+            <div v-if="lesPlansParents.length">
             </div>
             <div v-else>
               <div align="center">
@@ -177,6 +184,68 @@
 
 <!----- fin modifier modal  ---->
 
+<!----- ajouter modal ajouter element enfant   ---->
+
+
+ <div id="modalAjouterElementEnfant" class="modal hide">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button">×</button>
+                <h3>Ajouter plan programme</h3>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal">
+
+                   <div class="control-group">
+              <label class="control-label">Code parent:</label>
+              <div class="controls">
+                <input type="text" readonly :value="parentDossier.code" class="span"  />
+              </div>
+            </div>
+
+             <div class="control-group">
+              <label class="control-label">Libéllé parent:</label>
+              <div class="controls">
+                <input type="text" readonly :value="parentDossier.libelle" class="span"  />
+              </div>
+            </div>
+
+               <div class="control-group">
+              <label class="control-label">Structure programme:</label>
+              
+              <div class="controls">
+              <select v-model="nouvelElementEnfant.structure_localisation_geographique_id" >
+                <option v-for="structure in structures_geographiques " :key="structure.id" 
+                 :value="structure.id">{{structure.libelle}} </option>
+              </select>
+            </div>
+            </div>
+
+
+            <div class="control-group">
+              <label class="control-label">Code:</label>
+              <div class="controls">
+                <input type="text" v-model="nouvelElementEnfant.code" class="span" placeholder="Saisir le code" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Libelle:</label>
+              <div class="controls">
+                <input type="text" v-model="nouvelElementEnfant.libelle" class="span" placeholder="Saisir le libelle" />
+              </div>
+            </div>
+           
+          </form>              
+          </div>
+           <div class="modal-footer"> 
+             <button v-show="nouvelElementEnfant.code.length && nouvelElementEnfant.libelle.length && 
+             nouvelElementEnfant.structure_programme_id"
+              @click.prevent="ajouterProgrammeLocalEnfant()" class="btn btn-primary"
+              >Valider</button>
+              <a data-dismiss="modal" class="btn" href="#">Fermer</a> </div>
+            </div>
+
+<!----- fin modal  ajouter element enfant ---->
+
 
 
 <button style="display:none;" v-shortkey.once="['ctrl', 'f']"
@@ -198,10 +267,20 @@
 <script>
 //import axios from '../../../../urls/api_parametrage/api'
 import {mapGetters, mapActions} from 'vuex'
+import Tree from '../administratifs/Tree'
 export default {
-  
+  components: {
+    Tree
+  },
   data() {
     return {
+           parentDossier: {},
+      nouvelElementEnfant: {
+         code: "",
+             libelle: "",
+          structure_localisation_geographique_id:""
+      },
+
       json_fields:{
                'Code':'code',
                'Libelle':'lielle',
@@ -240,7 +319,7 @@ export default {
   computed: {
 // methode pour maper notre guetter
   ...mapGetters('parametreGenerauxAdministratif', ['structures_geographiques', 
-  'localisations_geographiques'])  ,
+  'localisations_geographiques']),
 
    localisationsFiltre(){
 
@@ -251,12 +330,47 @@ return this.localisations_geographiques.filter((item) => {
     return item.code.toLowerCase().includes(searchTerm) 
     || item.libelle.toLowerCase().includes(searchTerm) 
   
-
    }
 )
-   }
+   },
+
+    lesPlansParents(){
+     return this.localisations_geographiques.filter(plan => plan.parent == null)
+   },
   },
   methods: {
+
+        ajouterProgrammeLocalEnfant () {
+      // console.log(this.nouvelElementEnfant)
+      this.ajouterLocalisationGeographique(this.nouvelElementEnfant)
+
+        this.nouvelElementEnfant = {
+                code: "",
+             libelle: "",
+          structure_localisation_geographique_id:""
+        }
+    },
+
+    supprimerPlanProgrammeLocal(item){
+      this.supprimerLocalisationGeographique(item.id)
+    },
+// afficher modal
+
+ //afficher modal pour ajouter element enfant
+	 ajouterElementEnfant(item) {
+    this.parentDossier = this.localisations_geographiques.find(plan => plan.id == item.id)
+     this.nouvelElementEnfant.parent = this.parentDossier.id
+
+      $('#modalAjouterElementEnfant').modal({
+              backdrop: 'static',
+              keyboard: false
+             });
+
+    },
+
+ // fin
+
+
     // methode pour notre action
     ...mapActions('parametreGenerauxAdministratif', ['getLocalisationGeographique', 
     'ajouterLocalisationGeographique', 

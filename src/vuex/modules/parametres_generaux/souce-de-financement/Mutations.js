@@ -13,11 +13,7 @@ const AJOUTER_SOURCE_FINANCEMENT = (state , nouvel_objet) => {
     state.sources_financements.unshift(nouvel_objet)
 }
 
-// suppression de source de financement
-const SUPPRIMER_SOURCE_FINANCEMENT = (state ,id) => {
-    state.sources_financements = state.sources_financements.filter(source_financement => 
-        source_financement.id !=id)
-}
+
 
 //modifier source de financement
 const MODIFIER_SOURCE_FINANCEMENT = (state, objetModifie) => {
@@ -31,6 +27,14 @@ const MODIFIER_SOURCE_FINANCEMENT = (state, objetModifie) => {
         return source_financement
     })
 }
+
+// suppression de source de financement
+const SUPPRIMER_SOURCE_FINANCEMENT = (state ,id) => {
+    state.sources_financements = state.sources_financements.filter(source_financement => 
+        source_financement.id !=id)
+}
+
+
 
 // get all type de financement
 const GET_TYPE_FINANCEMENT = (state, tableau_type_financement) =>{
@@ -55,6 +59,14 @@ const MODIFIER_TYPE_FINANCEMENT = (state,objetModifie) => {
 
 
 
+// suppression de source de financement
+const SUPPRIMER_TYPE_FINANCEMENT = (state ,id) => {
+    state.types_financements = state.types_financements.filter(varFinancement => 
+        varFinancement.id !=id)
+}
+
+
+
 export {
 
 
@@ -66,5 +78,6 @@ MODIFIER_SOURCE_FINANCEMENT,
 // exportation de type de financement
 GET_TYPE_FINANCEMENT,
 AJOUTER_TYPE_FINANCEMENT,
-MODIFIER_TYPE_FINANCEMENT
+MODIFIER_TYPE_FINANCEMENT,
+SUPPRIMER_TYPE_FINANCEMENT
 }

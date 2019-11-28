@@ -34,8 +34,8 @@
              
           </div>
          
-           <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
+           <div class="widget-content ">
+            <!-- <table class="table table-bordered table-striped">
               <thead>
                 <tr>
                  <th>Code</th>
@@ -67,8 +67,16 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
-            <div v-if="localisationsFiltre.length">
+            </table> -->
+
+                   <ul id="demo">
+            <Tree class="item" v-for="plan in lesPlansParents"
+            :key="plan.id" :item="plan"   
+              @ajouterElementEnfant="ajouterElementEnfant(plan)" 
+              @supprimer="supprimerPlanProgrammeLocal"
+              @modifier="afficherModalModifierPlanProgramme(plan)"></Tree>
+          </ul>
+            <div v-if="lesPlansParents.length">
             </div>
             <div v-else>
               <div align="center">
@@ -128,6 +136,68 @@
             </div>
 
 <!----- fin modal  ajouter  ---->
+
+<!----- ajouter modal ajouter element enfant   ---->
+
+
+ <div id="modalAjouterElementEnfant" class="modal hide">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button">×</button>
+                <h3>Ajouter plan programme</h3>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal">
+
+                   <div class="control-group">
+              <label class="control-label">Code parent:</label>
+              <div class="controls">
+                <input type="text" readonly :value="parentDossier.code" class="span"  />
+              </div>
+            </div>
+
+             <div class="control-group">
+              <label class="control-label">Libéllé parent:</label>
+              <div class="controls">
+                <input type="text" readonly :value="parentDossier.libelle" class="span"  />
+              </div>
+            </div>
+
+               <div class="control-group">
+              <label class="control-label">Structure programme:</label>
+              
+              <div class="controls">
+              <select v-model="nouvelElementEnfant.structure_fonctionnelle_id" >
+                <option v-for="structure in structures_fonctionnelles " :key="structure.id" 
+                 :value="structure.id">{{structure.libelle}} </option>
+              </select>
+            </div>
+            </div>
+
+
+            <div class="control-group">
+              <label class="control-label">Code:</label>
+              <div class="controls">
+                <input type="text" v-model="nouvelElementEnfant.code" class="span" placeholder="Saisir le code" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Libelle:</label>
+              <div class="controls">
+                <input type="text" v-model="nouvelElementEnfant.libelle" class="span" placeholder="Saisir le libelle" />
+              </div>
+            </div>
+           
+          </form>              
+          </div>
+           <div class="modal-footer"> 
+             <button v-show="nouvelElementEnfant.code.length && nouvelElementEnfant.libelle.length && 
+             nouvelElementEnfant.structure_programme_id"
+              @click.prevent="ajouterProgrammeLocalEnfant()" class="btn btn-primary"
+              >Valider</button>
+              <a data-dismiss="modal" class="btn" href="#">Fermer</a> </div>
+            </div>
+
+<!----- fin modal  ajouter element enfant ---->
 
 
 
@@ -197,8 +267,11 @@
 <script>
 //import axios from '../../../../urls/api_parametrage/api'
 import {mapGetters, mapActions} from 'vuex'
+import Tree from '../administratifs/Tree'
 export default {
-  
+   components: {
+    Tree
+  },
   data() {
     return {
       json_fields:{
@@ -206,6 +279,13 @@ export default {
        'Libelle':'libelle',
        'structure fonctionnelle':'structure_fonctionnelle.libelle'
 
+      },
+
+         parentDossier: {},
+      nouvelElementEnfant: {
+         code: "",
+             libelle: "",
+          structure_fonctionnelle_id:""
       },
         fabActions: [
               {
@@ -241,6 +321,9 @@ export default {
   ...mapGetters('parametreGenerauxFonctionnelle', ['structures_fonctionnelles', 
   'plans_fonctionnels']),
   
+   lesPlansParents(){
+     return this.plans_fonctionnels.filter(plan => plan.parent == null)
+   },
      
         localisationsFiltre(){
 
@@ -258,6 +341,40 @@ return this.plans_fonctionnels.filter((item) => {
    }
   },
   methods: {
+
+         ajouterProgrammeLocalEnfant () {
+      // console.log(this.nouvelElementEnfant)
+      this.ajouterPlanFonctionnel(this.nouvelElementEnfant)
+
+        this.nouvelElementEnfant = {
+                code: "",
+             libelle: "",
+          structure_programme_id:""
+        }
+    },
+
+    supprimerPlanProgrammeLocal(item){
+      this.supprimerPlanFonctionnel(item.id)
+    },
+// afficher modal
+
+ //afficher modal pour ajouter element enfant
+	 ajouterElementEnfant(item) {
+    this.parentDossier = this.plans_programmes.find(plan => plan.id == item.id)
+     this.nouvelElementEnfant.parent = this.parentDossier.id
+
+      this.$('#modalAjouterElementEnfant').modal({
+              backdrop: 'static',
+              keyboard: false
+             });
+
+    },
+
+ // fin
+
+
+
+
     // methode pour notre action
     ...mapActions('parametreGenerauxFonctionnelle', ['getPlanFonctionnelle', 
     'ajouterPlanFonctionnel', 

@@ -1,5 +1,5 @@
 import axios from '../../../../../urls/api_parametrage/api'
-
+import { asyncLoading } from 'vuejs-loading-plugin'
 
 var housecall= require('housecall')
 var queue = housecall({concurrency: 2, cooldown: 1000})
@@ -15,13 +15,19 @@ export  function  getStructureBudgetaire({commit}) {
 
 // ajouter structure budgetaire
 export  function ajouterStructureBudgetaire({commit}, objetAjoute){
-    axios.post('/add_document_structure_budgetaires', {
-        niveau: objetAjoute.niveau,
-        code:objetAjoute.code,
-        libelle: objetAjoute.libelle
-    } ).then(res => {
+   asyncLoading( axios.post('/add_document_structure_budgetaires', {
+    niveau: objetAjoute.niveau,
+    code:objetAjoute.code,
+    libelle: objetAjoute.libelle
+} )).then(res => {
         if(res.status == 201){
             commit('AJOUTER_STRUCTURE_BUDGETAIRE', res.data)
+
+            this.$app.$notify({
+                title: 'success ',
+                text: 'Enregistrement effectué avec success !',
+                type:"success"
+              })
         
         }
     }).catch(error => console.log(error))
@@ -29,12 +35,18 @@ export  function ajouterStructureBudgetaire({commit}, objetAjoute){
 
 // modifier structure budgetaire
 export function modifierStructureBudgetaire({commit}, budgetaire){
-    axios.put('/update_document_structure_budgetaires/' + budgetaire.id, {
-        niveau: budgetaire.niveau,
-        code:budgetaire.code,
-        libelle: budgetaire.libelle
-    }).then(response => {
+   asyncLoading( axios.put('/update_document_structure_budgetaires/' + budgetaire.id, {
+    niveau: budgetaire.niveau,
+    code:budgetaire.code,
+    libelle: budgetaire.libelle
+})).then(response => {
         commit('MODIFIER_STRUCTURE_BUDGETAIRE', response.data)
+
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
 
 }
@@ -42,14 +54,14 @@ export function modifierStructureBudgetaire({commit}, budgetaire){
 
 // supprimer structure budgetaire
 export function supprimerStructureBudgetaire({commit}, id){
-    let conf = confirm("Voulez vouz vraiment supprimer ?")
-
-    if(conf){
-        commit('SUPPRIMER_STRUCTURE_BUDGETAIRE', id)
-        axios.delete('/delete_document_structure_budgetaires/' + id)
-
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_STRUCTURE_BUDGETAIRE', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/delete_document_structure_budgetaires/' + id).then(() => dialog.close() )   
+    })
 }
 
 
@@ -66,15 +78,21 @@ export  function getPlanBudgetaire({commit}) {
 }
 // ajouter plan budgetaire
 export function ajouterPlanBudgetaire({commit}, objetAjout){
-    axios.post('/add_plan_budgetaires',{
-      code: objetAjout.code,
-       libelle:objetAjout.libelle,
-       structure_budgetaire_id:objetAjout.structure_budgetaire_id
-        
-    }).then(adoni=>{
-        if(adoni.status == 201)
+   asyncLoading( axios.post('/add_plan_budgetaires', {
+    code: objetAjout.code,
+     libelle:objetAjout.libelle,
+     structure_budgetaire_id:objetAjout.structure_budgetaire_id
+      
+  })).then(varBudget=>{
+        if(varBudget.status == 201)
         {
-            commit('AJOUTER_PLAN_BUDGETAIRE', adoni.data)
+      commit('AJOUTER_PLAN_BUDGETAIRE', varBudget.data)
+
+      this.$app.$notify({
+        title: 'success ',
+        text: 'Enregistrement effectué avec success !',
+        type:"success"
+      })
         }
     }).catch(error => console.log(error))
 }
@@ -82,12 +100,17 @@ export function ajouterPlanBudgetaire({commit}, objetAjout){
 //modification plan budgetaire
 export function modifierPlanbudgetaire({commit}, budgetaire) {
 
-    axios.put('/update_plan_budgetaires/'+ budgetaire.id,{
-        code:budgetaire.code,
-        libelle:budgetaire.libelle,
-    structure_budgetaire_id:budgetaire.structure_budgetaire_id
-    }).then(response => {
+   asyncLoading( axios.put('/update_plan_budgetaires/'+ budgetaire.id,{
+    code:budgetaire.code,
+    libelle:budgetaire.libelle,
+       structure_budgetaire_id:budgetaire.structure_budgetaire_id
+})).then(response => {
         commit('MODIFIER_PLAN_BUDGETAIRE', response.data)
+        this.$app.$notify({
+            title: 'success ',
+            text: 'Modification effectué avec success !',
+            type:"success"
+          })
     }).catch(error => console.log(error))
    
 }
@@ -97,13 +120,13 @@ export function modifierPlanbudgetaire({commit}, budgetaire) {
 // supprimer plan budgetaire
 
 export function supprimerPlanBudgetaire({commit}, id){
-    let conf = confirm('Voulez-vous vraiment supprimer?')
-   
-    if(conf){
-        commit('SUPPRIMER_PLAN_BUDGETAIRE', id)
-        axios.delete('/delete_plan_budgetaires/' + id)
-          
-
-    }
+  
+    this.$app.$dialog
+    .confirm("Voulez vouz vraiment supprimer ?.")
+    .then(dialog => {
+       commit('SUPPRIMER_PLAN_BUDGETAIRE', id)
+      // // dialog.loading(false) // stops the proceed button's loader
+        axios.delete('/delete_plan_budgetaires/' + id).then(() => dialog.close() )   
+    })
 }
 

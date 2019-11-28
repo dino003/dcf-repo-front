@@ -13,8 +13,7 @@ const defaultstate = {
   structures_geographiques:[],
   localisations_geographiques:[],
   chapitres:[],
-  grandes_natures:[],
-type_Unite_admins: []
+  grandes_natures:[]
 
 };
 

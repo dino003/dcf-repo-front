@@ -26,32 +26,6 @@ const SUPPRIMER_STRUCTURE_ACTIVITE = (state , id) =>{
 
 
 
-// get all plan activite
-const GET_PLAN_ACTIVITE = (state , tableau_plan_activite) => {
-
-    state.plans_activites = tableau_plan_activite
-}
-
-//  ajouter plan activite
-const AJOUTER_PLAN_ACTIVITE = (state , nouveuaObjet) => {
-    state.plans_activites.unshift(nouveuaObjet)
-}
-// modifier plan budgetaire 
-const MODIFIER_PLAN_ACTIVITE = (state , objetModifie) => {
-
-    state.plans_activites = state.plans_activites.map( plan_activite => {
-
-    if(plan_activite.id == objetModifie.id){
-        plan_activite = {...objetModifie}
-    }
-    return plan_activite
-    })
-}
-// supprimer plan budgetaire
-const SUPPRIMER_PLAN_ACTIVITE = (state , id) =>{
-
-    state.plans_activites = state.plans_activites.filter( plan_activite => plan_activite.id != id)
-}
 
 
 export{
@@ -60,9 +34,5 @@ export{
     AJOUTER_STRUCTURE_ACTIVITE,
     MODIFIER_STRUCTURE_ACTIVITE,
     SUPPRIMER_STRUCTURE_ACTIVITE,
-    // export plan budgetaire
-    GET_PLAN_ACTIVITE,
-    AJOUTER_PLAN_ACTIVITE,
-    MODIFIER_PLAN_ACTIVITE,
-    SUPPRIMER_PLAN_ACTIVITE
+ 
 }
