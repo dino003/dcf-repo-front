@@ -94,7 +94,6 @@
                                                             <option v-for="item in type_acte_personnels" :key="item.id" :value="item.id">
                                                                 {{item.libelle}}
                                                             </option>
-
                                                         </select>
                                                     </div>
                                                 </div>
@@ -225,9 +224,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
 
     </div>

@@ -130,9 +130,9 @@
                                                 <tr v-for="item in load_act_personnel_acteur" :key="item.id">
                                                     <td>{{item.code}}</td>
                                                     <td>Unite admin micro</td>
-                                                    <td>{{item.date_debut_contrat}}</td>
-                                                    <td>{{item.date_fin_contrat}}</td>
-                                                    <td>{{item.date_arrivee_act_nomination}}</td>
+                                                    <td>{{item.date_debut_contrat | moment("DD/MM/YYYY")}}</td>
+                                                    <td>{{item.date_fin_contrat | moment("DD/MM/YYYY")}}</td>
+                                                    <td>{{item.date_arrivee_act_nomination | moment("DD/MM/YYYY")}}</td>
                                                     <td>{{item.delai_diposition}} </td>
                                                     <td>
                                                         <a v-if="item.fichier_act_nomination" :href="item.fichier_act_nomination" class="btn btn-default" target="_blank">
@@ -232,8 +232,8 @@
                                                         <td>{{item.type_conge || "Pas de conge" }}</td>
                                                         <td>{{item.code || "Pas de conges"}}</td>
                                                         <td>{{item.ua || "Pas de conges"}}</td>
-                                                        <td>{{item.date_debut || "Pas de conges"}}</td>
-                                                        <td>{{item.date_fin || "Pas de conges"}}</td>
+                                                        <td>{{item.date_debut | moment("DD/MM/YYYY") }}</td>
+                                                        <td>{{item.date_fin | moment("DD/MM/YYYY") }}</td>
                                                         <td>{{item.annee || "Pas de conges"}}</td>
                                                         <td>{{item.delais || "Pas de conges"}}</td>
                                                     </tr>

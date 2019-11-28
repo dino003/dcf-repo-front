@@ -33,8 +33,8 @@
                         <div class="widget-title">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#tab10">Tous les acteurs depense</a></li>
-                              <!--  <li class=""><a data-toggle="tab" href="#tab20">Liste des acteurs depense en activité</a></li>-->
-                               <!-- <li class=""><a data-toggle="tab" href="#tab30">Acteurs non actif</a></li>-->
+                                <!--  <li class=""><a data-toggle="tab" href="#tab20">Liste des acteurs depense en activité</a></li>-->
+                                <!-- <li class=""><a data-toggle="tab" href="#tab30">Acteurs non actif</a></li>-->
                             </ul>
                         </div>
                         <div class="widget-content tab-content">
@@ -63,7 +63,7 @@
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.matricule || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.nom || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.date_naissance || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.date_naissance | moment("DD/MM/YYYY") }}</td>
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
                                                     <div class="btn-group">
@@ -84,49 +84,7 @@
                                 </div>
                             </div>
                             <div id="tab20" class="tab-pane">
-                                <div class="widget-box">
-                                    <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-                                        <h5>Liste des acteurs</h5>
-                                        <div align="right">
-                                            Search: <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="widget-content nopadding">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th>Matricule </th>
-                                                <th>Nom</th>
-                                                <th>Prenom</th>
-                                                <th>Date de naissance</th>
-                                                <th>Unite administrative</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr class="odd gradeX" v-for="(item, index) in personnaliseActeurDepense" :key="item.id">
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.matricule || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.nom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.date_naissance | moment("DD/MM/YYYY") || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <router-link :to="{ name: 'ActeurDetail', params: { id: item.id }}" class="btn btn-default ">
-                                                            <span class=""><i class="icon-folder-open"></i></span>
-                                                        </router-link>
 
-                                                        <button @click.prevent="suprimer(item.id)"  class="btn btn-danger ">
-                                                            <span class=""><i class="icon-trash"></i></span></button>
-
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                             </div>
                             <div id="tab30" class="tab-pane">
                                 <p>And is full of waffle to It has multiple paragraphs and is full of waffle to pad out the comment. Usually, you just wish these sorts of comments would come to an end.multiple paragraphs and is full of waffle to pad out the comment. </p>
@@ -229,7 +187,7 @@
 
         created() {
             this.allActeurDepense();
-        //    this.getActeur()
+            //    this.getActeur()
             //  console.log(this.fonctions)
             // console.log(this.getFonction)
         },

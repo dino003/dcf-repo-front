@@ -10,6 +10,7 @@ import Acteur from "../../pages/acteurs_depenses/acteurs/Acteurs.vue"
 import ActeurDetail from "../../pages/acteurs_depenses/acteurs/DetailActeurDepense.vue"
 import TableauBordActeurDepense from "../../pages/acteurs_depenses/TableauBord.vue"
 import Conge from "../../pages/acteurs_depenses/conges/Conge.vue"
+import AjouterActeur from "../../pages/acteurs_depenses/acteurs/AjouteActeurDepense.vue"
 const ActeurDepenseRoutes = [
     {
         path:"/type-acte-personnel",
@@ -70,6 +71,11 @@ const ActeurDepenseRoutes = [
         path: '/suivie-conges',
         name: 'Conge',
         component: Conge,
+    },
+    {
+        path: '/ajouter-acteur',
+        name: 'AjouterActeur',
+        component: AjouterActeur,
     },
 ]
 

@@ -167,13 +167,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="odd gradeX" v-for="(item, index) in titreFiltres" :key="item.id">
+                                <tr class="odd gradeX" v-for="item in titreFiltres" :key="item.id">
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.objet || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.code_ligne_budgetaire || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.activite_id || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{ formatageSomme(parseFloat(item.montant_previsionnel)) || 'Non renseigné'}}</td>
-                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{item.date_demarrage_prevue | moment("DD/MM/YYYY") || 'Non renseigné'}}</td>
-                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{item.date_fin_execution_prevue | moment("DD/MM/YYYY") || 'Non renseigné'}}</td>
+                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{item.date_demarrage_prevue | moment("DD/MM/YYYY") }}</td>
+                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{item.date_fin_execution_prevue | moment("DD/MM/YYYY") }}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.exerciceBudgetaire.annee || 'Non renseigné'}}</td>
                                     <td>
