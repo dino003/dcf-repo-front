@@ -259,13 +259,10 @@
             titreFiltres() {
 
                 const searchTerm = this.search.toLowerCase();
-
-                return this.document_pyba_ppm_personnalise.filter((item) => {
-
+                let ObjetModepassation=this.document_pyba_ppm_personnalise.filter((idm)=>idm.exerciceBudgetaire.encours==1);
+                console.log(ObjetModepassation)
+                return ObjetModepassation.filter((item) => {
                        return item.code.toLowerCase().includes(searchTerm)
-
-
-
                     }
                 )
 
