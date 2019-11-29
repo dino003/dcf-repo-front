@@ -200,7 +200,7 @@
                                                 <tbody>
                                                 <tr v-for="item in all_salaires_acteurs" :key="item.id">
                                                     <td>
-                                                        {{item.date_debut_contrat | moment("DD/MM/YYYY")}}  -  {{item.date_fin_contrat | moment("DD/MM/YYYY") || "En cours d'activite"}}
+                                                        {{item.date_debut_contrat | moment("DD/MM/YYYY")}}  -  {{item.date_fin_contrat | moment("DD/MM/YYYY") }}
                                                     </td>
                                                     <td>{{nomUniteAdmine(item.unite_administrative_id)}}</td>
                                                     <td>{{ formatageSomme(parseFloat(item.salaire[0].montant))}} </td>
@@ -590,9 +590,7 @@
             this.loadCongeActeur(this.$route.params.id)
             this.tempMoyenFinActiviteInterruption(this.$route.params.id)
 
-            setInterval(function(){
-                this.tempMoyenFinActiviteInterruption(this.$route.params.id)
-            }.bind(this), 3000);
+
 
             this.delaiMiseDispositionAct(this.$route.params.id)
             this.jourCongeDisponible(this.$route.params.id)
@@ -768,13 +766,7 @@
              * Juste pour le test
              * @param id
              */
-            tempMoyenTest(id) {
-                axios.get('/temps_moyen_fin_activite_and_interuption/'+id).then(response => {
-                  this.temp_moyen_testFI=response.data;
-                  console.log("Juste test "+this.temp_moyen_testFI)
-                }).catch(error => console.log(error))
 
-            },
             formatageSomme:formatageSomme,
         }
     };

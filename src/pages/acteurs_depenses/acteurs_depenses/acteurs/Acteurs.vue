@@ -96,7 +96,7 @@
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.matricule || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.nom || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.date_naissance || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.date_naissance | moment("DD/MM/YYYY")}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(index)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
                                                     <div class="btn-group">

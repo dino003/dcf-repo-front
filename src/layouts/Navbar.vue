@@ -163,7 +163,8 @@ export default {
     this.getPresenceCF()
     this.getDocumentPresence()
     this.getNombreMarcheByProcedure()
-    this.sourcePersonnalise()
+
+
     this.getSourceFinnancementByMarche()
       /**Fin gestion des marche**/
 
