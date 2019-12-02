@@ -231,6 +231,9 @@ export default {
       });
     }
   },
+
+
+  
   methods: {
     ...mapActions("SuiviImmobilisation", [
       "getAllFamille",

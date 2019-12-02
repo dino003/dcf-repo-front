@@ -19,6 +19,7 @@ export  function ajouterStructureBudgetaire({commit}, objetAjoute){
     niveau: objetAjoute.niveau,
     code:objetAjoute.code,
     libelle: objetAjoute.libelle
+       
 } )).then(res => {
         if(res.status == 201){
             commit('AJOUTER_STRUCTURE_BUDGETAIRE', res.data)
@@ -77,35 +78,32 @@ export  function getPlanBudgetaire({commit}) {
 
 }
 // ajouter plan budgetaire
-export function ajouterPlanBudgetaire({commit}, objetAjout){
-   asyncLoading( axios.post('/add_plan_budgetaires', {
-    code: objetAjout.code,
-     libelle:objetAjout.libelle,
-     structure_budgetaire_id:objetAjout.structure_budgetaire_id
-      
-  })).then(varBudget=>{
-        if(varBudget.status == 201)
-        {
+export function ajouterPlanBudgetaire({ commit, dispatch}, objetAjout){
+    asyncLoading(axios.post('/add_plan_budgetaires', objetAjout)).then(varBudget=>{
+       
       commit('AJOUTER_PLAN_BUDGETAIRE', varBudget.data)
-
+        dispatch('getPlanBudgetaire')
       this.$app.$notify({
         title: 'success ',
         text: 'Enregistrement effectué avec success !',
         type:"success"
       })
-        }
+       
     }).catch(error => console.log(error))
 }
 
 //modification plan budgetaire
-export function modifierPlanbudgetaire({commit}, budgetaire) {
+export function modifierPlanbudgetaire({ commit, dispatch}, budgetaire) {
 
    asyncLoading( axios.put('/update_plan_budgetaires/'+ budgetaire.id,{
     code:budgetaire.code,
     libelle:budgetaire.libelle,
-       structure_budgetaire_id:budgetaire.structure_budgetaire_id
+       structure_budgetaire_id:budgetaire.structure_budgetaire_id,
+       parent: budgetaire.parent
+       
 })).then(response => {
         commit('MODIFIER_PLAN_BUDGETAIRE', response.data)
+    dispatch('getPlanBudgetaire')
         this.$app.$notify({
             title: 'success ',
             text: 'Modification effectué avec success !',
@@ -115,16 +113,15 @@ export function modifierPlanbudgetaire({commit}, budgetaire) {
    
 }
 
-
-
 // supprimer plan budgetaire
 
-export function supprimerPlanBudgetaire({commit}, id){
+export function supprimerPlanBudgetaire({ commit, dispatch}, id){
   
     this.$app.$dialog
     .confirm("Voulez vouz vraiment supprimer ?.")
     .then(dialog => {
        commit('SUPPRIMER_PLAN_BUDGETAIRE', id)
+        dispatch('getPlanBudgetaire')
       // // dialog.loading(false) // stops the proceed button's loader
         axios.delete('/delete_plan_budgetaires/' + id).then(() => dialog.close() )   
     })

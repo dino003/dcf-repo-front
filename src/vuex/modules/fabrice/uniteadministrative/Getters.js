@@ -29,6 +29,7 @@ export const jointureUaChapitreSection = (
   state.uniteAdministratives.map(element => {
     if (
       element.chapitre_id !== null &&
+      element.planfonctionnel_id !== null &&
       element.section_id !== null &&
       element.type_ua_id !== null
     ) {
@@ -42,7 +43,10 @@ export const jointureUaChapitreSection = (
         ),
         typeua: rootGetters[
           "parametreGenerauxAdministratif/type_Unite_admins"
-        ].find(typeUadmin => typeUadmin.id == element.type_ua_id)
+        ].find(typeUadmin => typeUadmin.id == element.type_ua_id),
+        planFonction: rootGetters[
+          "parametreGenerauxFonctionnelle/plans_fonctionnels"
+        ].find(planFonction => planFonction.id == element.planfonctionnel_id)
       };
     }
     return element;

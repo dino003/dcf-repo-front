@@ -73,7 +73,7 @@
             :key="plan.id" :item="plan"   
               @ajouterElementEnfant="ajouterElementEnfant(plan)" 
               @supprimer="supprimerPlanProgrammeLocal"
-              @modifier="afficherModalModifierPlanProgramme(plan)"></Tree>
+              @modifier="afficherMoadlModifierLocalisation(plan)"></Tree>
           </ul>
             <div v-if="lesPlansParents.length">
             </div>
@@ -257,7 +257,7 @@
         bg-color="green"
 
   ></fab>
-
+<notifications/>
 
 
   </div>
@@ -361,7 +361,7 @@ return this.localisations_geographiques.filter((item) => {
     this.parentDossier = this.localisations_geographiques.find(plan => plan.id == item.id)
      this.nouvelElementEnfant.parent = this.parentDossier.id
 
-      $('#modalAjouterElementEnfant').modal({
+      this.$('#modalAjouterElementEnfant').modal({
               backdrop: 'static',
               keyboard: false
              });
@@ -393,20 +393,21 @@ return this.localisations_geographiques.filter((item) => {
         }
     },
 // afficher modal
-afficherMoadlModifierLocalisation(index){
+afficherMoadlModifierLocalisation(item){
 
  this.$('#modifierModal').modal({
          backdrop: 'static',
          keyboard: false
         });
 
-        this.editTitre = this.localisations_geographiques[index];
-
+       
+this.editTitre = this.localisations_geographiques.find(plan => plan.id == item.id);
 
         
  },
 modifierLocalisationLocal(){
   this.modifierLocalisationGeographique(this.editTitre)
+  this.$("#modifierModal").modal('hide');
   this.editTitre = {
                 code: "",
              libelle: "",

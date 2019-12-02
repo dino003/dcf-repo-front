@@ -30,9 +30,9 @@
                       <li>
                         <a data-toggle="tab" href="#tab2">Descriptif</a>
                       </li>
-                      <li>
+                      <!-- <li>
                         <a data-toggle="tab" href="#tab3">Autres Information</a>
-                      </li>
+                      </li> -->
                      
                     </ul>
                   </div>
@@ -43,16 +43,33 @@
                         <td>
                           <div class="control-group">
                             <label class="control-label">Exercice Budgetaire</label>
-                            <div class="controls">
-                              <select v-model="formData.exercice_budgetaire_id">
-                                <option value>Sélectionner</option>
-                                <option
-                                  v-for="exoBudget in exercices_budgetaires"
+                            <!-- <div v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours)">
+                                  <div class="controls" 
+                                  v-for="exoBudget in SuiviImmo" 
                                   :key="exoBudget.id"
                                   :value="exoBudget.id"
-                                >{{exoBudget.annee}}</option>
-                              </select>
+                                  >
+                              <input
+                              
+                                type="text"
+                                class="span"
+                                v-model="exoBudget.exoBudgetaire.annee"
+                           
+                                readonly
+                              />
                             </div>
+                            </div> -->
+                             
+                             <div class="controls" >
+                              <select v-model="formData.exercice_budgetaire_id">
+                                  <option
+                                  v-for="exoBudget in exoEnCours"
+                                  :key="exoBudget.id"
+                                  :value="exoBudget.id"
+                                >{{exoBudget.annee}}
+                                </option>
+                              </select>
+                            </div> 
                           </div>
                         </td>
                         <td>
@@ -182,9 +199,6 @@
                         </td>
                        
                       </tr>
-                    </div>
-                    <!--ongle descriptif-->
-                    <div id="tab2" class="tab-pane">
                       <tr>
                          <td>
                          <div class="control-group">
@@ -241,7 +255,18 @@
                           </div>
                         </td>
                         <td>
-                           <label class="control-label">Numero CC:</label>
+                           <div class="control-group">
+                            <label class="control-label">Date de mise en service:</label>
+                            <div class="controls">
+                              <input type="date" class="span" v-model="formData.date_mise_service" />
+                            </div>
+                          </div>
+                           
+                         
+                        </td>
+                        
+  <td>
+                          <label class="control-label">Numero CC:</label>
                           <div class="controls">
                             <input
                               type="text"
@@ -249,16 +274,6 @@
                               placeholder="Saisir le Numero CC"
                               v-model="formData.numero_CC"
                             />
-                          </div>
-                         
-                        </td>
-                        
-  <td>
-                          <div class="control-group">
-                            <label class="control-label">Date de mise en service:</label>
-                            <div class="controls">
-                              <input type="date" class="span" v-model="formData.date_mise_service" />
-                            </div>
                           </div>
 
                           <input
@@ -276,23 +291,13 @@
                     
                   />
                         </td>
-<!-- <label class="control-label">Taux:</label>
-                          <div class="controls">
-                            <input
-                              type="text"
-                              class="span"
-                              placeholder="Saisir le Taux"
-                              v-model="formData.TVA_id"
-                            />
-                          </div>
 
-
-
-                 
-                        </td> -->
-                        
-               
+                       
                       </tr>
+                    </div>
+                    <!--ongle descriptif-->
+                    <div id="tab2" class="tab-pane">
+                      
 
                       <tr>
                           <td>
@@ -357,10 +362,7 @@
                         </td>
                         
                       </tr>
-                    </div>
-                    <!--ongle 3 -->
-                    <div id="tab3" class="tab-pane">
-                      <tr>
+                        <tr>
                          
                         <td>
                           <div class="control-group">
@@ -477,6 +479,11 @@
                        
                       </tr>
                     </div>
+                    <!--ongle 3 -->
+                    <!-- <div id="tab3" class="tab-pane">
+                    
+                      
+                    </div> -->
                   </div>
                   <br />
                   <div align="right">
@@ -545,7 +552,8 @@ export default {
       "trieUaImmobilisation",
       "besoinImmobilisations",
       "groupTriUaImmo",
-      "SuiviImmo"
+      "SuiviImmo",
+      "triAnneenCours"
       
     ]),
 
@@ -553,7 +561,9 @@ export default {
     ...mapGetters("parametreGenerauxProgrammeUnite", ["unites"]),
     ...mapGetters("personnelUA", ["all_acteur_depense","personnaliseActeurDepense"]),
     ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
-
+exoEnCours(){
+return this.exercices_budgetaires.filter(element => element.encours == 1)
+},
     AfficheQteActuel() {
       const form = this.formData;
 
@@ -731,6 +741,7 @@ totalqteRealise() {
          qte_real: this.totalqteRealise
       }
 
+
       //console.log(objetPourModifierpersoEquipe)
 
      this.modifierQuantiteReel(objetPourModifierQuantiteReel);
@@ -743,6 +754,7 @@ totalqteRealise() {
         valeurorigine: this.valeurOrigine,
         total_actuel: this.AffichierTotalActuel,
         qte_actuel: this.AfficheQteActuel
+
       };
 
       this.ajouterImmobilisation(nouvelObjet);

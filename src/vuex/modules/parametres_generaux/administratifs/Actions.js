@@ -205,6 +205,7 @@ export function ajouterSection({commit},objetAjout){
    asyncLoading( axios.post('/ajouter_section',{
     code:objetAjout.code,
     nom_section:objetAjout.nom_section,
+       code_section: objetAjout.code_section,
     naturesection_id: objetAjout.naturesection_id
 })).then(response => {
         if(response.status == 201){
@@ -225,6 +226,7 @@ export function modifierSection({commit}, objetModifie){
 
     code:objetModifie.code,
     nom_section:objetModifie.nom_section,
+      code_section: objetModifie.code_section,
     naturesection_id:objetModifie.naturesection_id
 })).then(res => {
         commit('MODIFIER_SECTION', res.data)
@@ -335,14 +337,16 @@ asyncLoading( axios.post('/ajouterPlan_Programme', nouveauObjet)).then(response 
  }).catch(error => console.log(error))
 }
 
+
 // modifier plan programme
-export function modifierPlanProgramme({commit}, nouveauObjet){
+export function modifierPlanProgramme({ commit, dispatch}, nouveauObjet){
 asyncLoading( axios.put('/modifier_Plan_Programme/'+ nouveauObjet.id,{
     code:nouveauObjet.code,
     libelle:nouveauObjet.libelle,
     structure_programme_id:nouveauObjet.structure_programme_id
 })).then( resultat =>{
      commit('MODIFIER_PLAN_PROGRAMME',resultat.data)
+    dispatch('getPlanProgramme')
 
      this.$app.$notify({
         title: 'success ',
@@ -449,7 +453,7 @@ asyncLoading( axios.post('/ajouter_service_gestionnaire', nouveauObjet)).then(re
  }).catch(error => console.log(error))
 }
 // modifier service gestionnaire
-export function modifierServiceGestionnaire({commit}, nouveauObjet){
+export function modifierServiceGestionnaire({ commit, dispatch}, nouveauObjet){
  asyncLoading(axios.put('/modifier_service_gestionnaire/'+ nouveauObjet.id,{
     code:nouveauObjet.code,
     libelle:nouveauObjet.libelle,
@@ -457,7 +461,7 @@ export function modifierServiceGestionnaire({commit}, nouveauObjet){
     structure_administrative_id:nouveauObjet.structure_administrative_id
 })).then( resultat =>{
      commit('MODIFIER_SERVICE_GESTIONNAIRE',resultat.data)
-
+    dispatch('getServiceGestionnaire')
      this.$app.$notify({
         title: 'success ',
         text: 'Modification effectué avec success !',
@@ -699,5 +703,61 @@ export function supprimerGrandeNature({commit}, id){
           // // dialog.loading(false) // stops the proceed button's loader
             axios.delete('/delete_grande_nature/' + id).then(() => dialog.close() )   
         })
+}
+
+// get all type unite administrative
+export function getTypeUniteAdministrative({ commit }) {
+    queue.push(() => axios.get('/type_uas').then((response) => {
+        commit('GET_TYPE_UNITE_ADMINISTRATIVE', response.data)
+
+    }).catch(error => console.log(error)))
+}
+
+
+// ajouter type ua
+export function ajouterTypeUniteAdministrative({ commit }, objetAjoute) {
+    asyncLoading(axios.post('/ajouter_type_ua', {
+
+        libelle: objetAjoute.libelle
+    })).then(response => {
+        if (response.status == 201) {
+            commit("AJOUTER_TYPE_UNITE_ADMINISTRATIVE", response.data);
+
+            this.$app.$notify({
+                title: 'Success',
+                text: 'Enregistrement Effectué avec Succès!',
+                type: "success"
+            })
+        }
+    });
+}
+
+// supprimer type ua
+export function supprimerTypeUniteAdministrative({ commit, dispatch }, id) {
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.")
+        .then(dialog => {
+            commit("SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE", id);
+            dispatch('getTypeUniteAdministrative')
+
+            // // dialog.loading(false) // stops the proceed button's loader
+            axios.delete("/supprimer_type_ua/" + id).then(() => dialog.close());
+        });
+}
+
+// modifier type ua 
+export function modifierTypeUniteAdministrative({ commit, dispatch }, typeua) {
+    asyncLoading(axios.put('/modifier_type_ua/' + typeua.id, {
+
+        libelle: typeua.libelle
+    })).then(response => {
+        commit("MODIFIER_TYPE_UNITE_ADMINISTRATIVE", response.data);
+        dispatch('getTypeUniteAdministrative')
+        this.$app.$notify({
+            title: 'Success',
+            text: 'Modification Effectué avec Succès!',
+            type: "success"
+        })
+    });
 }
 

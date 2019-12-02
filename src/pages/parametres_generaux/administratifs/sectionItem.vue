@@ -1,13 +1,17 @@
 <template>
   
+
   
                   <tr class="odd gradeX" v-if="article" @dblclick="$emit('modification', article)">
                     <td
                     
-                    >{{article.code || 'Non renseigné'}}</td>
+                    > {{article.code || 'Non renseigné'}}</td>
                     <td
                     
-                    >{{article.libelle || 'Non renseigné'}}</td>
+                    > {{article.code_section || 'Non renseigné'}}</td>
+                    <td
+                    
+                    > {{article.nom_section || 'Non renseigné'}}</td>
 
                     <td>
                       <button class="btn btn-danger" @click.prevent="$emit('suppression', article.id)">
@@ -18,6 +22,7 @@
                     </td>
                   </tr>
 
+
   
   
 </template>
@@ -26,7 +31,7 @@
 
 
 export default {
-    name: 'ArticleItem',
+    name: 'sectionItem',
      props: {
     article: Object,
   },

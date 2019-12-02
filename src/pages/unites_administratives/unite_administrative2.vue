@@ -2,7 +2,7 @@
 <template>
   <div>
     <!--///////////////////////////////////////// debut modal d ajout //////////////////////////////-->
-    <div id="exampleModal" class="modal hide tailgrand">
+    <div id="exampleModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
         <h3>Ajouter Unité d'Administrative</h3>
@@ -34,14 +34,15 @@
                         v-for="section in sections"
                         :key="section.id"
                         :value="section.id"
-                      >{{section.code_section}}-{{section.nom_section}}</option>
+                      >{{section.nom_section}}</option>
                     </select>
                   </div>
                 </div>
               </td>
-               <td>
-              
-               <div class="control-group">
+            </tr>
+            <tr>
+              <td>
+                <div class="control-group">
                   <label class="control-label">Chapitre</label>
                   <div class="controls">
                     <select v-model="formData.chapitre_id">
@@ -49,65 +50,44 @@
                         v-for="chapitre in chapitres"
                         :key="chapitre.id"
                         :value="chapitre.id"
-                      >{{chapitre.code}}-{{chapitre.libelle}}</option>
+                      >{{chapitre.libelle}}</option>
                     </select>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="control-group">
+                  <label class="control-label">Date création:</label>
+                  <div class="controls">
+                    <input type="date" v-model="formData.date_creation" class="span" />
                   </div>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                 <div class="control-group">
-                  <label class="control-label">Plan fonctionnel</label>
-                  <div class="controls">
-                    <select v-model="formData.planfonctionnel_id">
-                      <option
-                        v-for="fonctionnel in plans_fonctionnels"
-                        :key="fonctionnel.id"
-                        :value="fonctionnel.id"
-                      >{{fonctionnel.code}}-{{fonctionnel.libelle}}</option>
-                    </select>
-                  </div>
-                </div>
-              </td>
-               <td>
                 <div class="control-group">
-                  <label class="control-label">Code Unite administrative:</label>
-                
+                  <label class="control-label">Code:</label>
                   <div class="controls">
                     <input
                       type="text"
-                     :value="codeuniteadministrative"
+                      v-model="formData.code"
                       class="span"
                       placeholder="Saisir le code"
                     />
                   </div>
-                  </div>
+                </div>
               </td>
               <td>
                 <div class="control-group">
-                  <label class="control-label">Nom unite administrative:</label>
-                    
-               
+                  <label class="control-label">Libelle:</label>
                   <div class="controls">
                     <input
                       type="text"
                       v-model="formData.libelle"
                       class="span"
-                      placeholder="Saisir le Nom unite administrative"
-                     
+                      placeholder="Saisir le libelle"
                     />
-               </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-             
-              <td>
-                  <div class="control-group">
-                  <label class="control-label">Date création:</label>
-                  <div class="controls">
-                    <input type="date" v-model="formData.date_creation" class="span" />
                   </div>
                 </div>
               </td>
@@ -120,14 +100,14 @@
           @click.prevent="ajouterUniteAdministrativeLocal(formData)"
           class="btn btn-primary"
           href="#"
-         
+          v-show="formData.code.length && formData.libelle.length && formData.section_id && formData.chapitre_id && formData.date_creation.length && formData.type_ua_id"
         >Valider</a>
         <a data-dismiss="modal" class="btn" href="#">Fermer</a>
       </div>
     </div>
     <!--///////////////////////////////////////// fin modal d ajout //////////////////////////////-->
     <!--///////////////////////////////////////// debut modal modification //////////////////////////////-->
-    <div id="modificationModal" class="modal hide tailgrand">
+    <div id="modificationModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
         <h3>Modifier Unité d'Administrative</h3>
@@ -159,13 +139,15 @@
                         v-for="section in sections"
                         :key="section.id"
                         :value="section.id"
-                      >{{section.code_section}}-{{section.nom_section}}</option>
+                      >{{section.nom_section}}</option>
                     </select>
                   </div>
                 </div>
               </td>
-               <td>
-                 <div class="control-group">
+            </tr>
+            <tr>
+              <td>
+                <div class="control-group">
                   <label class="control-label">Chapitre</label>
                   <div class="controls">
                     <select v-model="editUniteAdministrative.chapitre_id">
@@ -173,35 +155,28 @@
                         v-for="chapitre in chapitres"
                         :key="chapitre.id"
                         :value="chapitre.id"
-                      >{{chapitre.code}}-{{chapitre.libelle}}</option>
+                      >{{chapitre.libelle}}</option>
                     </select>
                   </div>
                 </div>
-               
+              </td>
+              <td>
+                <div class="control-group">
+                  <label class="control-label">Date création:</label>
+                  <div class="controls">
+                    <input type="date" v-model="editUniteAdministrative.date_creation" class="span" />
+                  </div>
+                </div>
               </td>
             </tr>
             <tr>
               <td>
-                  <div class="control-group">
-                  <label class="control-label">Plan fonctionnel</label>
-                  <div class="controls">
-                    <select v-model="editUniteAdministrative.planfonctionnel_id">
-                      <option
-                        v-for="fonctionnel in plans_fonctionnels"
-                        :key="fonctionnel.id"
-                        :value="fonctionnel.id"
-                      >{{fonctionnel.code}}-{{fonctionnel.libelle}}</option>
-                    </select>
-                  </div>
-                </div>
-              </td>
-               <td>
                 <div class="control-group">
-                  <label class="control-label">Code Unite administrative:</label>
+                  <label class="control-label">Code:</label>
                   <div class="controls">
                     <input
                       type="text"
-                     :value="codeuniteadministrativeModifier"
+                      v-model="editUniteAdministrative.code"
                       class="span"
                       placeholder="Saisir le code"
                     />
@@ -209,28 +184,15 @@
                 </div>
               </td>
               <td>
-               <div class="control-group">
-                  <label class="control-label">Nom unite administrative:</label>
+                <div class="control-group">
+                  <label class="control-label">Libelle:</label>
                   <div class="controls">
                     <input
                       type="text"
                       v-model="editUniteAdministrative.libelle"
                       class="span"
-                      placeholder="Saisir le Nom unite administrative"
-                     
+                      placeholder="Saisir le libelle"
                     />
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              
-             
-                <td>
-                <div class="control-group">
-                  <label class="control-label">Date création:</label>
-                  <div class="controls">
-                    <input type="date" v-model="editUniteAdministrative.date_creation" class="span" />
                   </div>
                 </div>
               </td>
@@ -243,7 +205,7 @@
           @click.prevent="modifierUniteAdministrativeLocal(editUniteAdministrative)"
           class="btn btn-primary"
           href="#"
-         
+          v-show="editUniteAdministrative.code.length && editUniteAdministrative.libelle.length && editUniteAdministrative.section_id && editUniteAdministrative.chapitre_id "
         >Modifier</a>
         <a data-dismiss="modal" class="btn" href="#">Fermer</a>
       </div>
@@ -300,7 +262,6 @@
                     <th>Type unite administrative</th>
                     <th>Section</th>
                     <th>Chapitre</th>
-                     <th>Plan fonctionnel</th>
                     <th>Code</th>
                     <th>Libelle</th>
                     <th>Date création</th>
@@ -314,7 +275,6 @@
                     v-for="(uniteadministrative, index) in filtre_unite_admin"
                     :key="uniteadministrative.id"
                   >
-                  
                     <td
                       @dblclick="afficherModalModifierUniteAdministrative(index)"
                     >{{uniteadministrative.typeua.libelle || 'Non renseigné'}}</td>
@@ -324,9 +284,6 @@
                     <td
                       @dblclick="afficherModalModifierUniteAdministrative(index)"
                     >{{uniteadministrative.chpitr.libelle || 'Non renseigné'}}</td>
-                     <td
-                      @dblclick="afficherModalModifierUniteAdministrative(index)"
-                    >{{uniteadministrative.planFonction.libelle || 'Non renseigné'}}</td>
                     <td
                       @dblclick="afficherModalModifierUniteAdministrative(index)"
                     >{{uniteadministrative.code || 'Non renseigné'}}</td>
@@ -390,8 +347,7 @@ export default {
         chapitre_id: "",
         type_ua_id: "",
         date_creation: "",
-        test: "",
-        planfonctionnel_id:""
+        test: ""
       },
       editUniteAdministrative: {
         code: "",
@@ -399,8 +355,7 @@ export default {
         section_id: "",
         chapitre_id: "",
         type_ua_id: "",
-        date_creation: "",
-        planfonctionnel_id:""
+        date_creation: ""
       },
       json_fields: {
         TYPE_UNIT_ADMINISTRATIVE: "typeua.libelle",
@@ -425,10 +380,6 @@ export default {
       "sections",
       "type_Unite_admins"
     ]),
-    ...mapGetters("parametreGenerauxFonctionnelle", [
-      "plans_fonctionnels"
-     
-    ]),
     filtre_unite_admin() {
       const st = this.search.toLowerCase();
       return this.jointureUaChapitreSection.filter(items => {
@@ -437,29 +388,7 @@ export default {
           items.libelle.toLowerCase().includes(st)
         );
       });
-    },
-    codeuniteadministrative(){
-       const section = this.sections.find(sect => sect.id == this.formData.section_id)
-     const chapitre = this.chapitres.find(chap => chap.id == this.formData.chapitre_id)
-    const planfonctionnel = this.plans_fonctionnels.find(chap => chap.id == this.formData.planfonctionnel_id)
-
-     if(chapitre && planfonctionnel && section){
-       return section.code_section + chapitre.code + planfonctionnel.code
-     }
-
-     return null
-   },
-   codeuniteadministrativeModifier(){
-      const section = this.sections.find(sect => sect.id == this.editUniteAdministrative.section_id)
-     const chapitre = this.chapitres.find(chap => chap.id == this.editUniteAdministrative.chapitre_id)
-    const planfonctionnel = this.plans_fonctionnels.find(chap => chap.id == this.editUniteAdministrative.planfonctionnel_id)
-
-     if(chapitre && planfonctionnel && section){
-       return section.code_section + chapitre.code + planfonctionnel.code
-     }
-
-     return null
-   },
+    }
   },
   methods: {
     ...mapActions("uniteadministrative", [
@@ -477,12 +406,7 @@ export default {
     },
     // fonction pour vider l'input ajouter
     ajouterUniteAdministrativeLocal() {
-      var nouvelObjet = {
-        ...this.formData,
-        code: this.codeuniteadministrative
-       
-      };
-      this.ajouterUniteAdministrative(nouvelObjet);
+      this.ajouterUniteAdministrative(this.formData);
 
       this.formData = {
         code: "",
@@ -495,12 +419,7 @@ export default {
     },
     // fonction pour vider l'input modifier
     modifierUniteAdministrativeLocal() {
-         var nouvelObjet = {
-        ...this.editUniteAdministrative,
-        code: this.codeuniteadministrativeModifier
-       
-      };
-      this.modifierUniteAdministrative(nouvelObjet);
+      this.modifierUniteAdministrative(this.editUniteAdministrative);
 this.$("#modificationModal").modal('hide');
       // this.editUniteAdministrative = {
       //   code: "",
@@ -531,11 +450,3 @@ this.$("#modificationModal").modal('hide');
   }
 };
 </script>
-<style>
-
-.tailgrand{
-  width: 70%;
-  margin: 0 -35%;
-}
-
-</style>

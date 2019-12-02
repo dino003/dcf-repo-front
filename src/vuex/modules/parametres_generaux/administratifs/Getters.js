@@ -12,7 +12,7 @@ const chapitres = state => state.chapitres.sort((a,b)=>(a.code>b.code)? 1:-1)
 const grandes_natures = state => state.grandes_natures.sort((a,b)=>(a.code>b.code)? 1:-1)
 const structures_geographiques = state => state.structures_geographiques.sort((a,b)=>(a.niveau>b.niveau)? 1:-1)
 const localisations_geographiques = state => state.localisations_geographiques.sort((a,b)=>(a.code>b.code)? 1:-1)
-
+const type_Unite_admins = state => state.type_Unite_admins
 // export const titreFiltres = (state, search) => {
 
 // const searchTerm = search.toLowerCase();
@@ -41,7 +41,8 @@ export {
     chapitres,
     grandes_natures,
     structures_geographiques,
-    localisations_geographiques
+    localisations_geographiques,
+    type_Unite_admins
 }
 
 

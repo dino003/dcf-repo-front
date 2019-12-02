@@ -1,5 +1,5 @@
 
-<template>
+<template v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1)" >
   <div>
     <!-- End Page Header -->
     <!-- Default Light Table -->
@@ -10,44 +10,44 @@
             <div class="quick-actions_homepage " >
               <ul class="quick-actions">
                 
-                 <li class="bg_lb" title="Total equipement">
+                 <li class="bg_lb" title="Nombre Global d'équipement">
           <a href="#">
             <i class="icon-th-large"></i>
-            <span class="label label-important">{{nombreTotalEquipement}}</span> Nbre Global d'équipement
+            <span class="label label-important">{{nombreTotalEquipement}}</span> Nbre Global d'équipement prévue
           </a>
         </li> 
-         <li class="bg_ly" title="nombre immobilisation prévue">
+         <li class="bg_ly" title="Nombres d'equipement Restant">
           <a href="#">
             <i class=" icon-list-alt"></i>
-            <span class="label label-success">{{SommeEquipementPrevue}}</span>Nbre Equipement Global prévue
+            <span class="label label-success">{{SommeEquipementPrevue}}</span>Nbre Equipement Restant
           </a>
         </li>
-         <li class="bg_ly" title="Total equipement">
+         <li class="bg_ly" title="Nombre d'equipement Réalise">
           <a href="#">
             <i class=" icon-list-alt"></i>
-            <span class="label label-success">{{SommeEquipementRealise}}</span> Nbre Equipement Global Réalise
+            <span class="label label-success">{{SommeEquipementRealise}}</span> Nbre Equipement Réalise
           </a>
         </li> 
-        <li class="bg_lg" title="volume d'immobilisation réalise">
+        <li class="bg_lg" title="Taux équipement  réalisé">
           <a href="#">
             <i class="icon-th"></i>
-            <span class="label label-warning">{{tauxEquipementRealise}}%</span>Taux équipement Global réalisé
+            <span class="label label-warning">{{tauxEquipementRealise}}%</span>Taux équipement  réalisé
           </a>
         </li>
          <li class="bg_lg">
           <a href="#">
             <i class="icon-th"></i>
-            <span class="label label-warning">{{tauxEquipementPrevue}}%</span>Taux équipement Global prévue
+            <span class="label label-warning">{{tauxEquipementPrevue}}%</span>Taux équipement Restant
           </a>
         </li>
-        <li class="bg_lr" title="Taux équipement Réalisé par type UA" v-show="typeUniteAdmin_id.length !== 0">
+        <!-- <li class="bg_lr" title="Taux équipement Réalisé par type UA" v-show="typeUniteAdmin_id.length !== 0">
                   <a href="#">
                     Taux équipement Réalisé par
                    
                     <i class="icon-th"></i>
                    <span class="label label-success">{{TauxEquipementRealiseParTypeUniteAdministrative(typeUniteAdmin_id)}}%</span>  {{nomTypeUniteAdministrative(typeUniteAdmin_id)}}
                   </a>
-                </li>
+                </li> -->
                   <li class="bg_ls" title="Taux équipement Réalisé par UA"  v-show="uniteadmin_id.length !== 0" >
                   <a href="#">
                     Taux équipement Réalisé par 
@@ -55,13 +55,13 @@
                     <i class="icon-th"></i>
                     <span class="label label-important">{{TauxEquipementRealiseParUniteAdministrative(uniteadmin_id)}}%</span>  {{nomUniteAdministrative(uniteadmin_id)}}         </a>
                 </li>
-                 <!-- <li class="bg_ls" title="Taux équipement Réalisé par UA"  v-show="uniteadmin_id.length !== 0" >
+                     <li class="bg_lo" title="Taux équipement Réalisé par UA"  v-show="uniteadmin_id.length !== 0" >
                   <a href="#">
-                    Taux équipement Prévue par 
+                    Montant des besoins restant pour
                    
                     <i class="icon-th"></i>
-                    <span class="label label-important">{{TauxEquipementPrevueParUniteAdministrative(uniteadmin_id)}}%</span>  {{nomUniteAdministrative(uniteadmin_id)}}         </a>
-                </li> -->
+                    <span class="label label-success">{{MontantbesoinRestantParUniteAdministrative(uniteadmin_id)}} F CFA</span>  {{nomUniteAdministrative(uniteadmin_id)}}         </a>
+                </li>
               </ul>
             </div>
           
@@ -69,7 +69,7 @@
            
  <div class="widget-title">
              
-              <div align="right" class="deplaceme">
+              <!-- <div align="right" class="deplaceme">
                
                  <div class="span3 depla">
                   <model-list-select
@@ -82,7 +82,7 @@
                   ></model-list-select>
                    
                 </div>
-              </div>
+              </div> -->
                  <div align="right" class="deplaceme">
                 <div class="span3 ">
                  
@@ -134,6 +134,9 @@
                 </thead>
                 <tbody>
                   <tr class="odd gradeX" v-for="immobilisat in SuiviImmo" :key="immobilisat.id">
+
+                    <template v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1)">
+                       
                     <td
                       @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
                     >{{immobilisat.BesoinImmobilisation.famille.code || 'Non renseigné'}}</td>  
@@ -158,6 +161,10 @@
                     <td
                       @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
                     >{{formatageSomme(immobilisat.total_actuel) || 'Non renseigné'}}</td>
+                    </template>
+                    <template v-else>
+                    <p style="text-align:center;font-size:20px;color:red;">Aucune Immobilisations</p>
+                    </template>
                     <td>
                       <router-link
                         :to="{name : 'Detailimmobilisation', params: {id_immobilisation:immobilisat.id}}"
@@ -205,7 +212,7 @@
    <button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button>
   </div>
 </template>
-  
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
@@ -295,17 +302,23 @@ export default {
       "SommeEquipementRealise",
       "tauxEquipementPrevue",
       "tauxEquipementRealise",
-      "tauxEquipementPrevue",
+      "tauxEquipementPrevue"
+      
       // "getPersonnaliseImmobilisation",
      
       // "getPersonnaliseSuivImmo"
     ]),
      ...mapGetters("parametreGenerauxAdministratif", ["type_Unite_admins"]),
+     ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
      ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
 
      // nombre enregistrement par type unite administrative 
 
     // nombre enregistrement par  unite administrative
+//  filtre_SuiviImmo() {
+      
+//       return this.SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1);
+//     },
 
 nbreEquipementPrevueParUa(){
   return uniteadmin_id => {
@@ -318,6 +331,7 @@ nbreEquipementPrevueParUa(){
     return 0
   }
 },
+
 nbreEquipementRealiseParUa(){
   return uniteadmin_id => {
     if(uniteadmin_id !=""){
@@ -342,6 +356,26 @@ TauxEquipementRealiseParUniteAdministrative() {
  }
 
     },
+
+
+
+
+
+
+MontantbesoinRestantParUniteAdministrative(){
+  return uniteadmin_id => {
+    if(uniteadmin_id !=""){
+    const montant = this.personBesoinImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.montant_total), 0)
+      if(isNaN(montant)) return null
+      return montant
+
+    }
+  }
+}, 
+
+
+
+
 // TauxEquipementPrevueParUniteAdministrative() {
  
 //       return uniteadmin_id => {
@@ -392,28 +426,28 @@ nbreEquipementRealiseParTypeUa(){
 },
 
 
-TauxEquipementRealiseParTypeUniteAdministrative() {
+// TauxEquipementRealiseParTypeUniteAdministrative() {
  
-      return typeUniteAdmin_id => {
-         if(typeUniteAdmin_id !=""){
-    const val = parseFloat((this.nbreEquipementRealiseParTypeUa(typeUniteAdmin_id))/this.nbreEquipementPrevueParTypeUa(typeUniteAdmin_id)*100).toFixed(2);
-  if (isNaN(val)) return null;
-  return val;
-         }
-         return 0
- }
+//       return typeUniteAdmin_id => {
+//          if(typeUniteAdmin_id !=""){
+//     const val = parseFloat((this.nbreEquipementRealiseParTypeUa(typeUniteAdmin_id))/this.nbreEquipementPrevueParTypeUa(typeUniteAdmin_id)*100).toFixed(2);
+//   if (isNaN(val)) return null;
+//   return val;
+//          }
+//          return 0
+//  }
 
-    },
+//     },
 
- nomTypeUniteAdministrative(){
-  return typeUniteAdmin_id =>{
-    if(typeUniteAdmin_id !=""){
-      var ObjetUA = this.type_Unite_admins.find(element => element.id == typeUniteAdmin_id)
-      return ObjetUA.libelle
-    }
+//  nomTypeUniteAdministrative(){
+//   return typeUniteAdmin_id =>{
+//     if(typeUniteAdmin_id !=""){
+//       var ObjetUA = this.type_Unite_admins.find(element => element.id == typeUniteAdmin_id)
+//       return ObjetUA.libelle
+//     }
     
-  }
-    },
+//   }
+//     },
 
 // TauxEquipementParUniteAdministrative() {
  

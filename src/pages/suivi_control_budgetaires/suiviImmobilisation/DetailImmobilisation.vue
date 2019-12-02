@@ -16,6 +16,7 @@
               <thead>
                 <tr>
                   <!-- <th>Code</th> -->
+                       <th title="Exercice Budgetaire">Exercice Budgetaire</th>
                   <th>Classe</th>
                   <th>type equipement</th>
                   <th>Designation</th>
@@ -29,6 +30,8 @@
               </thead>
               <tbody>
                 <tr class="odd gradeX">
+                  
+                  <td>{{immobilisat.exoBudgetaire.annee || 'Non renseigné'}}</td>
                   <td>{{immobilisat.BesoinImmobilisation.famille.code || 'Non renseigné'}}</td>  
                     <td>{{immobilisat.BesoinImmobilisation.famille.reletion__equipement.libelle || 'Non renseigné'}}</td>
                     <td>{{immobilisat.BesoinImmobilisation.famille.libelle || 'Non renseigné'}}</td>
@@ -53,7 +56,7 @@
 
                   <th>Acteur Depense</th>
 
-                  <th title="Exercice Budgetaire">Exercice Budget</th>
+                  <!-- <th title="Exercice Budgetaire">Exercice Budget</th> -->
                  
                  
                 </tr>
@@ -69,7 +72,7 @@
 
                   <td>{{immobilisat.acteurDepense.matricule|| 'Non renseigné'}}</td>
 
-                  <td>{{immobilisat.exoBudgetaire.annee || 'Non renseigné'}}</td>
+                  <!-- <td>{{immobilisat.exoBudgetaire.annee || 'Non renseigné'}}</td> -->
                  
 
                   <!-- <td>{{immobilisat.unitePara.libelle || 'Non renseigné'}}</td> -->

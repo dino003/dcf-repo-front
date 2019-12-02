@@ -82,7 +82,7 @@ export default {
      ['getExercicesBudgetaires', 'getTitres', 
     'getNatureSection', 'getSection', 'getStructureProgramme', 'getPlanProgramme', 
     'getStructureAdministrative', 'getServiceGestionnaire', 'getStructureGeographique',
-    'getLocalisationGeographique', 'getChapitre']),
+    'getLocalisationGeographique', 'getChapitre','getTypeUniteAdministrative']),
 
 
             ...mapActions('personnelUA', ['getTypeSalarie',"getEchelons",
@@ -129,6 +129,7 @@ export default {
    this.getStructureBudgetaire()
    this.getPlanBudgetaire()
     this.getStructureActivite()
+    this.getTypeUniteAdministrative()
     // this. getPlanActivite()
     this.getUnite()
     this.getZone()

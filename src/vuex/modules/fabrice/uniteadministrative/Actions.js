@@ -85,7 +85,7 @@ export function ajouterUniteAdministrative({ commit }, nouveau) {
       type_ua_id: nouveau.type_ua_id,
       section_id: nouveau.section_id,
       chapitre_id: nouveau.chapitre_id,
-
+      planfonctionnel_id: nouveau.planfonctionnel_id,
       code: nouveau.code,
       libelle: nouveau.libelle,
       date_creation: nouveau.date_creation
@@ -108,7 +108,7 @@ export function modifierUniteAdministrative({ commit }, nouveau) {
       type_ua_id: nouveau.type_ua_id,
       section_id: nouveau.section_id,
       chapitre_id: nouveau.chapitre_id,
-
+      planfonctionnel_id: nouveau.planfonctionnel_id,
       code: nouveau.code,
       libelle: nouveau.libelle,
       date_creation: nouveau.date_creation

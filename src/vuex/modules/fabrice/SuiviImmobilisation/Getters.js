@@ -1,5 +1,5 @@
 import { groupBy } from "../../../../Repositories/Repository";
-
+SommeTotalBesoin
 const familles = state =>
   state.familles.sort((a, b) => (a.code > b.code ? 1 : -1));
 
@@ -17,6 +17,8 @@ const besoinImmobilisations = state =>
 const equipements = state =>
   state.equipements.sort((a, b) => (a.code > b.code ? 1 : -1));
 
+
+
 export const listeImmoRealise = state =>
   state.immobilisations.filter(
     Immrealise => Immrealise.date_mise_service !== null
@@ -25,6 +27,19 @@ export const listeImmoPrevue = state =>
   state.immobilisations.filter(
     Immrealise => Immrealise.date_mise_service == null
   );
+
+// export const triAnneenCours = rootState =>
+//   rootState.parametreGenerauxAdministratif / exercices_budgetaires.filter(
+//     AnneeEncours => AnneeEncours.encours == 1
+//   );
+
+// export const triAnneenCours = rootState =>
+//   rootState["parametreGenerauxAdministratif/exercices_budgetaires"].find(
+//     AnneeEncours => AnneeEncours.encours == 1
+//   );
+
+
+
 
 ////////////getter des migration des cle etrangere/////////
 
@@ -42,22 +57,21 @@ export const SuiviImmo = (state, getters, rootState, rootGetters) =>
         ...element,
         exoBudgetaire: rootGetters["parametreGenerauxAdministratif/exercices_budgetaires"].find(exercice => exercice.id == element.exercice_budgetaire_id),
         acteurDepense: rootGetters["personnelUA/personnaliseActeurDepense"].find(auteurDep => auteurDep.id == element.acteurdepense_id),
-          uniteAdminist: rootGetters["uniteadministrative/uniteAdministratives"].find(uniteAdm => uniteAdm.id == element.uniteadministrative_id),
-          
+        uniteAdminist: rootGetters["uniteadministrative/uniteAdministratives"].find(uniteAdm => uniteAdm.id == element.uniteadministrative_id),
+
         familleImmo: rootGetters["SuiviImmobilisation/familles"].find(Famileimmo => Famileimmo.id == element.familleimmo_id),
 
         serviceImmo: rootGetters["SuiviImmobilisation/services"].find(servImmo => servImmo.id == element.service_id),
-        typeUniteAdministrative: rootGetters["parametreGenerauxAdministratif/type_Unite_admins"].find(typeUniteAdmin => typeUniteAdmin.id == element.typeuniteadminis_id        
+        typeUniteAdministrative: rootGetters["parametreGenerauxAdministratif/type_Unite_admins"].find(typeUniteAdmin => typeUniteAdmin.id == element.typeuniteadminis_id
         ),
         BesoinImmobilisation: rootGetters["SuiviImmobilisation/trieUaImmobilisation"].find(besoinimmo => besoinimmo.id == element.besoinimmo_id)
-      
+
       };
     }
 
     return element;
   });
 
-groupTriUaImmo
 //////////////////////////////////////fin///////////////
 
 
@@ -89,15 +103,25 @@ export const personBesoinImmo = (state, getters, rootState, rootGetters) =>
 
     return element;
   });
-  
+
 export const trieUaBesoinImmo = state =>
   state.besoinImmobilisations.filter(
     trieUaBesoin => trieUaBesoin.quantite !== 0
   );
 
+
+// export const trieAnneeEnCoursImmo = getters =>
+//   getters.SuiviImmo.filter(
+//     AfficherAnneeEnCours => AfficherAnneeEnCours.exoBudgetaire.encours == 1
+//   );
+
+
+
+
+
 export const trieUaImmobilisation = (state, getters, rootState, rootGetters) =>
   state.besoinImmobilisations.map(element => {
-    if (element.uniteadmin_id !== null && element.famille_id !== null && element.typeuniteadminist_id !==null) {
+    if (element.uniteadmin_id !== null && element.famille_id !== null && element.typeuniteadminist_id !== null) {
       element = {
         ...element,
         uniteAdminist: rootGetters[
@@ -171,7 +195,7 @@ export const SommeEquipementActuel = (state, getters) =>
   getters.SuiviImmo.reduce(
     (prec, cur) => parseInt(prec) + parseInt(cur.qte_actuel),
     0
-  ); 
+  );
 
 export const SommeEquipementRealise = (state, getters) =>
   getters.SuiviImmo.reduce(
@@ -186,7 +210,11 @@ export const nombreTotalEquipement = (state, getters) =>
     0
   );
 
-
+export const SommeTotalBesoin = (state, getters) =>
+  getters.besoinImmobilisations.reduce(
+    (prec, cur) => parseInt(prec) + parseInt(cur.montant_total),
+    0
+  );
 
 
 // export const nombreTotalEquipement = (state, getters) => {
@@ -214,7 +242,7 @@ export const tauxEquipementPrevue = (state, getters) => {
 
 export const tauxGlobalEquipement = (state, getters) => {
   const val = parseFloat(
-    (getters.tauxEquipementRealise - getters.tauxEquipementPrevue) 
+    (getters.tauxEquipementRealise - getters.tauxEquipementPrevue)
   ).toFixed(2);
   if (isNaN(val)) return null;
   return val;
@@ -299,6 +327,16 @@ export const getPersonnaliseImmobilisation = (
     return element;
   });
 
+
+
+
+
+
+
+
+
+
+
 // afficher les structure les moin equipe
 
 export const StructureMoinEquipe = getters =>
@@ -312,18 +350,18 @@ export const afficheStructureMoinEquipe = (state, getters, rootState, rootGetter
     if (
       element.famille_id !== null &&
       element.acteurdepense_id !== null &&
-     
+
       element.uniteadmin_id !== null &&
       element.typeuniteadminist_id !== null
     ) {
       element = {
         ...element,
-       
+
         uniteAdminist: rootGetters["uniteadministrative/uniteAdministratives"].find(uniteAdm => uniteAdm.id == element.uniteadmin_id),
 
         famillebesoin: rootGetters["SuiviImmobilisation/familles"].find(FamileB => FamileB.id == element.famille_id),
 
-        
+
         typeUniteAdministrative: rootGetters["parametreGenerauxAdministratif/type_Unite_admins"].find(typeUniteAdmin => typeUniteAdmin.id == element.typeuniteadminist_id
         )
 

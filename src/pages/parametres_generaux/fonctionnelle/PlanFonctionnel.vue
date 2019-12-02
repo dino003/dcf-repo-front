@@ -411,6 +411,7 @@ afficherMoadlModifierLocalisation(index){
  },
 modifierLocalisationLocal(){
   this.modifierPlanFonctionnel(this.editTitre)
+    this.$("#modifierModal").modal('hide');
   this.editTitre = {
                 code: "",
              libelle: "",

@@ -22,38 +22,44 @@
             <span class="label label-success">{{nombreAmortissement}}</span> Nbre Amortissement
           </a>
         </li>-->
-         <li class="bg_lb" title="Total equipement">
+          <li class="bg_lb" title="Nombre Global d'équipement">
           <a href="#">
             <i class="icon-list-ol"></i>
-            <span class="label label-important">{{nombreTotalEquipement}}</span> Nbre Global d'équipement
+            <span class="label label-important">{{nombreTotalEquipement}}</span> Nbre Global d'équipement prévue
           </a>
         </li> 
 
         
-        <li class="bg_ly" title="nombre immobilisation prévue">
+<li class="bg_ly" title="Nombres d'equipement Restant">
           <a href="#">
             <i class="icon-list-ol"></i>
-            <span class="label label-success">{{SommeEquipementPrevue}}</span>Nbre Equipement Global prévue
+            <span class="label label-success">{{SommeEquipementPrevue}}</span>Nbre Equipement Restant
           </a>
         </li>
-        <li class="bg_ls" title="Total equipement">
+       <li class="bg_ly" title="Nombre d'equipement Réalise">
           <a href="#">
             <i class="icon-list-ol"></i>
-            <span class="label label-important">{{SommeEquipementRealise}}</span> Nbre Equipement Global Réalise
+            <span class="label label-important">{{SommeEquipementRealise}}</span> Nbre Equipement Réalise
           </a>
         </li> 
-        <li class="bg_lg" title="volume d'immobilisation réalise">
+         <li class="bg_lg" title="Taux équipement  réalisé">
           <a href="#">
             <i class="icon-fullscreen"></i>
-            <span class="label label-warning">{{tauxEquipementRealise}}%</span>Taux équipement Global réalisé
+            <span class="label label-warning">{{tauxEquipementRealise}}%</span>Taux équipement  réalisé
           </a>
         </li>
         <li class="bg_lg">
           <a href="#">
             <i class="icon-fullscreen"></i>
-            <span class="label label-warning">{{tauxEquipementPrevue}}%</span>Taux équipement Global prévue
+            <span class="label label-warning">{{tauxEquipementPrevue}}%</span>Taux équipement Restant
           </a>
         </li>
+           <li class="bg_lb" title="Montant total besoin">
+          <a href="#">
+            <i class="icon-plus-sign"></i>
+            <span class="label label-important">{{formatageSomme(parseFloat(SommeTotalBesoin))}}</span> Montant Global Besoins restant
+          </a>
+        </li> 
         <!-- <li class="bg_lr" >
           <a href="#">
             <i class="icon-info-sign"></i>
@@ -80,6 +86,7 @@
   
 <script>
 import { mapGetters } from "vuex";
+import { formatageSomme } from "../../../Repositories/Repository";
 export default {
   name:'TableauBordImmo',
   data() {
@@ -105,6 +112,7 @@ export default {
       "tauxEquipementPrevue",
       "tauxEquipementRealise",
       "tauxEquipementPrevue",
+      "SommeTotalBesoin"
       // "tauxGlobalEquipement"
 
       // "nbreArchivageNotes"
@@ -122,7 +130,9 @@ export default {
       });
     }
   },
-  methods: {}
+  methods: {
+    formatageSomme: formatageSomme,
+  }
 };
 </script>
 

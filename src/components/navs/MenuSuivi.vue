@@ -271,32 +271,32 @@
         <ul class="dropdown-menu">
           <li>
             <router-link :to="{name:'listeEquipement'}" tag="a">
-              <i class="icon-key"></i>
+              <i class="icon-list-ol"></i>
               <span class="text">Types équipements</span>
             </router-link>
           </li>
           <li>
             <router-link :to="{name:'famille'}" tag="a">
-              <i class="icon-key"></i>
+              <i class="icon-shopping-cart"></i>
               <span class="text">Articles</span>
             </router-link>
           </li>
           <li>
             <router-link :to="{name:'service'}" tag="a">
-              <i class="icon-key"></i>
+              <i class="icon-home"></i>
               <span class="text">Services</span>
             </router-link>
           </li>
 
           <li title="Bessoin Immobilisation">
             <router-link :to="{name:'besionImmolisation'}" tag="a">
-              <i class="icon-key"></i>
+              <i class="icon-list"></i>
               <span class="text">Demande d'équipement</span>
             </router-link>
           </li>
           <li>
             <router-link :to="{name:'immobilisation'}" tag="a">
-              <i class="icon-key"></i>
+              <i class="icon-money"></i>
               <span class="text">Immobilisations</span>
             </router-link>
           </li>
@@ -308,66 +308,33 @@
             </router-link>
           </li>
 
-     
-        </ul>
-      </li>
-
-  <!-- out put
-      -->
-     <li class="dropdown" id="bord1">
-        <a
-          title="Out Put"
-          href="#"
-          data-toggle="dropdown"
-          data-target="#bord1"
-          class="dropdown-toggle"
-        >
-          <span class="text">OUT PUT </span>
-                    <b class="caret"></b>
-
-          </a>
-        <ul class="dropdown-menu">
-        
-          <!-- <li>
-            <router-link :to="{name:'listeBesoinParUniteAdmin'}" tag="a" title>
-              <i class="icon-key"></i>
-              <span class="text">Besoin Par Unite d'administrative</span>
-            </router-link>
-          </li> -->
-         
-          <li>
-            <router-link :to="{name:'listeImmobilisationParUa'}" tag="a" title>
-              <i class="icon-key"></i>
-              <span class="text">Recherche Immobilisation</span>
-            </router-link>
-          </li>
           <li>
             <router-link :to="{name:'listeStructureMoinEquipe'}" tag="a" title>
-              <i class="icon-key"></i>
+              <i class="icon-home"></i>
               <span class="text">Structure Moin équipé</span>
             </router-link>
           </li>
            <li>
             <router-link :to="{name:'listeStructurePlusEquipe'}" tag="a" title>
-              <i class="icon-key"></i>
+              <i class="icon-home"></i>
               <span class="text">Structure Plus équipé</span>
             </router-link>
           </li>
            <li>
             <router-link :to="{name:'listeActeurEquipe'}" tag="a" title>
-              <i class="icon-key"></i>
+              <i class="icon-group"></i>
               <span class="text">Acteur équipé</span>
+            </router-link>
+          </li>
+     <li>
+            <router-link :to="{name:'listeImmobilisationParUa'}" tag="a" title>
+              <i class="icon-search"></i>
+              <span class="text">Recherche Immobilisation</span>
             </router-link>
           </li>
         </ul>
       </li>
-
-  <!-- indicateur
-      -->
-     
-      <!-- Généraux
-      -->
-        <li>
+      <li>
         <router-link
               :to="{name:'TableauBordImmo'}"
               tag="a"
