@@ -416,7 +416,7 @@
 
                 const searchTerm = this.search.toLowerCase();
                  let ObjetMarcheExercice=this.marche_contrat_personnalise.filter((idm)=>idm.exerciceBudgetaire.encours==1);
-                return this.marche_contrat_personnalise.filter((item) => {
+                return ObjetMarcheExercice.filter((item) => {
                         return item.objet.toLowerCase().includes(searchTerm)
                             || item.uniteAdmin.libelle.toLowerCase().includes(searchTerm)
                             || item.exerciceBudgetaire.annee.toLowerCase().includes(searchTerm)

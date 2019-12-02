@@ -106,7 +106,7 @@
                         <label class="control-label">Exercice budgetaire:</label>
                         <div class="controls">
                             <select v-model="formData.exercice_budgetaire_id">
-                                <option v-for="item in exercices_budgetaires" :key="item.id" :value="item.id">
+                                <option v-for="item in exerciceEncour" :key="item.id" :value="item.id">
                                     {{item.annee}}
                                 </option>
 
@@ -167,7 +167,7 @@
                         <label class="control-label">Exercice budgetaire:</label>
                         <div class="controls" v-if="editTitre">
                             <select v-model="editTitre.exerciceBudgetaire.id">
-                                <option v-for="item in exercices_budgetaires" :key="item.id" :value="item.id">
+                                <option v-for="item in exerciceEncour" :key="item.id" :value="item.id">
                                     {{item.annee}}
                                 </option>
 
@@ -259,13 +259,15 @@
             titreFiltres() {
 
                 const searchTerm = this.search.toLowerCase();
-                let ObjetModepassation=this.document_pyba_ppm_personnalise.filter((idm)=>idm.exerciceBudgetaire.encours==1);
-                console.log(ObjetModepassation)
+                let ObjetModepassation=this.document_pyba_ppm_personnalise.filter((idm)=>idm.exerciceBudgetaire.encours===1);
                 return ObjetModepassation.filter((item) => {
                        return item.code.toLowerCase().includes(searchTerm)
                     }
                 )
 
+            },
+            exerciceEncour(){
+                return this.exercices_budgetaires.filter(exercice=>exercice.encours===1)
             },
             ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
             ...mapGetters("uniteadministrative", ["uniteAdministratives"]),

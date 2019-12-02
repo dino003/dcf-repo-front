@@ -140,7 +140,7 @@
                                                     <label class="control-label">Exercice budgetaire:</label>
                                                     <div class="controls">
                                                         <select v-model="formData.exercice_budgetaire_id" @change="documentPTBA_PMM">
-                                                            <option v-for="item in exercices_budgetaires" :key="item.id" :value="item.id">
+                                                            <option v-for="item in exerciceEncour" :key="item.id" :value="item.id">
                                                                 {{item.annee}}
                                                             </option>
 
@@ -334,6 +334,9 @@
 
                 }
 
+            },
+            exerciceEncour(){
+                return this.exercices_budgetaires.filter(exercice=>exercice.encours==1)
             }
 
         },
