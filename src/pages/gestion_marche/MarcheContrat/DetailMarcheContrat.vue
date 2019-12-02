@@ -63,11 +63,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Date demarage prevue</td>
-                                                        <td>{{detail_marche_contrat.date_demarrage_prevue | moment("DD/MM/YYYY")}}</td>
+                                                        <td>{{ formaterDate(detail_marche_contrat.date_demarrage_prevue)  || "Non renseigne"}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Date fin execution prevue</td>
-                                                        <td>{{detail_marche_contrat.date_fin_execution_prevue | moment("DD/MM/YYYY")}}</td>
+                                                        <td>{{formaterDate(detail_marche_contrat.date_fin_execution_prevue)  || "Non renseigne"}}</td>
                                                     </tr>
 
                                                 </table>
@@ -198,7 +198,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr class="odd gradeX" v-for="item in presence_cf_marche" :key="item.id">
-                                                        <td>{{item.date_presence | moment("DD/MM/YYYY")}}</td>
+                                                        <td>{{ formaterDate(item.date_presence)  || "Non renseigne"}}</td>
                                                         <td>{{item.etapeMarche.libelle}}</td>
                                                         <td>
                                                             <button class="btn btn-danger btn-mini" v-if="item.decision== '3'">Réjéte</button>
@@ -207,7 +207,7 @@
                                                             <p v-else>Non renseigne</p>
                                                         </td>
                                                         <td>{{item.motif}}</td>
-                                                        <td>{{item.date_motif}}</td>
+                                                        <td>{{ formaterDate(item.date_motif) }}</td>
                                                         <td><div class="btn-group">
                                                             <a href="#myAlert" data-toggle="modal" class="btn btn-default" @click="afficherModalModifierTitre(item.id)">
                                                                 <span class=""><i class="icon-file"></i>Joindre document</span>
@@ -497,6 +497,7 @@
 </template>
 
 <script>
+    import moment from "moment";
     import {  ModelListSelect } from 'vue-search-select'
    // import 'vue-search-select/dist/VueSearchSelect.css'
     import {mapGetters, mapActions} from 'vuex'
@@ -803,6 +804,9 @@
                 setTimeout(function () { this.detailMarcheFinnance(this.marche_id) }.bind(this), 3000)
             },
             formatageSomme:formatageSomme,
+        formaterDate(date) {
+            return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
+        },
         }
         ,
         components:{

@@ -172,8 +172,8 @@
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.code_ligne_budgetaire || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.activite_id || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{ formatageSomme(parseFloat(item.montant_previsionnel)) || 'Non renseigné'}}</td>
-                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{item.date_demarrage_prevue | moment("DD/MM/YYYY") }}</td>
-                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{item.date_fin_execution_prevue | moment("DD/MM/YYYY") }}</td>
+                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{ formaterDate(item.date_demarrage_prevue) || "Non Renseigne"  }}</td>
+                                    <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_fin_execution_prevue)  | moment("DD/MM/YYYY") }}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.exerciceBudgetaire.annee || 'Non renseigné'}}</td>
                                     <td>
@@ -332,7 +332,7 @@
 </template>
 
 <script>
-
+    import moment from "moment";
     import {  ModelListSelect } from 'vue-search-select'
     import 'vue-search-select/dist/VueSearchSelect.css'
     import {mapGetters, mapActions} from 'vuex'
@@ -591,6 +591,9 @@
                 //this.getFonctions()
             },
             formatageSomme:formatageSomme,
+            formaterDate(date) {
+                return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
+            },
         },
         components:{
             ModelListSelect,

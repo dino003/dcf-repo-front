@@ -204,15 +204,11 @@
 
 
 
-
-
-
     </div>
 
 </template>
 
 <script>
-
     import {mapGetters, mapActions} from 'vuex'
     export default {
 
@@ -223,10 +219,7 @@
                         name: 'cache',
                         icon: 'add'
                     },
-                    // {
-                    //     name: 'alertMe',
-                    //     icon: 'add_alert'
-                    // }
+
                 ],
                 selectedFile:"",
                 selectedImage:"",
@@ -315,10 +308,10 @@
             modifier(){
 
                 const formData = new FormData();
-                if (this.selectedImage!="") {
+                if (this.selectedImage!=="") {
                     formData.append('fichier_ppm', this.selectedImage, this.selectedImage.name);
                 }
-                 if ( this.selectedFile!=""){
+                 if ( this.selectedFile!==""){
                      formData.append('fichier_ptba', this.selectedFile, this.selectedFile.name);
                  }
                 formData.append('code', this.editTitre.code);
