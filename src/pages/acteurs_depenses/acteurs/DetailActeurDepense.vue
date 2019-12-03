@@ -20,11 +20,11 @@
                         <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{temp_moyen_fin_activite_interruption}}</span>Temps moyen etre fin activite et interruption
                         </a>
                     </li>
-                    <li class="bg_ly">
+                    <!--<li class="bg_ly">
                         <a href="#">
                             <i class="icon-inbox"></i><span class="label label-important">{{jour_conge_disponible_acteur}}</span> Les jours de congés disponibles
                         </a>
-                    </li>
+                    </li>-->
                     <!--<li class="bg_lb"> <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{totalActeurNonAccredite}}</span> Total acteur non accredité</a> </li>
                     <li class="bg_ls"> <a href="#"> <i class="icon-fullscreen"></i> <span class="label label-important" v-if="tauxActeurAccredite!='NaN'">{{tauxActeurAccredite || '0' }} %</span>
                         Taux acteurs acredité
@@ -53,7 +53,7 @@
                                         <li class=""><a data-toggle="tab" href="#tab1">Information</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab2">L’acte de nomination et du spécimen</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab3">Toutes les rémunérations</a></li>
-                                        <li class=""><a data-toggle="tab" href="#tab4">Tous les conges</a></li>
+                                        <!--<li class=""><a data-toggle="tab" href="#tab4">Tous les conges</a></li>-->
                                     </ul>
                                 </div>
                                 <div class="widget-content tab-content">
@@ -719,11 +719,23 @@
             setTimeout(function () {   this.tempMoyenFinActiviteInterruption(this.acteur_id) }.bind(this), 3000)
             setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
             setTimeout(function () {  this.getLoadActeurDepense(this.acteur_id) }.bind(this), 3000)
-            setTimeout(function () {  this.getListeSalaireActuelAll(); }.bind(this), 3000)
-            setTimeout(function () {  this.allActeurDepense(); }.bind(this), 3000)
-            setTimeout(function () {  this.getActeurFinContratAndActivite() }.bind(this), 3000)
-            setTimeout(function () {  this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id) }.bind(this), 3000)
-            setTimeout(function () {  this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id) }.bind(this), 3000)
+
+            setTimeout(function () {
+                this.getListeSalaireActuelAll();
+                this.allActeurDepense();
+                this.getActeurFinContratAndActivite()
+                setTimeout(function () {  this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () {  this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id) }.bind(this), 3000)
+                
+
+            }.bind(this), 3000)
+
+
+
+            setTimeout(function () {
+                this.DetailActeur(this.acteur_id);
+                console.log(this.detail_acteurs)
+            }.bind(this), 3000)
 
         },
             // fonction pour vider l'input  salaire_actuel_acteur
@@ -814,9 +826,7 @@
          formaterDate(date) {
             return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
         },
-            detailActeurDepense(id){
 
-            }
         }
     };
 </script>
