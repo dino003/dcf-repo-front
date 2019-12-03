@@ -19,7 +19,9 @@ const defaultstate = {
     all_acteur_depense:[],
     temp_moyen_fin_activite_interruption:[],
     delais_mise_disposition_act:[],
-    jour_conge_disponible_acteur:[]
+    jour_conge_disponible_acteur:[],
+    tous_salaire_actuel_acteur:[],
+    list_acteur_fin_contrat_activite:[]
 };
 
  export default defaultstate

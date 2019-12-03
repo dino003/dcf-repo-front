@@ -59,6 +59,14 @@ export function modifierModePassation({commit}, formData){
         });
         commit('MODIFIER_MODE_PASSATION', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
@@ -124,6 +132,14 @@ export function modifierTypeMarche({commit}, formData){
         });
         commit('MODIFIER_TYPE_MARCHE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 /** Fin type marche
@@ -185,6 +201,14 @@ export function modifierSecteurActivite({commit}, formData){
         });
         commit('MODIFIER_SECTEUR_ACTIVITE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 /**Fin secteur**/
@@ -246,10 +270,37 @@ export function modifierEntreprise({commit}, formData){
         });
         commit('MODIFIER_ENTREPRISE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
-
+export function ajouterSanction({commit}, formData,config){
+    this.$app.$loading(true)
+    axios.post('/add_sanction' ,formData,config).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
+        commit('MODIFIER_ENTREPRISE', response.data)
+        this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
+}
 /**Fin entreprise**/
 
 /**
@@ -310,6 +361,14 @@ export function modifierEtapeMarche({commit}, formData){
         });
         commit('MODIFIER_ETAPE_MARCHE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
@@ -367,9 +426,9 @@ export function supprimerDocumentPTBAPPM({commit}, id){
     })
 }
 
-export function modifierDocumentPTBAPPM({commit}, formData){
+export function modifierDocumentPTBAPPM({commit}, formData,config){
     this.$app.$loading(true)
-    axios.put('/update_docs_ptba_ppm' ,formData).then(response => {
+    axios.put('/update_docs_ptba_ppm' ,formData,config).then(response => {
         this.$app.$notify({
             title: 'success',
             text: 'Modification effectuer',
@@ -377,6 +436,14 @@ export function modifierDocumentPTBAPPM({commit}, formData){
         });
         commit('MODIFIER_DOCUMENT_PTBA_PPM', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
@@ -433,6 +500,7 @@ export function supprimerMarcheContrat({commit}, id){
 
 export function modifierMarcheContrat({commit}, formData){
     this.$app.$loading(true)
+    console.log(formData)
     axios.put('/update_marche_contrat' ,formData).then(response => {
         this.$app.$notify({
             title: 'success',
@@ -441,6 +509,14 @@ export function modifierMarcheContrat({commit}, formData){
         });
         commit('MODIFIER_MARCHE_CONTRAT', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
@@ -510,6 +586,14 @@ export function modifierPresenceCF({commit}, formData){
             text: "Erreur c'est produit lors de l'enregistrement",
             type:"error"
         });
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
@@ -530,15 +614,13 @@ export async function getDocumentPresence({commit}) {
 export  function ajouterDocumentPresence({commit} , objetAjoute,config){
     this.$app.$loading(true)
     axios.post('/add_document_presence', objetAjoute ,config).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Enregistrement effectuer',
-                type:"success"
-            });
-            commit('AJOUTER_DOCUMENT', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Enregistrement effectuer',
+            type:"success"
+        });
+        commit('AJOUTER_DOCUMENT', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
@@ -585,6 +667,14 @@ export function modifierDocumentPresence({commit}, formData){
         });
         commit('MODIFIER_DOCUMENT', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 
@@ -681,6 +771,14 @@ export function modifierSourceFinnancementByMarche({commit}, formData){
         });
         commit('MODIFIER_FINANCEMENT_BY_MARCHE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 }
 

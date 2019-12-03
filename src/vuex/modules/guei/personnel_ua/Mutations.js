@@ -11,6 +11,10 @@ const GET_TYPE_ACTE_PERSONNELS = (state, tableau_type_acte_personnels) => {
     state.type_acte_personnels = tableau_type_acte_personnels
 }
 
+
+const GET_SALAIRE_ACTUEL = (state, tableau_type_acte_personnels) => {
+    state.tous_salaire_actuel_acteur = tableau_type_acte_personnels
+}
 /**
  * Ajouter type act personnel
  * @param state
@@ -607,7 +611,9 @@ const MODIFIER_ACT_PERSONNEL = (state,  objetModifie) => {
     })
 }
 
-
+const GET_FIN_ACTIVITE_CONTRAT = (state, data) => {
+    state.list_acteur_fin_contrat_activite = data
+}
 
 export {
     GET_TYPE_ACTE_PERSONNELS,
@@ -663,5 +669,7 @@ export {
     GET_ALL_ACTEURDEPENSE,
     LOAD_TEMPS_MOYEN_FIN_ACTIVITE_AND_INTERRUPRION,
     DELAI_DISPOSITION_ACT,
-    JOUR_CONGE_DISPONIBLE_ACTEUR
+    JOUR_CONGE_DISPONIBLE_ACTEUR,
+    GET_SALAIRE_ACTUEL,
+    GET_FIN_ACTIVITE_CONTRAT
 }

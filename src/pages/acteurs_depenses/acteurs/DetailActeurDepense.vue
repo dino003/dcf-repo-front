@@ -8,12 +8,12 @@
                             <i class="icon-dashboard"></i> <span class="label label-important">{{delais_mise_disposition_act}}</span>  Délai disposition l’acte de nomination(Jours)
                         </a>
                     </li>
-                    <li class="bg_lg">
+                    <li class="bg_lg"  v-if="!salaire_actuel_acteur.date_fin_contrat">
                         <a href="#"> <i class="icon-signal"></i> Acteur en activité
                         </a>
                     </li>
                     <li class="bg_lo" v-if="salaire_actuel_acteur.date_fin_contrat">
-                        <a href="#"> <i class="icon-info-sign"></i> <span class="label label-important">Fin de contrat</span> Temps moyen fin des activités
+                        <a href="#"> <i class="icon-info-sign"></i> <span class="label label-important">Fin de contrat</span> Acteur en fin de contrat
                         </a>
                     </li>
                     <li class="bg_ls" v-if="salaire_actuel_acteur.date_interuption">
@@ -32,16 +32,10 @@
                 </ul>
             </div>
 
-          <!--  <div class="">
-                <div class="form-actions">
-                    <button type="button" class="btn btn-info span4"><h4>{{delais_mise_disposition_act}} jours</h4></button>
-                    <button type="button" class="btn btn-info"><h4>{{temp_moyen_fin_activite_interruption}}</h4> </button>
-                    <button type="button" class="btn btn-info"><h4>{{jour_conge_disponible_acteur}}</h4>   Les jours de congés disponibles</button>
-                </div>
-            </div>-->
+
             <div class="widget-box">
                 <div class="widget-title bg_lg"><span class="icon"><i class="icon-list"></i></span>
-                    <h5 class="span5">{{detail_acteurs.nom}} {{detail_acteurs.prenom}}</h5>
+                    <h4 class="span5" v-if="acteurDetail">{{acteurDetail.nom}} {{acteurDetail.prenom}}</h4>
                 </div>
                 <div class="widget-content">
                     <div class="row-fluid" style="margin: 0px !important;">
@@ -64,42 +58,76 @@
                                 </div>
                                 <div class="widget-content tab-content">
                                     <div id="tab1" class="tab-pane active">
-                                        <div class="span8">
+                                        <div class="span5">
                                         <div class="widget-content nopadding">
-                                                <table class="table ">
+                                                <table class="table " v-if="acteurDetail">
                                                     <tbody>
                                                     <tr>
-                                                        <td>Structure actuel</td>
-                                                        <td>{{nomUniteAdmine(salaire_actuel_acteur.unite_administrative_id)}}</td>
+                                                        <td><b>Structure actuel</b></td>
+                                                        <td>{{acteurDetail.uniteAdmin.libelle}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Salaires actuel</td>
-                                                        <td><a href="#" class="btn btn-success btn-mini" v-if="salaire_actuel_acteur.salaire">{{formatageSomme(parseFloat(salaire_actuel_acteur.salaire[0].montant))}}  </a>
+                                                        <td><b>Salaires actuel</b></td>
+                                                        <td><a href="#" class="btn btn-success btn-mini" v-if="salaire_actuel">{{formatageSomme(parseFloat(acteurDetail.salaireActeur.montant))}}  </a>
                                                             </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Matricule</td>
-                                                        <td>{{detail_acteurs.matricule}}</td>
+                                                        <td><b>Matricule</b></td>
+                                                        <td>{{acteurDetail.matricule}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Sexe</td>
-                                                        <td>{{detail_acteurs.sexe}}</td>
+                                                        <td><b>Sexe</b></td>
+                                                        <td>{{acteurDetail.sexe}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Numero CNI</td>
-                                                        <td>{{detail_acteurs.numero_cni}}</td>
+                                                        <td><b>Numero CNI</b></td>
+                                                        <td>{{acteurDetail.numero_cni}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Numero Passeport</td>
-                                                        <td>{{detail_acteurs.numero_passeport}}</td>
+                                                        <td><b>Numero Passeport</b></td>
+                                                        <td>{{acteurDetail.numero_passeport}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Nom du père</td>
-                                                        <td>{{detail_acteurs.nom_pere}}</td>
+                                                        <td><b>Nom du père</b></td>
+                                                        <td>{{acteurDetail.nom_pere}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Nom mère</td>
-                                                        <td>{{detail_acteurs.nom_mere}}</td>
+                                                        <td><b>Nom mère</b></td>
+                                                        <td>{{acteurDetail.nom_mere}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="span5">
+                                            <div class="widget-content nopadding">
+                                                <table class="table " v-if="acteurDetail">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><b>Numero act</b></td>
+                                                        <td>{{acteurDetail.code_acte_personnel}}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><b>Fonction</b></td>
+                                                        <td>{{acteurDetail.fonction.libelle}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Niveau d'etude</b></td>
+                                                        <td>{{acteurDetail.niveau_etude.libelle}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Grade</b></td>
+                                                        <td>{{acteurDetail.grade.libelle}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Type de salarie</b></td>
+                                                        <td v-if="acteurDetail.type_salarie">{{acteurDetail.type_salarie.libelle}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Type de contrat</b></td>
+                                                        <td v-if="acteurDetail.type_contrat">{{acteurDetail.type_contrat.libelle}}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -129,10 +157,10 @@
                                                 <tbody>
                                                 <tr v-for="item in load_act_personnel_acteur" :key="item.id">
                                                     <td>{{item.code}}</td>
-                                                    <td>Unite admin micro</td>
-                                                    <td>{{item.date_debut_contrat | moment("DD/MM/YYYY")}}</td>
-                                                    <td>{{item.date_fin_contrat | moment("DD/MM/YYYY")}}</td>
-                                                    <td>{{item.date_arrivee_act_nomination | moment("DD/MM/YYYY")}}</td>
+                                                    <td>{{nomUniteAdmine(item.unite_administrative_id)}}</td>
+                                                    <td>{{formaterDate(item.date_debut_contrat) }}</td>
+                                                    <td>{{formaterDate(item.date_fin_contrat) }}</td>
+                                                    <td>{{formaterDate(item.date_arrivee_act_nomination) }}</td>
                                                     <td>{{item.delai_diposition}} </td>
                                                     <td>
                                                         <a v-if="item.fichier_act_nomination" :href="item.fichier_act_nomination" class="btn btn-default" target="_blank">
@@ -200,7 +228,7 @@
                                                 <tbody>
                                                 <tr v-for="item in all_salaires_acteurs" :key="item.id">
                                                     <td>
-                                                        {{item.date_debut_contrat | moment("DD/MM/YYYY")}}  -  {{item.date_fin_contrat | moment("DD/MM/YYYY") }}
+                                                        {{ formaterDate(item.date_debut_contrat)}}  -  {{  formaterDate(item.date_fin_contrat) }}
                                                     </td>
                                                     <td>{{nomUniteAdmine(item.unite_administrative_id)}}</td>
                                                     <td>{{ formatageSomme(parseFloat(item.salaire[0].montant))}} </td>
@@ -232,8 +260,8 @@
                                                         <td>{{item.type_conge || "Pas de conge" }}</td>
                                                         <td>{{item.code || "Pas de conges"}}</td>
                                                         <td>{{item.ua || "Pas de conges"}}</td>
-                                                        <td>{{item.date_debut | moment("DD/MM/YYYY") }}</td>
-                                                        <td>{{item.date_fin | moment("DD/MM/YYYY") }}</td>
+                                                        <td>{{formaterDate(item.date_debut) }}</td>
+                                                        <td>{{formaterDate(item.date_fin)  }}</td>
                                                         <td>{{item.annee || "Pas de conges"}}</td>
                                                         <td>{{item.delais || "Pas de conges"}}</td>
                                                     </tr>
@@ -518,6 +546,7 @@
 </template>
 
 <script>
+    import moment from "moment";
     import {formatageSomme} from "../../../vuex/modules/guei/Repositories/Repository"
     import {mapGetters, mapActions} from 'vuex'
     export default {
@@ -575,39 +604,47 @@
                     libelle: ""
                 },
                 temp_moyen_testFI:"",
+                acteurDetail:"",
+                salaire_actuel:"",
 
 
             };
         },
 
         created() {
+
             this.acteur_id=this.$route.params.id;
             this.DetailActeur(this.$route.params.id);
-
+            this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id)
+            console.log(this.acteurDetail)
+            if(this.acteurDetail===undefined){
+                this.acteurDetail=this.personnaliseActeurFinContrat.find(acteur=>acteur.id===this.acteur_id)
+            }
+           console.log(this.acteurDetail)
+            this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id)
             this.getSalaireActuelActeur(this.$route.params.id)
             this.getAllSallairesActeurs(this.$route.params.id)
             this.getLoadActeurDepense(this.$route.params.id)
             this.loadCongeActeur(this.$route.params.id)
             this.tempMoyenFinActiviteInterruption(this.$route.params.id)
 
-
-
             this.delaiMiseDispositionAct(this.$route.params.id)
             this.jourCongeDisponible(this.$route.params.id)
-            this.tempMoyenTest(this.$route.params.id)
+
         },
         computed: {
 // methode pour maper notre guetter
             ...mapGetters('personnelUA', ['acteur_depenses',"type_salaries","type_contrats","type_acte_personnels","fonctions","grades",
                 "niveau_etudes","nbr_acteur_actredite_taux","detail_acteurs","salaire_actuel_acteur","all_salaires_acteurs","acte_personnels",
-                "load_act_personnel_acteur","conge_acteur_depense","temp_moyen_fin_activite_interruption","delais_mise_disposition_act","jour_conge_disponible_acteur"]),
+                "load_act_personnel_acteur","conge_acteur_depense","temp_moyen_fin_activite_interruption","delais_mise_disposition_act",
+                "jour_conge_disponible_acteur","personnaliseActeurDepense","tous_salaire_actuel_acteur","personnaliseActeurFinContrat"]),
             ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
             ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
             ...mapGetters("parametreGenerauxBudgetaire", ["plans_budgetaires"]),
             nomUniteAdmine(){
                 return uniteAdmin_id=>{
-                    console.log(uniteAdmin_id)
-                    if (uniteAdmin_id!=undefined){
+
+                    if (uniteAdmin_id!==undefined){
 
                         var ObjetUniteAdmin=this.uniteAdministratives.find(element=>element.id ===uniteAdmin_id);
                         return ObjetUniteAdmin.libelle;
@@ -623,7 +660,7 @@
             // methode pour notre action
             ...mapActions('personnelUA', ["DetailActeur","getSalaireActuelActeur","getAllSallairesActeurs","modifierActeurDepense",
                 "getLoadActeurDepense","loadCongeActeur","ajouterConges","modifierActeurDepenses","ajouterActeDepense",
-                "tempMoyenFinActiviteInterruption","delaiMiseDispositionAct","jourCongeDisponible"]),
+                "tempMoyenFinActiviteInterruption","delaiMiseDispositionAct","jourCongeDisponible","allActeurDepense","getActeurFinContratAndActivite","getListeSalaireActuelAll"]),
             afficherModalAjouterTitre(){
                 this.$('#exampleModal').modal({
                     backdrop: 'static',
@@ -641,6 +678,7 @@
                 setTimeout(function () {  this.getAllSallairesActeurs(this.acteur_id) }.bind(this), 3000)
                 setTimeout(function () { this.tempMoyenFinActiviteInterruption(this.acteur_id) }.bind(this), 3000)
                 setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () {  this.getLoadActeurDepense(this.acteur_id) }.bind(this), 3000)
 
             }
             ,
@@ -653,8 +691,9 @@
                 }
 
                 setTimeout(function () {  this.getAllSallairesActeurs(this.acteur_id) }.bind(this), 3000)
-                setTimeout(function () { this.tempMoyenTest(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () { this.tempMoyenFinActiviteInterruption(this.acteur_id) }.bind(this), 3000)
                 setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () {  this.getLoadActeurDepense(this.acteur_id) }.bind(this), 3000)
             }
             ,
         affecteActeurDepense(){
@@ -679,6 +718,12 @@
             setTimeout(function () {  this.getAllSallairesActeurs(this.acteur_id) }.bind(this), 3000)
             setTimeout(function () {   this.tempMoyenFinActiviteInterruption(this.acteur_id) }.bind(this), 3000)
             setTimeout(function () {  this.getSalaireActuelActeur(this.acteur_id) }.bind(this), 3000)
+            setTimeout(function () {  this.getLoadActeurDepense(this.acteur_id) }.bind(this), 3000)
+            setTimeout(function () {  this.getListeSalaireActuelAll(); }.bind(this), 3000)
+            setTimeout(function () {  this.allActeurDepense(); }.bind(this), 3000)
+            setTimeout(function () {  this.getActeurFinContratAndActivite() }.bind(this), 3000)
+            setTimeout(function () {  this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id) }.bind(this), 3000)
+            setTimeout(function () {  this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id) }.bind(this), 3000)
 
         },
             // fonction pour vider l'input  salaire_actuel_acteur
@@ -694,10 +739,8 @@
                     }
                 }
                 this.modifierActeurDepense(formData,config)
-
-
-
                 setTimeout(function () {  this.delaiMiseDispositionAct(this.acteur_id) }.bind(this), 3000)
+                setTimeout(function () {  this.getLoadActeurDepense(this.acteur_id) }.bind(this), 3000)
 
             },
             ajouterConge () {
@@ -768,6 +811,12 @@
              */
 
             formatageSomme:formatageSomme,
+         formaterDate(date) {
+            return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
+        },
+            detailActeurDepense(id){
+
+            }
         }
     };
 </script>

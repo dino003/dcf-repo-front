@@ -88,7 +88,7 @@
               Acteurs
             </router-link>
           </li>
-          <li class="divider"></li>
+         <!-- <li class="divider"></li>
           <li>
             <a href="#">
               <i class="icon-check"></i>
@@ -100,7 +100,7 @@
             <router-link :to="{name: 'Conge'}" tag="a">
               <i class="icon-key"></i> Suivi des congés
             </router-link>
-          </li>
+          </li>-->
         </ul>
       </li>
       <!--Paramètres programmes

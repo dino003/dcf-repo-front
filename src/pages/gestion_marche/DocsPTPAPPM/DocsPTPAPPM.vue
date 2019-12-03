@@ -141,7 +141,7 @@
         <div id="modifierModal" class="modal hide">
             <div class="modal-header">
                 <button data-dismiss="modal" class="close" type="button">×</button>
-                <h3>Modifier un fonctions</h3>
+                <h3>Modifier du PTPA PPM</h3>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -154,7 +154,7 @@
                     <div class="control-group">
                         <label class="control-label">L'unite administrative:</label>
                         <div class="controls" v-if="editTitre">
-                            <select v-model="editTitre.uniteAdmin.id">
+                            <select v-model="editTitre.unite_administrative_id">
                                 <option v-for="item in uniteAdministratives" :key="item.id" :value="item.id">
                                     {{item.libelle}}
                                 </option>
@@ -166,7 +166,7 @@
                     <div class="control-group">
                         <label class="control-label">Exercice budgetaire:</label>
                         <div class="controls" v-if="editTitre">
-                            <select v-model="editTitre.exerciceBudgetaire.id">
+                            <select v-model="editTitre.exercice_budgetaire_id">
                                 <option v-for="item in exerciceEncour" :key="item.id" :value="item.id">
                                     {{item.annee}}
                                 </option>
@@ -293,7 +293,7 @@
                         exercice_budgetaire_id:"",
                         unite_administrative_id:""
                 }
-
+                this.$('#exampleModal').modal('hide');
             },
 // afficher modal
             afficherModalModifierTitre(index){
@@ -303,27 +303,35 @@
                     keyboard: false
                 });
                 this.editTitre = this.document_pyba_ppm_personnalise[index];
+                console.log(this.editTitre)
 
             },
             modifier(){
 
-                const formData = new FormData();
+
+
+                let formData = new FormData();
+
+                formData.append('id', this.editTitre.id);
+                formData.append('code', this.editTitre.code);
+                formData.append('exercice_budgetaire_id', this.editTitre.exercice_budgetaire_id);
+                formData.append('unite_administrative_id', this.editTitre.unite_administrative_id);
+
                 if (this.selectedImage!=="") {
                     formData.append('fichier_ppm', this.selectedImage, this.selectedImage.name);
                 }
-                 if ( this.selectedFile!==""){
-                     formData.append('fichier_ptba', this.selectedFile, this.selectedFile.name);
-                 }
-                formData.append('code', this.editTitre.code);
-                formData.append('exercice_budgetaire_id', this.editTitre.exerciceBudgetaire.id);
-                formData.append('unite_administrative_id', this.editTitre.uniteAdmin.id);
+                if ( this.selectedFile!==""){
+                    formData.append('fichier_ptba', this.selectedFile, this.selectedFile.name);
+                }
                 let config = {
                     header : {
                         'Content-Type' : 'multipart/form-data'
                     }
                 }
 
-                this.modifierEtapeMarche(formData,config)
+
+                this.modifierDocumentPTBAPPM(this.editTitre,config)
+                this.$('#modifierModal').modal('hide');
                 //this.getFonctions()
             }
             ,

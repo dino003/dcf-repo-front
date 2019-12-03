@@ -85,15 +85,13 @@ export  function  getFonctions({commit}) {
 export  function ajouterFonction({commit}, objetAjoute){
     this.$app.$loading(true)
     axios.post('/add_fonction', objetAjoute ).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Enregistrement effectuer',
-                type:"success"
-            });
-            commit('AJOUTER_FOCNTIONS', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Enregistrement effectuer',
+            type:"success"
+        });
+        commit('AJOUTER_FOCNTIONS', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(true)
@@ -130,6 +128,14 @@ export function modifierFonction({commit}, formData){
         });
         commit('MODIFIER_FONCTIONS', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 
 }
@@ -207,6 +213,14 @@ export function modifierClasse({commit}, formData){
         });
         commit('MODIFIER_CLASSES', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 
 }
@@ -288,6 +302,14 @@ export function modifierNiveauEtude({commit}, formData){
         });
         commit('MODIFIER_NIVEAU_ETUDE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 
 }
@@ -365,6 +387,14 @@ export function modifierTypeContrat({commit}, formData){
         });
         commit('MODIFIER_TYPE_CONTRAT', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 
 }
@@ -439,6 +469,14 @@ export function modifieTypeSalaire({commit}, formData){
     axios.put('/update_type_salarie' ,formData).then(response => {
         commit('MODIFIER_TYPE_SALARIE', response.data)
         this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
     })
 
 }
@@ -612,15 +650,13 @@ export  function  getActeur({commit}) {
 export  function ajouterActeur({commit}, objetAjoute){
     this.$app.$loading(true)
     axios.post('/nouveau_acteur_depense', objetAjoute ).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Enregistrement effectuer',
-                type:"success"
-            });
-            commit('AJOUTER_ACTEURS', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Enregistrement effectuer',
+            type:"success"
+        });
+        commit('AJOUTER_ACTEURS', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
@@ -675,6 +711,12 @@ export  function  getAllSallairesActeurs({commit}, id) {
     }).catch(error => console.log(error))
 
 }
+export  function  getListeSalaireActuelAll({commit}){
+    queue.push(() =>  axios.get('/listeSalaireActeurActeur').then(response => {
+        // console.log(response.data)
+        commit('GET_SALAIRE_ACTUEL', response.data)
+    }).catch(error => console.log(error)));
+}
 export  function  getActPersonnel({commit}) {
     queue.push(() =>  axios.get('/liste_act_personnel').then(response => {
         // console.log(response.data)
@@ -686,15 +728,13 @@ export  function  getActPersonnel({commit}) {
 export  function modifierActeurDepense({commit}, objetModifie,config){
     this.$app.$loading(true)
     axios.post('/add_act_nomination', objetModifie,config ).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Modification effectuer',
-                type:"success"
-            });
-            commit('MODIFIER_ACT_PERSONNEL', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
+        commit('MODIFIER_ACT_PERSONNEL', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
@@ -719,7 +759,15 @@ export  function modifierActeurDepenses({commit}, objetModifie){
             commit('MODIFIER_ACT_PERSONNEL', res.data)
         }
         this.$app.$loading(false)
-    }).catch(error => console.log(error))
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
 }
 
 
@@ -762,15 +810,13 @@ export  function  jourCongeDisponible({commit}, id) {
 export  function ajouterConges({commit}, objetModifie){
     this.$app.$loading(true)
     axios.post('/add_conge_acteur', objetModifie ).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Enregistrement effectuer',
-                type:"success"
-            });
-            commit('AJOUTER_CONGES', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Enregistrement effectuer',
+            type:"success"
+        });
+        commit('AJOUTER_CONGES', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
@@ -799,15 +845,13 @@ export function supprimerConge({commit}, id){
 export  function modifierConges({commit}, objetModifie){
     this.$app.$loading(true)
     axios.post('/update_conge_acteur', objetModifie ).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Modification effectuer',
-                type:"success"
-            });
-            commit('MODIFIER_CONGES', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
+        commit('MODIFIER_CONGES', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
@@ -822,16 +866,15 @@ export  function modifierConges({commit}, objetModifie){
 export  function ajouterActeDepense({commit}, objetAjoute){
     this.$app.$loading(true)
     axios.post('/add_act_personnel', objetAjoute ).then(res => {
-        if(res.status == 201){
-            this.$app.$notify({
-                title: 'success',
-                text: 'Enregistrement effectuer',
-                type:"success"
-            });
-            commit('AJOUTER_ACT_PERSONNEL', res.data)
-            this.$app.$loading(false)
-        }
+        this.$app.$notify({
+            title: 'success',
+            text: 'Enregistrement effectuer',
+            type:"success"
+        });
+        commit('AJOUTER_ACT_PERSONNEL', res.data)
+        this.$app.$loading(false)
     }).catch(error =>{
+        console.log(error)
         this.$app.$loading(false)
         this.$app.$notify({
             title: 'Erreur',
@@ -859,6 +902,14 @@ export  function  delaiMiseDispositionAct({commit}, id) {
 
 }
 
+
+
+export  function  getActeurFinContratAndActivite({commit}) {
+    queue.push(() =>  axios.get('/liste_acteur_depense_fin_contrat').then(response => {
+        // console.log(response.data)
+        commit('GET_FIN_ACTIVITE_CONTRAT', response.data)
+    }).catch(error => console.log(error)));
+}
 // modifier type acte personnel
 /*export function modifierFonction({commit}, titre){
 

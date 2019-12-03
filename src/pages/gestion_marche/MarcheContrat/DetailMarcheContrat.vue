@@ -1,7 +1,7 @@
 <template>
     <div>
         <notifications />
-        <div class="quick-actions_homepage" style="margin-left:-100px; margin-right: auto; left: 0;right: 0;">
+        <div class="quick-actions_homepage" >
             <ul class="quick-actions">
                 <li class="bg_lo span3"  v-if="decision_marche_cf.decision== '3'"> <a href="#"> <i class="icon-remove"></i> Le marché a ete réjéte</a> </li>
                 <li class="bg_lg span3" v-else-if="decision_marche_cf.decision== '1'"> <a href="#"> <i class="icon-ok"></i> Le marché a ete valider</a> </li>
@@ -304,7 +304,7 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr class="even gradeA" v-for="item in document_presence_by_marche" :key="item.id">
-                                                        <td>{{item.presence_c_f.date_presence}}</td>
+                                                        <td>{{ formaterDate(item.presence_c_f.date_presence)}}</td>
                                                         <td>{{item.presence_c_f.etape_marche.libelle}}</td>
                                                         <td>{{item.type_docuement_id}}</td>
                                                         <td>{{item.libelle}}</td>
@@ -630,10 +630,11 @@
        }
         ,
             delaiLivraison(){
+              let durre=0;
                 if (this.attributionMarche.date_ordre_demarrage!="" &&this.attributionMarche.date_livraison!=""){
                     let date_demarageTable=this.attributionMarche.date_ordre_demarrage.split("-")
                     let date_livraisoTable=this.attributionMarche.date_livraison.split("-")
-                    // console.log(date_livraisoTable)
+
                     let date01=date_demarageTable[1]+"/"+date_demarageTable[2]+"/"+date_demarageTable[0]
                     let date02=date_livraisoTable[1]+"/"+date_livraisoTable[2]+"/"+date_livraisoTable[0]
                     //  console.log(date01)
@@ -641,12 +642,19 @@
                     let date2 = new Date(date02);
                     let diffTime = Math.abs(date2 - date1);
                     let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    if (diffDays==0){
-                       return  this.attributionMarche.delai_execution_reel=1
-                    } else return  this.attributionMarche.delai_execution_reel=diffDays +1
+                    if (isNaN(diffDays)===0){
+
+                        durre=1
+
+                    } else{
+
+                        durre=isNaN(diffDays) +1
+
+                    }
 
 
                 }
+                return durre
 
             }
 
@@ -663,7 +671,7 @@
                 const formData = new FormData();
                 formData.append('file', this.selectedFile, this.selectedFile.name);
                 formData.append('presence_cf_id', this.document_presence.presence_cf_id);
-                formData.append('code', this.document_presence.presence_cf_id);
+                formData.append('code', this.document_presence.code);
                 formData.append('libelle', this.document_presence.libelle);
                 formData.append('type_docuement_id', this.document_presence.type_docuement_id);
                 let config = {
@@ -677,7 +685,8 @@
                         libelle:"",
                         type_docuement_id:"",
                 }
-                setTimeout(function () { this.detailMarcheFinnance(this.marche_id) }.bind(this), 3000)
+                setTimeout(function () { this.getDocumentByPresenceOfMarche(this.marche_id) }.bind(this), 3000)
+                this.$('#myAlert').modal('hide');
 
             },
             ajouterFinnancementMarche(){
@@ -772,7 +781,10 @@
             },
             attributionDeMarche(){
                 this.attributionMarche.id=this.marche_id
+                this.attributionMarche.delai_execution_reel=this.delaiLivraison
+                console.log(this.attributionMarche.delai_execution_reel)
                 this.modifierMarcheContrat(this.attributionMarche)
+
                 this.attributionMarche={
                     numero_marche:"",
                         livrable_definitif:"",
@@ -804,7 +816,7 @@
                 setTimeout(function () { this.detailMarcheFinnance(this.marche_id) }.bind(this), 3000)
             },
             formatageSomme:formatageSomme,
-        formaterDate(date) {
+           formaterDate(date) {
             return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
         },
         }

@@ -24,35 +24,43 @@ const totalActeurDepense =state => state.all_acteur_depense.length;
 const totalActeurNonAccredite =state =>(state.acte_personnels.filter(acteur_depense=>acteur_depense.type_acte_id!='4' && acteur_depense.date_fin_contrat==null ).length);
 const totalActeurAccredite =state =>(state.acte_personnels.filter(acteur_depense=>acteur_depense.type_acte_id=='4' && acteur_depense.date_fin_contrat==null).length);
 const tauxActeurAccredite= (state,getters )=> parseFloat((getters.totalActeurAccredite*100)/getters.totalActeurEnctivite).toFixed(2);
-const document_presence_by_marche=state =>state.document_presence_by_marche;
 
-//const totalActeur 4
-//const exercices_budgetaires = state => state.exercices_budgetaires elvin mensah
-/*const personnaliseActeurDepense = (state,getters ) => getters.all_acteur_depense.map(element => {
-    if(element.unite_administrative_id != null){
-        element = {
-            ...element,
-            uniteAdmin: state.uniteadministrative.uniteAdministratives.find(ua => ua.id == element.unite_administrative_id)
-        }
-    }
-    return element;
-})*/
+const tous_salaire_actuel_acteur=state=>state.tous_salaire_actuel_acteur
 
+const list_acteur_fin_contrat_activite=state=>state.list_acteur_fin_contrat_activite
 export const personnaliseActeurDepense = (state, getters, rootState, rootGetters) =>
     state.all_acteur_depense.map(element => {
         if (element.unite_administrative_id !== null ) {
             element = {
                 ...element,
                 uniteAdmin: rootGetters['uniteadministrative/uniteAdministratives'].find(
-                    section => section.id == element.unite_administrative_id
-                )
+                    section => section.id === element.unite_administrative_id
+                ),
+                salaireActeur: rootGetters['personnelUA/tous_salaire_actuel_acteur'].find(
+                    act=>act.acte_personnel_id === element.acte_personnel_id
+                ),
             };
         }
 
         return element;
     });
 
+export const personnaliseActeurFinContrat = (state, getters, rootState, rootGetters) =>
+    state.list_acteur_fin_contrat_activite.map(element => {
+        if (element.unite_administrative_id !== null ) {
+            element = {
+                ...element,
+                uniteAdmin: rootGetters['uniteadministrative/uniteAdministratives'].find(
+                    section => section.id === element.unite_administrative_id
+                ),
+                salaireActeur: rootGetters['personnelUA/tous_salaire_actuel_acteur'].find(
+                    act=>act.acte_personnel_id === element.acte_personnel_id
+                ),
+            };
+        }
 
+        return element;
+    });
 export {
     type_acte_personnels,
     fonctions,
@@ -80,7 +88,8 @@ export {
     totalActeurAccredite,
     totalActeurNonAccredite,
     tauxActeurAccredite,
-
+    tous_salaire_actuel_acteur,
+    list_acteur_fin_contrat_activite,
    // exercices_budgetaires
 }
 

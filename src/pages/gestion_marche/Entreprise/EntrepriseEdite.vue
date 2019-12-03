@@ -14,7 +14,6 @@
                         <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
                             <h5>Formulaire de modification </h5>
                         </div>
-
                         <div class="widget-content nopadding">
                             <form action="#" method="get" class="form-horizontal" @submit.prevent="ajouterTitreLocal" enctype="multipart/form-data">
                                 <div class="row-fluid">
