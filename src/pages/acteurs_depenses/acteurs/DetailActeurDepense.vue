@@ -726,12 +726,7 @@
                 this.getActeurFinContratAndActivite()
                 setTimeout(function () {  this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id) }.bind(this), 3000)
                 setTimeout(function () {  this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id) }.bind(this), 3000)
-                
-
             }.bind(this), 3000)
-
-
-
             setTimeout(function () {
                 this.DetailActeur(this.acteur_id);
                 console.log(this.detail_acteurs)
