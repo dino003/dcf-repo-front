@@ -328,7 +328,7 @@
                                <div class="row-fluid">
                                    <form action="#" method="get" class="form-horizontal" @submit.prevent="attributionDeMarche">
                                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-                                       <h5>Attribution de marche</h5>
+                                       <h5>Attribution de marche </h5>
                                    </div>
                                    <div class="span5">
 
@@ -595,6 +595,14 @@
             this.detailMarcheFinnance(this.$route.params.id)
 
         },
+        watch: {
+            delaiLivraison: {
+                deep: true,
+                handler: function (newVal) {
+                    this.attributionMarche.delai_execution_reel = newVal
+                }
+            }
+        },
         computed: {
             ...mapGetters("gestionMarche", ["detail_marche_contrat","presence_cf_marche","etape_marches",
                 "decision_marche_cf","document_presence_by_marche","entreprises","deatil_marche_back_end","detail_marche_finance","marche_contrat_personnalise"]),
@@ -642,13 +650,13 @@
                     let date2 = new Date(date02);
                     let diffTime = Math.abs(date2 - date1);
                     let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    if (isNaN(diffDays)===0){
+                    if (diffDays===0){
 
                         durre=1
 
                     } else{
 
-                        durre=isNaN(diffDays) +1
+                        durre=diffDays +1
 
                     }
 
@@ -781,7 +789,6 @@
             },
             attributionDeMarche(){
                 this.attributionMarche.id=this.marche_id
-                this.attributionMarche.delai_execution_reel=this.delaiLivraison
                 console.log(this.attributionMarche.delai_execution_reel)
                 this.modifierMarcheContrat(this.attributionMarche)
 
@@ -803,6 +810,7 @@
                 this.detailMarcheContrat(this.marche_id)
                 setTimeout(function () { this.detailMarcheContrat(this.marche_id) }.bind(this), 3000)
                 setTimeout(function () { this.detailMarcheBack_end(this.marche_id) }.bind(this), 3000)
+                this.$router.push({ name: 'MarcheExecution' })
 
             },
             formulaireAjouter(){

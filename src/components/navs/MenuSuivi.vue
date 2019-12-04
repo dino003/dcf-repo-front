@@ -38,7 +38,10 @@
           <li class="divider"></li>
           <li>
             <a href="#">
-              <i class="icon-key"></i> Marchés & Contrats
+              <router-link :to="{name: 'MarcheExecution'}" tag="a">
+                <i class="icon-key"></i>
+                Marchés & Contrats en execution
+              </router-link>
             </a>
           </li>
           <li class="divider"></li>

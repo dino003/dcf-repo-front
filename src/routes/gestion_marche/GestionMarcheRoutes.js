@@ -12,6 +12,8 @@ import IndicateurMarche from "../../pages/gestion_marche/IndicateurMarche"
 import TableauBordMarche from "../../pages/gestion_marche/TableauBordMarche"
 import MarcheContratEdite from "../../pages/gestion_marche/MarcheContrat/ModificationMarche"
 import EditeEntreprise from "../../pages/gestion_marche/Entreprise/EntrepriseEdite"
+import MarcheExecution from "../../pages/gestion_marche/MarcheContrat/execution/MarcheContratExecution"
+import DetailMarcheExecution from "../../pages/gestion_marche/MarcheContrat/execution/DetailMarcheContratExecution"
 const GestionMarcheRoutes = [
     {
         path:"/mode-passation",
@@ -85,6 +87,16 @@ const GestionMarcheRoutes = [
         path: '/edite-entreprise/:id',
         name: 'EditeEntreprise',
         component: EditeEntreprise,
+    },
+    {
+        path: '/marche-en-execution/',
+        name: 'MarcheExecution',
+        component: MarcheExecution,
+    },
+    {
+        path:"/detail-marche-contrat-en-execution/:id",
+        name:"DetailMarcheExecution",
+        component:DetailMarcheExecution
     }
 ]
 

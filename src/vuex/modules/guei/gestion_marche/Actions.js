@@ -500,7 +500,6 @@ export function supprimerMarcheContrat({commit}, id){
 
 export function modifierMarcheContrat({commit}, formData){
     this.$app.$loading(true)
-    console.log(formData)
     axios.put('/update_marche_contrat' ,formData).then(response => {
         this.$app.$notify({
             title: 'success',
@@ -786,6 +785,15 @@ export function detailMarcheFinnance({commit,getters}, id){
     commit('DETAIL_MARCHE_FINNANCEMENT', {getters,id})
 
 }
+
+
+export async function getMarcheContratExecution({commit}) {
+    queue.push(() =>  axios.get('/liste_marche_contrat_enxecution').then(response => {
+        commit('GET_MARCHE_CONTRAT_EN_EXECUTION', response.data)
+    }).catch(error => console.log(error)));
+
+}
+
 /*export const formatageSomme = ({commit},montant) => {
     var p = montant.toFixed(2).split(".");
     return p[0].split("").reverse().reduce( (acc, montant, i) => {
