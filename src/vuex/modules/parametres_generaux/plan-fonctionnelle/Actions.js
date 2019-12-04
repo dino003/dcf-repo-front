@@ -82,14 +82,14 @@ export function ajouterPlanFonctionnel({commit, dispatch}, objetAjout){
 }
 // modifier plan fonctionnelle
 
-export function modifierPlanFonctionnel({commit},plan_fonctionnel){
+export function modifierPlanFonctionnel({ commit, dispatch},plan_fonctionnel){
    asyncLoading( axios.put('/modifier_Planfontionnelle/' + plan_fonctionnel.id, {
     code:plan_fonctionnel.code,
     libelle:plan_fonctionnel.libelle ,
     structure_fonctionnelle_id:plan_fonctionnel.structure_fonctionnelle_id
   } )).then(res => {
         commit('MODIFIER_PLAN_FONCTIONNELLE', res.data)
-
+      dispatch('getPlanFonctionnelle')
         this.$app.$notify({
             title: 'success ',
             text: 'Modification effectué avec success !',

@@ -92,6 +92,11 @@
               <i class="icon-user"></i> Grande Nature
             </router-link>
           </li>
+            <li>
+            <router-link :to="{name: 'typeUniteAdministrative'}" tag="a">
+              <i class="icon-user"></i> Type unite d'administrative
+            </router-link>
+          </li>
         </ul>
       </li>
       <!--Source de financement-->

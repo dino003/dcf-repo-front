@@ -26,6 +26,7 @@
               </div>
             </td>
             <td>
+              
               <div class="control-group">
                 <label class="control-label">Unite administrative:</label>
                 <div class="controls">
@@ -199,7 +200,7 @@
                 </div>
               </div>
             </td>
-            <td>
+            <!-- <td>
               <div class="control-group">
                 <label class="control-label">Type équipement:</label>
                 <div class="controls">
@@ -213,19 +214,15 @@
                   </select>
                 </div>
               </div>
-            </td>
-
-           
-          </tr>
-          <tr>
-             <td>
+            </td> -->
+ <td>
               <div class="control-group">
                 <label class="control-label">Désignation:</label>
                 <div class="controls">
                   <select :readOnly="veifEquipementExist" v-model="editBesoinImmo.famille_id">
                     <option value>Sélectionner</option>
                     <option
-                      v-for="famil in fammillesDynamiques(editBesoinImmo.epuipement_id)"
+                      v-for="famil in familles"
                       :key="famil.id"
                       :value="famil.id"
                     >{{famil.libelle}}</option>
@@ -233,6 +230,24 @@
                 </div>
               </div>
             </td>
+           
+          </tr>
+          <tr>
+             <!-- <td>
+              <div class="control-group">
+                <label class="control-label">Désignation:</label>
+                <div class="controls">
+                  <select :readOnly="veifEquipementExist" v-model="editBesoinImmo.famille_id">
+                    <option value>Sélectionner</option>
+                    <option
+                      v-for="famil in familles"
+                      :key="famil.id"
+                      :value="famil.id"
+                    >{{famil.libelle}}</option>
+                  </select>
+                </div>
+              </div>
+            </td> -->
             <td>
               <div class="control-group">
                 <label class="control-label">Quantité:</label>
@@ -260,10 +275,7 @@
                 </div>
               </div>
             </td>
-
-          </tr>
-          <tr>
-              <td>
+<td>
               <div class="control-group">
                 <label class="control-label">Montant Total:</label>
                 <div class="controls">
@@ -277,6 +289,9 @@
                 </div>
               </div>
             </td>
+          </tr>
+          <tr>
+              
             <td>
               <div class="control-group">
                 <label class="control-label">Date:</label>
@@ -341,12 +356,13 @@
               </div>
             </div>
 
-            <div class="widget-content nopadding" v-if="uniteAdministratives.length">
+            <div class="widget-content nopadding" v-if="uniteAdministratives.length && type_Unite_admins.length && familles.length">
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
                      <th>Type Unite administrative</th>
                     <th>Unite administrative</th>
+                     
                     <th>Designation</th>
                     <th>Quantité</th>
                     <th>Prix Unitaire</th>
@@ -367,6 +383,7 @@
                     <td
                       @dblclick="afficherModalModifierBesoinImmo(index)"
                     >{{BesoinImmo.uniteAdminist.libelle || 'Non renseigné'}}</td>
+                    
                     <td
                       @dblclick="afficherModalModifierBesoinImmo(index)"
                     >{{BesoinImmo.famille.libelle || 'Non renseigné'}}</td>
@@ -376,7 +393,7 @@
                     <td
                       @dblclick="afficherModalModifierBesoinImmo(index)"
                     >{{formatageSomme(parseFloat(BesoinImmo.prix_unitaire)) || 'Non renseigné'}}</td>
-                    <td
+                    <td style="text-align: center;"
                       @dblclick="afficherModalModifierBesoinImmo(index)"
                     >{{formatageSomme(parseFloat(BesoinImmo.montant_total)) || 'Non renseigné'}}</td>
                     <td
@@ -390,6 +407,18 @@
                         </span>
                       </button>
                     </td>
+                  </tr>
+                 <tr
+                   
+                  >
+                   <td ></td>
+                    <td></td>
+                    <td></td>
+                    <td ></td>
+                    <td style="font-weight:bold;">Montant Total</td>
+                    <td style="text-align: center;color:red;font-weight:bold;">{{formatageSomme(parseFloat(SommeTotalBesoin))}}</td>
+                    <td ></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -468,7 +497,8 @@ json_fields: {
     ...mapGetters("SuiviImmobilisation", [
       "trieUaImmobilisation",
       "equipements",
-      "familles"
+      "familles",
+      "SommeTotalBesoin"
     ]),
     ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
     ...mapGetters("parametreGenerauxAdministratif", ["type_Unite_admins"]),
@@ -591,7 +621,12 @@ Historqtemodifier() {
     },
     // fonction pour vider l'input modification
     modifierBesoinImmoLocal() {
-      this.modifierBesoinImmo(this.editBesoinImmo);
+      var nouvelObjetmodifier = {
+        ...this.editBesoinImmo,
+        montant_total: this.montantTotalmodif,
+        historiqueqte: this.Historqtemodifier
+      };
+      this.modifierBesoinImmo(nouvelObjetmodifier);
       this.$("#modificationModal").modal('hide');
     },
     alert() {
@@ -612,5 +647,12 @@ Historqtemodifier() {
 .taillemodal {
   width: 800px;
   margin: 0 -380px;
+}
+.sommecolor{
+  background-color: red;
+  color:red;
+  font-size: 120%;
+  text-align: center;
+  font-weight:bold;
 }
 </style>

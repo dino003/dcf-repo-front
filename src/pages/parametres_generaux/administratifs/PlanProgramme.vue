@@ -387,7 +387,7 @@ return this.plans_programmes.filter((item) => {
     this.parentDossier = this.plans_programmes.find(plan => plan.id == item.id)
      this.nouvelElementEnfant.parent = this.parentDossier.id
 
-      $('#modalAjouterElementEnfant').modal({
+      this.$('#modalAjouterElementEnfant').modal({
               backdrop: 'static',
               keyboard: false
              });
@@ -414,6 +414,7 @@ afficherModalModifierPlanProgramme(item){
  modifierPlanProgrammeLocal(){
 
 this.modifierPlanProgramme(this.editPlanProgramme)
+  this.$("#modifierModal").modal('hide');
 this.editPlanProgramme = {
   code:"",
   libelle:"",

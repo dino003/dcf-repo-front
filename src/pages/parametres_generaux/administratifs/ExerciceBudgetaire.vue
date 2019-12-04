@@ -43,32 +43,50 @@
                   <th>Date debut</th>
                   <th>Date fin</th>
                   <th>Encours</th>
+                  <!-- <th>Encours</th> -->
                   <!-- <th>Date cloture </th> -->
                    <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="odd gradeX" v-for="(exercice_budgetaire, index) in 
-                titreFiltres" :key="exercice_budgetaire.id">
-                  <td @dblclick="afficherModalModifierExerciceBudgetaire(index)">
+                <tr class="odd gradeX" v-for="(exercice_budgetaire, index) 
+                in titreFiltres" :key="exercice_budgetaire.id">
+                  <template v-if="!exercice_budgetaire.encours">
+                         <td @dblclick="afficherModalModifierExerciceBudgetaire(index)">
                     {{exercice_budgetaire.annee || 'Non renseigné'}}</td>
                   <td @dblclick="afficherModalModifierExerciceBudgetaire(index)">
-                    {{exercice_budgetaire.date_debut || 'Non renseigné'}}</td>
+                    {{formaterDate(exercice_budgetaire.date_debut) || 'Non renseigné'}}</td>
                   <td @dblclick="afficherModalModifierExerciceBudgetaire(index)">
-                    {{exercice_budgetaire.date_fin || 'Non renseigné'}}</td>
-                  <td v-if="exercice_budgetaire.encours">Oui</td>
-                    <td v-else>Non</td>
-                   <!-- <td @dblclick="afficherModalModifierExerciceBudgetaire(index)">
-                     {{exercice_budgetaire.date_cloture || 'Non reseigné'}}</td> -->
+                    {{formaterDate(exercice_budgetaire.date_fin) || 'Non renseigné'}}</td>
+                    <td>{{exercice_budgetaire.encours ? 'Oui' : 'Non'}}</td>
+                    <!-- <td v-if="exercice_budgetaire.encours">Oui</td>
+            <td v-else>non</td> -->
+            <!-- <td>
+              <input type="checkbox" v-model="exercice_budgetaire.encours" />
+            </td> -->
+                  </template>
+
+
+                    <template v-else>
+                         <td >
+                    {{exercice_budgetaire.annee || 'Non renseigné'}}</td>
+                  <td >
+                    {{formaterDate(exercice_budgetaire.date_debut) || 'Non renseigné'}}</td>
+                  <td >
+                    {{formaterDate(exercice_budgetaire.date_fin) || 'Non renseigné'}}</td>
+                  <td>{{exercice_budgetaire.encours ? 'Oui' : 'Non'}}</td>
+                   <!-- <td v-if="exercice_budgetaire.encours">Oui</td>
+            <td v-else>non</td> -->
+            <!-- <td>
+              <input type="checkbox" v-model="exercice_budgetaire.encours" />
+            </td> -->
+                  </template>
+                  
                   <td>
-
-
-
-              <div class="btn-group">
-              <button @click.prevent="supprimerExerciceBudgetaire(exercice_budgetaire.id)"  class="btn btn-danger ">
+                    
+              <button v-if="!exercice_budgetaire.encours" @click.prevent="supprimerExerciceBudgetaire(exercice_budgetaire.id)"  class="btn btn-danger ">
                 <span class=""><i class="icon-trash"></i></span></button>
              
-            </div>
 
                   </td>
                 </tr>
@@ -119,13 +137,13 @@
                 <input type="date" v-model="formData.date_fin" class="span" placeholder="" />
               </div>
             </div>
-            <div class="control-group">
+            <!-- <div class="control-group">
               <label class="control-label">Encours:</label>
               <div class="controls">
                 <input type="checkbox" v-model="formData.encours" checked="checked"
                  class="span" placeholder="" />
               </div>
-            </div>
+            </div> -->
              <!-- <div class="control-group">
               <label class="control-label">Date cloture:</label>
               <div class="controls">
@@ -135,9 +153,10 @@
           </form>              
           </div>
            <div class="modal-footer"> 
-             <button v-show="formData.annee.length && formData.date_debut.length 
+             <button 
+             v-show="formData.annee.length && formData.date_debut.length 
              && formData.date_fin.length
-             && formData.encours"
+             "
               @click.prevent="ajouterExerciceLocal" class="btn btn-primary"
               href="#">Valider</button>
               <button data-dismiss="modal" class="btn " href="#">Fermer</button> </div>
@@ -180,13 +199,13 @@
                  class="span" placeholder="" />
               </div>
             </div>
-            <div class="control-group">
+            <!-- <div class="control-group">
               <label class="control-label">Encours:</label>
               <div class="controls">
                 <input type="checkbox" v-model="editExerciceBudgetaire.encours" 
                 checked="checked" class="span" placeholder="" />
               </div>
-            </div>
+            </div> -->
              <!-- <div class="control-group">
               <label class="control-label">Date cloture:</label>
               <div class="controls">
@@ -199,7 +218,7 @@
              <button v-show="editExerciceBudgetaire.annee.length && 
              editExerciceBudgetaire.date_debut.length && 
              editExerciceBudgetaire.date_fin.length
-             && editExerciceBudgetaire.encours"
+             "
              @click.prevent="modifierExerciceBudgetaireLocal(editExerciceBudgetaire)" 
              class="btn btn-primary"
               >Valider</button>
@@ -230,6 +249,7 @@
 <script>
 //import axios from '../../../../urls/api_parametrage/api'
 import {mapGetters, mapActions} from 'vuex'
+import moment from "moment";
 export default {
   
   data() {
@@ -350,7 +370,10 @@ modifierExerciceBudgetaireLocal(){
                
                
   }
-}
+},
+formaterDate(date) {
+      return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
+    },
   }
 };
 </script>

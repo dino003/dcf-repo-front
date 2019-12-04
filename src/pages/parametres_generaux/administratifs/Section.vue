@@ -1,88 +1,7 @@
 
 <template>
   <div>
-  
-       
-    
-      <!-- End Page Header -->
-            <!-- Default Light Table -->
-           <div class="container-fluid">
-        <hr>
-    <div class="row-fluid">
-      <div class="span12">
-        <div>
-
-                                        <download-excel
-                                            class="btn btn-default pull-right"
-                                            style="cursor:pointer;"
-                                              :fields = "json_fields"
-                                              title="Liste sections "
-                                              name ="Liste sections"
-                                              worksheet = "section"
-                                            :data="localisationsFiltre">
-                            <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
-
-                                                 </download-excel> 
-                                     </div> <br>
-        <div class="widget-box">
-             <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Liste des sections</h5>
-             <div align="right">
-        Rechercher: <input type="text" v-model="search">
-
-          </div>
-             
-          </div>
-         
-           <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                 <th>Code</th>
-                  <th>Nom section</th>
-                  <th>Nature de section</th>
-                   <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="odd gradeX" v-for="(section, index) 
-                in localisationsFiltre" :key="section.id">
-                  <td @dblclick="afficherModalModifierSection(index)">
-                    {{section.code || 'Non renseigné'}}</td>
-                   <td @dblclick="afficherModalModifierSection(index)">
-                    {{section.nom_section || 'Non renseigné'}}</td>
-                    
-                   <td @dblclick="afficherModalModifierSection(index)">
-                      {{section.nature_section.libelle || 'Non renseigné'}}</td>
-                  <td>
-
-
-
-              <div class="btn-group">
-              <button @click.prevent="supprimerSection(section.id)"  class="btn btn-danger ">
-                <span class=""><i class="icon-trash"></i></span></button>
-             
-            </div>
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div v-if="localisationsFiltre.length">
-            </div>
-            <div v-else>
-              <div align="center">
-                <h6 style="color:red;">Aucune section enregistrée ! </h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-              </div>
-            </div>
-
-     
-
+   
 <!----- ajouter modal   ---->
 
 
@@ -99,15 +18,23 @@
               <div class="controls">
                 <select  v-model="formData.naturesection_id">
             <option v-for="resultat in natures_sections" :key="resultat.id" 
-            :value="resultat.id">{{resultat.libelle}}</option>
+            :value="resultat.id">{{resultat.code}}-{{resultat.libelle}}</option>
                 </select>
               </div>
             </div>
 
             <div class="control-group">
-              <label class="control-label">Code:</label>
+              <label class="control-label">Numero d'ordre de section:</label>
               <div class="controls">
                 <input type="text" v-model="formData.code" class="span" placeholder="Saisir le code" />
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Code Section:</label>
+              <div class="controls">
+                <input type="text" 
+                :value="codeAjoutSection"
+                 class="span" placeholder="Saisir le code section" />
               </div>
             </div>
             <div class="control-group">
@@ -153,9 +80,17 @@
             </div>
 
             <div class="control-group">
-              <label class="control-label">Code:</label>
+              <label class="control-label">Numero ordre</label>
               <div class="controls">
                 <input type="text" v-model="editSection.code" class="span" placeholder="" />
+              </div>
+            </div>
+             <div class="control-group">
+              <label class="control-label">Code Section:</label>
+              <div class="controls">
+                <input type="text" 
+                :value="codeModifierSection"
+                 class="span" placeholder="Saisir le code section" />
               </div>
             </div>
             <div class="control-group">
@@ -178,10 +113,64 @@
 
 
 <!----- fin modifier modal  ---->
+    <!--///////////////////////////////////////// fin modal de modification //////////////////////////////-->
+    <!-- End Page Header -->
+    <!-- Default Light Table -->
+    <div class="container-fluid">
+      <hr />
+      <div class="row-fluid">
+        <div class="span12">
+          <div>
 
+                                        <download-excel
+                                            class="btn btn-default pull-right"
+                                            style="cursor:pointer;"
+                                              :fields = "json_fields"
+                                              title="Liste Section "
+                                              name ="Liste section"
+                                              worksheet = "section"
+                                            :data="natures_sections">
+                    <i title="Exporter en excel" class="icon-table"> Exporter en excel</i>
 
+                                                 </download-excel> 
+                                     </div>
+                                     
+          <div class="widget-box">
+            <div class="widget-title">
+              <span class="icon">
+                <i class="icon-th"></i>
+              </span>
+              <h5>Liste des sections</h5>
+              <!-- <div align="right">
+                Recherche:
+                <input type="search" placeholder v-model="search" />
+               
+              </div> -->
+            </div>
 
+            <div class="widget-content nopadding" v-if="natures_sections.length" >
+              <sectionItemComponent v-for="equipement in natures_sections"
+               :key="equipement.id"
+                :groupe="equipement"
+                @modification="afficherModalModifierSection" 
+                @suppression="supprimerSect"
+                >
+              </sectionItemComponent>
 
+              <!-- <div v-if="filtre_famille.length"></div>
+              <div v-else>
+                <p style="text-align:center;font-size:20px;color:red;">Aucun Article</p>
+              </div> -->
+
+            
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
 <button style="display:none;" v-shortkey.once="['ctrl', 'f']"
   @shortkey="afficherModalAjouterSection()">Open</button>
 
@@ -192,25 +181,33 @@
 
   ></fab>
 <notifications  />
-
-
   </div>
-  
+
 </template>
-   
-<script>
-//import axios from '../../../../urls/api_parametrage/api'
-import {mapGetters, mapActions} from 'vuex'
-export default {
+
+
+
+
   
+<script>
+import { mapGetters, mapActions } from "vuex";
+import sectionItemComponent from './sectionItemComponent'
+export default {
+  name: 'Famille',
+ components: {
+      sectionItemComponent
+  },
   data() {
     return {
-      json_fields:{
-        'Code':'code',
-        'Nom section':'nom_section',
-        'nature de section':'nature_section.libelle'
-      },
-        fabActions: [
+      json_fields: {
+            'NATURE_SECTION': 'groupe.libelle',
+            'NUMERO_ORDRE_SECTION': 'article.code',
+          'CODE_SECTION':'article.code_section',
+        'LIBELLE_SECTION':'article.nom_section'
+           
+           
+        },
+     fabActions: [
               {
                   name: 'cache',
                   icon: 'add'
@@ -224,88 +221,111 @@ export default {
         formData : {
                 code: "",
              nom_section: "",
+              code_section:"",
              naturesection_id:""
         },
 
         editSection: {
             code: "",
              nom_section: "",
+              code_section:"",
               naturesection_id:""
         },
        search:""
     };
   },
- 
-  created() {
-    // this.getTypeFinancement()
-  },
+
   computed: {
-// methode pour maper notre guetter
-  ...mapGetters('parametreGenerauxAdministratif', ['natures_sections', 
+      ...mapGetters('parametreGenerauxAdministratif', ['natures_sections', 
   'sections']) ,
-  
-            localisationsFiltre(){
 
-     const searchTerm = this.search.toLowerCase();
+  codeAjoutSection(){
+     const natureSection = this.natures_sections.find(sect => sect.id == this.formData.naturesection_id)
+    const ordreSection = this.formData.code
 
-return this.sections.filter((item) => {
-  
-    return item.code.toLowerCase().includes(searchTerm) 
-    || item.nom_section.toLowerCase().includes(searchTerm)
+     if(natureSection && ordreSection){
+       return natureSection.code + ordreSection
+     }
 
-   }
-)
-   }
+     return null
+   },
+  codeModifierSection(){
+     const natureSection = this.natures_sections.find(sect => sect.id == this.editSection.naturesection_id)
+    const ordreSection = this.editSection.code
+
+     if(natureSection && ordreSection){
+       return natureSection.code + ordreSection
+     }
+
+     return null
+   },
   },
+
+
+  
   methods: {
-    // methode pour notre action
-    ...mapActions('parametreGenerauxAdministratif', ['getSection', 
+   ...mapActions('parametreGenerauxAdministratif', ['getSection', 
     'ajouterSection', 
-   'supprimerSection', 'modifierSection']),     
-   
+   'supprimerSection', 'modifierSection']),  
+
+    supprimerSect(id){
+      this.supprimerSection(id)
+    },
+    
+    //afiicher modal ajouter
     afficherModalAjouterSection(){
        this.$('#exampleModal').modal({
               backdrop: 'static',
               keyboard: false
              });
     },
-   // fonction pour vider l'input
+     // fonction pour vider l'input
     ajouterTitreLocal () {
-      this.ajouterSection(this.formData)
+      var nouvelObjet = {
+        ...this.formData,
+        code_section: this.codeAjoutSection,
+        
+      };
+      this.ajouterSection(nouvelObjet)
 
         this.formData = {
                 code: "",
              nom_section: "",
+             code_section:"",
             naturesection_id:""
         }
     },
+    // afficher modal de modification
+    afficherModalModifierSection(article) {
+      this.$("#modifierModal").modal({
+        backdrop: "static",
+        keyboard: false
+      });
 
-// afficher modal
-afficherModalModifierSection(index){
+      this.editSection = article;
+    },
 
- this.$('#modifierModal').modal({
-         backdrop: 'static',
-         keyboard: false
-        });
-
-        this.editSection = this.sections[index];
-
-
-        
- },
 modifierSectionLocal(){
-  this.modifierSection(this.editSection)
+   var nouvelObjet = {
+        ...this.editSectio,
+        code_section: this.codeModifierSection,
+        
+      };
+  this.modifierSection(nouvelObjet);
+  this.$("#modifierModal").modal('hide');
   this.editSection = {
                 code: "",
              nom_section: "",
              naturesection_id:""
   }
 },
-//   sup(id){
-// this.supprimerChapitre(id)
-//  this.getChapitre()
-//   }
-
+    alert() {
+      console.log("ok");
+    },
+    
+    ExporterEnExel(){
+      this.$refs.excel.click()
+    }
   }
 };
 </script>

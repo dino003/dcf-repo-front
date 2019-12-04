@@ -8,8 +8,9 @@
 
      <span style="font-size: 1.5em;" :title="item.libelle"> <code > {{item.code}}</code>  {{ item.libelle |subStr(100) }} </span>
      <span style="cursor: pointer;"  class="add" @click="$emit('ajouterElementEnfant', item)"><i class="icon-plus-sign"></i></span>
-     <span style="cursor: pointer;"  class="add" @click="$emit('modifier', item)"><i class="icon-pencil"></i></span>
+    <span style="cursor: pointer;"  class="add" @click="$emit('modifier', item)"><i class="icon-pencil"></i></span>
      <span style="cursor: pointer;" class="add" @click="$emit('supprimer', item)"><i class="icon-trash"></i></span>
+
 
     </div>
     <ul v-show="isOpen" v-if="isFolder">

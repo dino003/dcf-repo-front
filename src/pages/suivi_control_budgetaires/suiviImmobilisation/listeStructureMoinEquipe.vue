@@ -28,11 +28,11 @@
               <span class="icon">
                 <i class="icon-th"></i>
               </span>
-              <h5>Liste structures plus équipé</h5>
+              <h5>Liste structures moin équipé</h5>
               
                  
             </div>
-            <div class="table-responsive text-nowrap" v-if="familles.length && services.length ">
+            <div class="table-responsive text-nowrap" v-if="familles.length && services.length && type_Unite_admins.length && uniteAdministratives.length">
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -40,10 +40,11 @@
                     <th>Unité Administrative</th> 
                     <th>type equipement</th> 
                     <th>Designation</th>
-                    <th>Quantité Prévue</th>
-                    <th>Quantité Réalisé</th>
+                   <th>Quantité requise</th>
+                    <th>Quantité afféctée</th>
                     <th>Quantité Restant</th>
                   
+
                   </tr>
                 </thead>
                 <tbody>
@@ -63,13 +64,13 @@
                     >{{immobilisat.famillebesoin.libelle || 'Non renseigné'}}</td>
                     <td
                       
-                    >{{immobilisat.historiqueqte}}</td>
+                    >{{immobilisat.historiqueqte || '0'}}</td>
                     <td
                       
-                    >{{immobilisat.qterealise}}</td>
+                    >{{ immobilisat.historiqueqte - immobilisat.quantite || '0' }}</td>
                     <td
                       
-                    >{{immobilisat.quantite}}</td>
+                    >{{immobilisat.quantite || '0'}}</td>
                     
                   
                    
@@ -82,7 +83,7 @@
               </div>-->
             </div>
             <div v-else>
-              <p style="text-align:center;font-size:20px;color:red;">Pas de structure Equipé pour le moment</p>
+              <p style="text-align:center;font-size:20px;color:red;">Pas de structure </p>
             </div>
           </div>
         </div>

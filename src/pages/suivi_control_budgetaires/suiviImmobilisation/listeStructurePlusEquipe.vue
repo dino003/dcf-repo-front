@@ -36,7 +36,7 @@
               </div>
                  
             </div>
-            <div class="table-responsive text-nowrap" v-if="familles.length && services.length ">
+            <div class="table-responsive text-nowrap" v-if="familles.length && services.length && type_Unite_admins.length && uniteAdministratives.length ">
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -45,10 +45,10 @@
                     <th>type equipement</th> 
                    
                     <th>Designation</th>
-                    <th>Quantité Prévue</th>
-                    <th>Quantité Réalisé</th>
                     
-                 
+                    
+                 <th>Quantité requise</th>
+                    <th>Quantité afféctée</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@
                     >{{immobilisat.BesoinImmobilisation.famille.libelle || 'Non renseigné'}}</td>
                     <td
                       
-                    >{{immobilisat.BesoinImmobilisation.historiqueqte}}</td>
+                    >{{immobilisat.BesoinImmobilisation.historiqueqte || '0'}}</td>
                     <td
                       
                     >{{immobilisat.BesoinImmobilisation.historiqueqte || 'Non renseigné'}}</td>
@@ -83,6 +83,7 @@
               <div v-else>
                 <p style="text-align:center;font-size:20px;color:red;">Aucune Immobilisations</p>
               </div>-->
+              
             </div>
             <div v-else>
               <p style="text-align:center;font-size:20px;color:red;">Aucune structure Equipé</p>

@@ -29,9 +29,9 @@
                       <li>
                         <a data-toggle="tab" href="#tab2">Descriptif</a>
                       </li>
-                      <li>
+                      <!-- <li>
                         <a data-toggle="tab" href="#tab3">Autres Information</a>
-                      </li>
+                      </li> -->
                      
                     </ul>
                   </div>
@@ -46,7 +46,7 @@
                               <select v-model="editImmobilisation.exercice_budgetaire_id">
                                 <option value>Sélectionner</option>
                                 <option
-                                  v-for="exoBudget in exercices_budgetaires"
+                                  v-for="exoBudget in exoEnCours"
                                   :key="exoBudget.id"
                                   :value="exoBudget.id"
                                 >{{exoBudget.annee}}</option>
@@ -182,10 +182,7 @@
                         </td>
                        
                       </tr>
-                    </div>
-                    <!--ongle descriptif-->
-                    <div id="tab2" class="tab-pane">
-                      <tr>
+                       <tr>
                          <td>
                          <div class="control-group">
                             <label class="control-label">Acteur Depense:</label>
@@ -238,7 +235,16 @@
                           
                         </td>
                         <td>
-                         <div class="control-group">
+                           <div class="control-group">
+                            <label class="control-label">Date de mise en service:</label>
+                            <div class="controls">
+                              <input type="date" class="span" v-model="editImmobilisation.date_mise_service" />
+                            </div>
+                          </div>
+                        
+                        </td>
+                          <td>
+                          <div class="control-group">
                             <label class="control-label">N°Identification:</label>
                             <div class="controls">
                               <input
@@ -247,14 +253,6 @@
                                 placeholder="Saisir Num identification"
                                 v-model="editImmobilisation.identification"
                               />
-                            </div>
-                          </div>
-                        </td>
-                          <td>
-                          <div class="control-group">
-                            <label class="control-label">Date de mise en service:</label>
-                            <div class="controls">
-                              <input type="date" class="span" v-model="editImmobilisation.date_mise_service" />
                             </div>
                           </div>
                         </td>
@@ -276,6 +274,10 @@
                         </td> -->
                        
                       </tr>
+                    </div>
+                    <!--ongle descriptif-->
+                    <div id="tab2" class="tab-pane">
+                     
 
                       <tr>
                           <td>
@@ -341,9 +343,6 @@
                         </td>
                         
                       </tr>
-                    </div>
-                    <!--ongle 3 -->
-                    <div id="tab3" class="tab-pane">
                       <tr>
                          
                         <td>
@@ -463,6 +462,11 @@
                         </td>
                       </tr>
                     </div>
+                    <!--ongle 3 -->
+                    <!-- <div id="tab3" class="tab-pane">
+                      
+                      
+                    </div> -->
 
 
 
@@ -533,7 +537,9 @@ export default {
     ...mapGetters("parametreGenerauxProgrammeUnite", ["unites"]),
     ...mapGetters("personnelUA", ["all_acteur_depense"]),
 
-
+exoEnCours(){
+return this.exercices_budgetaires.filter(element => element.encours == 1)
+},
 
 
 typeUniteAdministrativeDynamiques() {

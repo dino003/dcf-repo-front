@@ -20,6 +20,7 @@ export const nbreNouveauProjet = state =>
     nouveauProjet => nouveauProjet.date_creation == null
   ).length;
 
+
 export const jointureUaChapitreSection = (
   state,
   getters,
@@ -29,6 +30,7 @@ export const jointureUaChapitreSection = (
   state.uniteAdministratives.map(element => {
     if (
       element.chapitre_id !== null &&
+      element.planfonctionnel_id !== null &&
       element.section_id !== null &&
       element.type_ua_id !== null
     ) {
@@ -42,7 +44,45 @@ export const jointureUaChapitreSection = (
         ),
         typeua: rootGetters[
           "parametreGenerauxAdministratif/type_Unite_admins"
-        ].find(typeUadmin => typeUadmin.id == element.type_ua_id)
+        ].find(typeUadmin => typeUadmin.id == element.type_ua_id),
+        planFont: rootGetters[
+          "parametreGenerauxFonctionnelle/plans_fonctionnels"
+        ].find(planFonc => planFonc.id == element.planfonctionnel_id)
+      };
+    }
+    return element;
+  });
+
+
+
+
+const jointureUaChapitreSection1 = (
+  state,
+  getters,
+  rootState,
+  rootGetters
+) =>
+  state.uniteAdministratives.map(element => {
+    if (
+      element.chapitre_id !== null &&
+      element.planfonctionnel_id !== null &&
+      element.section_id !== null &&
+      element.type_ua_id !== null
+    ) {
+      element = {
+        ...element,
+        chpitr: rootGetters["parametreGenerauxAdministratif/chapitres"].find(
+          chapitre1 => chapitre1.id == element.chapitre_id
+        ),
+        secti: rootGetters["parametreGenerauxAdministratif/sections"].find(
+          Secti => Secti.id == element.section_id
+        ),
+        typeua: rootGetters[
+          "parametreGenerauxAdministratif/type_Unite_admins"
+        ].find(typeUadmin => typeUadmin.id == element.type_ua_id),
+        planFont: rootGetters[
+          "parametreGenerauxFonctionnelle/plans_fonctionnels"
+        ].find(planFonc => planFonc.id == element.planfonctionnel_id)
       };
     }
     return element;
@@ -50,7 +90,8 @@ export const jointureUaChapitreSection = (
 export {
   typeTextes,
   uniteAdministratives,
-  archivageDocuments
+  archivageDocuments,
+  jointureUaChapitreSection1
 
   // listeDocUniteAdministratives,
   // nbreUniteAdministratives,

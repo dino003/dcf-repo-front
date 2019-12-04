@@ -11,8 +11,14 @@ import Chapitre from "../../pages/parametres_generaux/administratifs/Chapitre.vu
 import GrandeNature from "../../pages/parametres_generaux/administratifs/GrandeNature.vue";
 import StructureGeographique from "../../pages/parametres_generaux/administratifs/StructureGeographique.vue";
 import LocalisationGeographique from "../../pages/parametres_generaux/administratifs/LocalisationGeographique.vue";
-
+import TypeUniteAdmin from "../../pages/parametres_generaux/administratifs/TypeUniteAdmin.vue";
 const AdministratifRoutesAdoni = [
+  // route type unite administrative
+  {
+    path: "/type-Unite-Administrative",
+    name: "typeUniteAdministrative",
+    component: TypeUniteAdmin
+  },
     {
       // route pour le titre
         path:"/titre",

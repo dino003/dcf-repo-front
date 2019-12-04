@@ -340,7 +340,33 @@ const GET_LOCALISATION_GEOGRAPHIQUE = (state, tableau_localisation_geographique)
   }
 
 
+// get all type ua
+const GET_TYPE_UNITE_ADMINISTRATIVE = (state, tableau_typeUa) => {
+    state.type_Unite_admins = tableau_typeUa;
+};
 
+// ajouter un titre
+const AJOUTER_TYPE_UNITE_ADMINISTRATIVE = (state, nouvel_objet) => {
+    state.type_Unite_admins.unshift(nouvel_objet);
+    // state.titres = [...nouvel_objet, ...state.titres]
+};
+
+// supprimer titre
+const SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE = (state, id) => {
+    state.type_Unite_admins = state.type_Unite_admins.filter(
+        typeua => typeua.id != id
+    );
+};
+
+// modifier titre
+const MODIFIER_TYPE_UNITE_ADMINISTRATIVE = (state, objetModifie) => {
+    state.type_Unite_admins = state.type_Unite_admins.map(typeua => {
+        if (typeua.id == objetModifie.id) {
+            typeua = { ...objetModifie };
+        }
+        return typeua;
+    });
+};
 
 
 
@@ -413,7 +439,15 @@ SUPPRIMER_STRUCTURE_GEOGRAPHIQUE,
 GET_LOCALISATION_GEOGRAPHIQUE,
 AJOUTER_LOCALISATION_GEOGRAPHIQUE,
 MODIFIER_LOCALISATION_GEOGRAPHIQUE,
-SUPPRIMER_LOCALISATION_GEOGRAPHIQUE
+SUPPRIMER_LOCALISATION_GEOGRAPHIQUE,
+
+
+
+    // exportation type unite administative
+    GET_TYPE_UNITE_ADMINISTRATIVE,
+    AJOUTER_TYPE_UNITE_ADMINISTRATIVE,
+    SUPPRIMER_TYPE_UNITE_ADMINISTRATIVE,
+    MODIFIER_TYPE_UNITE_ADMINISTRATIVE
 }
 
 
