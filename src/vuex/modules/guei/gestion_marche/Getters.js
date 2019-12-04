@@ -34,8 +34,24 @@ const document_pyba_ppm_personnalise=(state, getters, rootState, rootGetters) =>
         return element;
     });
 
+const marche_contrat_en_execution=state=>state.marche_contrat_en_execution
 
+const marche_contrat_en_execution_personnalise=(state, getters, rootState, rootGetters) =>
+    state.marche_contrat_en_execution.map(element => {
+        if (element.unite_administrative_id !== null && element.exercice_budgetaire_id!==null ) {
+            element = {
+                ...element,
+                uniteAdmin: rootGetters['uniteadministrative/uniteAdministratives'].find(
+                    section => section.id == element.unite_administrative_id
+                ),
+                exerciceBudgetaire: rootGetters['parametreGenerauxAdministratif/exercices_budgetaires'].find(
+                    exercice => exercice.id == element.exercice_budgetaire_id
+                ),
+            };
+        }
 
+        return element;
+    });
 
 const marche_contrat_personnalise = (state, getters, rootState, rootGetters) =>
     state.marche_contrats.map(element => {
@@ -122,7 +138,9 @@ export {
     source_personnalise,
     financement_by_marche,
     marche_finnance_personnalises,
-    detail_marche_finance
+    detail_marche_finance,
+    marche_contrat_en_execution,
+    marche_contrat_en_execution_personnalise
 
 }
 

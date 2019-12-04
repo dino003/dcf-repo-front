@@ -167,7 +167,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="odd gradeX" v-for="item in titreFiltres" :key="item.id">
+                                <tr class="odd gradeX" v-for="item in titreFiltres" :key="item.id" >
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.objet || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.code_ligne_budgetaire || 'Non renseigné'}}</td>
                                     <td @dblclick="afficherModalModifierTitre(item.id)">{{item.activite_id || 'Non renseigné'}}</td>
@@ -424,6 +424,7 @@
                 )
 
             },
+
             nbrMarche(){
                 return this.marche_contrat_personnalise.length;
             }

@@ -17,7 +17,8 @@ const defaultstate = {
     deatil_marche_back_end:[],
     source_personnalise:[],
     financement_by_marche:[],
-    detail_marche_finance:[]
+    detail_marche_finance:[],
+    marche_contrat_en_execution:[]
 
 };
 

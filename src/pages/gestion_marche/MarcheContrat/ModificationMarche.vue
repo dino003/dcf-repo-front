@@ -273,6 +273,14 @@
             }
             console.log(this.formData)
         },
+        watch: {
+            delaiLivraisonPrevue: {
+                deep: true,
+                handler: function (newVal) {
+                    this.formData.delai_execution_prevu = newVal
+                }
+            }
+        },
         computed: {
 // methode pour maper notre guetter
             ...mapGetters('gestionMarche', ['document_ptba_ppm',"mode_passations",
@@ -286,6 +294,7 @@
                 return !this.formData.date_demarrage_prevue !=""
             },
             delaiLivraisonPrevue(){
+                let durre=0;
                 if (this.formData.date_demarrage_prevue!="" && this.formData.date_fin_execution_prevue!=""){
                     let date_demarageTable=this.formData.date_demarrage_prevue.split("-")
                     let date_livraisoTable=this.formData.date_fin_execution_prevue.split("-")
@@ -298,12 +307,15 @@
                     let diffTime = Math.abs(date2 - date1);
                     let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     if (diffDays==0){
-                        return  this.formData.delai_execution_prevu=1
-                    } else return  this.formData.delai_execution_prevu=diffDays +1
+                        durre=1
+                    } else{
+                        durre=diffDays +1
+                    }
+
 
 
                 }
-
+                return durre
             }
 
         },

@@ -381,7 +381,9 @@ const DETAIL_MARCHE_FINNANCEMENT=(state,{getters,id})=>{
         }
     });
 }
-
+const GET_MARCHE_CONTRAT_EN_EXECUTION = (state, data) => {
+    state.marche_contrat_en_execution = data
+}
 export {
     GET_MODE_PASSATION,
     AJOUTER_MODE_PASSATION,
@@ -433,5 +435,6 @@ export {
     AJOUTER_FINANCEMENT_BY_MARCHE,
     MODIFIER_FINANCEMENT_BY_MARCHE,
     SUPPRIMER_FINANCEMENT_BY_MARCHE,
-    DETAIL_MARCHE_FINNANCEMENT
+    DETAIL_MARCHE_FINNANCEMENT,
+    GET_MARCHE_CONTRAT_EN_EXECUTION
 }
