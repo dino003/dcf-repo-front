@@ -326,7 +326,7 @@
                     >{{uniteadministrative.chpitr.libelle || 'Non renseigné'}}</td>
                      <td
                       @dblclick="afficherModalModifierUniteAdministrative(index)"
-                    >{{uniteadministrative.planFonction.libelle || 'Non renseigné'}}</td>
+                    >{{uniteadministrative.planFont.libelle || 'Non renseigné'}}</td>
                     <td
                       @dblclick="afficherModalModifierUniteAdministrative(index)"
                     >{{uniteadministrative.code || 'Non renseigné'}}</td>
