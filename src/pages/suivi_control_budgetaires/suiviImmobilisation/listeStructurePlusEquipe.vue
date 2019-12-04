@@ -45,10 +45,10 @@
                     <th>type equipement</th> 
                    
                     <th>Designation</th>
-                    <th>Quantité Prévue</th>
-                    <th>Quantité Réalisé</th>
                     
-                 
+                    
+                 <th>Quantité requise</th>
+                    <th>Quantité afféctée</th>
                   </tr>
                 </thead>
                 <tbody>

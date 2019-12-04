@@ -40,10 +40,11 @@
                     <th>Unité Administrative</th> 
                     <th>type equipement</th> 
                     <th>Designation</th>
-                    <th>Quantité Prévue</th>
-                    <th>Quantité Réalisé</th>
+                   <th>Quantité requise</th>
+                    <th>Quantité afféctée</th>
                     <th>Quantité Restant</th>
                   
+
                   </tr>
                 </thead>
                 <tbody>

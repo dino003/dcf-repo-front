@@ -1,5 +1,5 @@
 
-<template v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1)" >
+<template>
   <div>
     <!-- End Page Header -->
     <!-- Default Light Table -->
@@ -60,7 +60,7 @@
                     Montant des besoins restant pour
                    
                     <i class="icon-th"></i>
-                    <span class="label label-success">{{MontantbesoinRestantParUniteAdministrative(uniteadmin_id)}} F CFA</span>  {{nomUniteAdministrative(uniteadmin_id)}}         </a>
+                    <span class="label label-success">{{(MontantbesoinRestantParUniteAdministrative(uniteadmin_id))}}</span>  {{nomUniteAdministrative(uniteadmin_id)}}         </a>
                 </li>
               </ul>
             </div>
@@ -124,9 +124,9 @@
                     <th>Classe</th> 
                     <th>type equipement</th> 
                     <th>Designation</th>
-                    <th>Quantité Réel</th>
+                    <th>Quantité requise</th>
                     <th>Quantité afféctée</th>
-                    <th>Quantité actuel</th>
+                    <th>Quantité Restant</th>
                     <th>Prix Unitaire</th>
                     <th>Total Actuel</th>
                     <th>Action</th>
@@ -135,7 +135,7 @@
                 <tbody>
                   <tr class="odd gradeX" v-for="immobilisat in SuiviImmo" :key="immobilisat.id">
 
-                    <template v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1)">
+                    <!-- <template v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1)"> -->
                        
                     <td
                       @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
@@ -161,10 +161,10 @@
                     <td
                       @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
                     >{{formatageSomme(immobilisat.total_actuel) || 'Non renseigné'}}</td>
-                    </template>
+                    <!-- </template>
                     <template v-else>
-                    <p style="text-align:center;font-size:20px;color:red;">Aucune Immobilisations</p>
-                    </template>
+                    <p style="text-align:center;font-size:20px;color:red;">Aucune Immobilisations</p> -->
+                    <!-- </template> -->
                     <td>
                       <router-link
                         :to="{name : 'Detailimmobilisation', params: {id_immobilisation:immobilisat.id}}"
@@ -325,7 +325,7 @@ nbreEquipementPrevueParUa(){
     if(uniteadmin_id !=""){
   
         
-    return this.personBesoinImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.historiqueqte), 0)
+    return this.personBesoinImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.historiqueqte), 0).toFixed(2); 
       
     }
     return 0
@@ -337,7 +337,7 @@ nbreEquipementRealiseParUa(){
     if(uniteadmin_id !=""){
   
         
-    return this.SuiviImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.qte_affecte), 0)
+    return this.SuiviImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.qte_affecte), 0).toFixed(2); 
       
     }
     
@@ -365,7 +365,7 @@ TauxEquipementRealiseParUniteAdministrative() {
 MontantbesoinRestantParUniteAdministrative(){
   return uniteadmin_id => {
     if(uniteadmin_id !=""){
-    const montant = this.personBesoinImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.montant_total), 0)
+    const montant = this.personBesoinImmo.filter(element => element.uniteAdminist.id == uniteadmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.montant_total), 0).toFixed(2); 
       if(isNaN(montant)) return null
       return montant
 
@@ -406,7 +406,7 @@ nbreEquipementPrevueParTypeUa(){
     if(typeUniteAdmin_id !=""){
   
         
-    return this.personBesoinImmo.filter(element => element.typeUniteAdmin.id == typeUniteAdmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.historiqueqte), 0)
+    return this.personBesoinImmo.filter(element => element.typeUniteAdmin.id == typeUniteAdmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.historiqueqte), 0).toFixed(2); 
       
     }
     return 0
@@ -418,7 +418,7 @@ nbreEquipementRealiseParTypeUa(){
     if(typeUniteAdmin_id !=""){
   
         
-    return this.SuiviImmo.filter(element => element.typeUniteAdministrative.id == typeUniteAdmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.qte_affecte), 0)
+    return this.SuiviImmo.filter(element => element.typeUniteAdministrative.id == typeUniteAdmin_id).reduce((prec,cur) => parseFloat(prec) + parseFloat(cur.qte_affecte), 0).toFixed(2); 
       
     }
     return 0

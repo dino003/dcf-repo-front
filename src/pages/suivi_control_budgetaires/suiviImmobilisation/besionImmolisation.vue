@@ -26,6 +26,7 @@
               </div>
             </td>
             <td>
+              
               <div class="control-group">
                 <label class="control-label">Unite administrative:</label>
                 <div class="controls">

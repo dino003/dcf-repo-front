@@ -35,6 +35,8 @@ import suiviImmobilisationRoute from "./suiviImmobilisation/suiviImmobilisationR
 import MissionRoutes from './suivi_control/MissionRoutes';
 
 
+// route planification budgetaire
+import planificationBudgetaireRoutes from './planification_budgetaire/planificationBudgetaireRoute';
 
 
 
@@ -64,7 +66,8 @@ const regroupementDesRoutes = [
   ActiviteRoutesAdoni,
   GestionMarcheRoutes,
   suiviImmobilisationRoute,
-  MissionRoutes
+  MissionRoutes,
+planificationBudgetaireRoutes
 
 ];
 const routes = [].concat(...regroupementDesRoutes);

@@ -82,7 +82,7 @@ export default {
      ['getExercicesBudgetaires', 'getTitres', 
     'getNatureSection', 'getSection', 'getStructureProgramme', 'getPlanProgramme', 
     'getStructureAdministrative', 'getServiceGestionnaire', 'getStructureGeographique',
-    'getLocalisationGeographique', 'getChapitre','getTypeUniteAdministrative']),
+    'getLocalisationGeographique', 'getChapitre','getTypeUniteAdministrative',"getGrandeNature"]),
 
 
             ...mapActions('personnelUA', ['getTypeSalarie',"getEchelons",
@@ -105,7 +105,8 @@ export default {
     ]),
 
     	 ...mapActions('suivi_controle_budgetaire', ['getCategorieMission', 'getNormeMission',
-    'getMission'])
+    'getMission']),
+    	 ...mapActions('planification_budgetaire', ['getAllBudgetGeneral'])
 
   },
 
@@ -129,6 +130,7 @@ export default {
    this.getStructureBudgetaire()
    this.getPlanBudgetaire()
     this.getStructureActivite()
+    this.getGrandeNature()
     this.getTypeUniteAdministrative()
     // this. getPlanActivite()
     this.getUnite()
@@ -190,6 +192,7 @@ export default {
    
       this.getMission()
 
+this.getAllBudgetGeneral()
       /**
        * fin missions
        */

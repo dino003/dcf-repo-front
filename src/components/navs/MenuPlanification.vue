@@ -18,12 +18,14 @@
         <ul class="dropdown-menu">
          
           <li>
-            <a href="login.html">
-              <i class="icon-key"></i> Budget general
-
-            </a>
+            <router-link :to="{name: ''}" tag="a">
+              <i class="icon-bar-chart"></i>
+            Budget general
+            </router-link>
           </li>
           <li class="divider"></li>
+
+        
         
           <li class="divider"></li>
           <li>

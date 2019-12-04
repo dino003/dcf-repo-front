@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
         <table class="table table-bordered table-striped">
-          <tbody>
+         
             <tr>
               <td>
                 <div class="control-group">
@@ -112,7 +112,7 @@
                 </div>
               </td>
             </tr>
-          </tbody>
+          
         </table>
       </div>
       <div class="modal-footer">
@@ -134,7 +134,7 @@
       </div>
       <div class="modal-body">
         <table class="table table-bordered table-striped">
-          <tbody>
+          
             <tr>
               <td>
                 <div class="control-group">
@@ -235,7 +235,7 @@
                 </div>
               </td>
             </tr>
-          </tbody>
+         
         </table>
       </div>
       <div class="modal-footer">
@@ -439,23 +439,23 @@ export default {
       });
     },
     codeuniteadministrative(){
-       const section = this.sections.find(sect => sect.id == this.formData.section_id)
+      //  const section = this.sections.find(sect => sect.id == this.formData.section_id)
      const chapitre = this.chapitres.find(chap => chap.id == this.formData.chapitre_id)
     const planfonctionnel = this.plans_fonctionnels.find(chap => chap.id == this.formData.planfonctionnel_id)
 
-     if(chapitre && planfonctionnel && section){
-       return section.code_section + chapitre.code + planfonctionnel.code
+     if(chapitre && planfonctionnel){
+       return chapitre.code + planfonctionnel.code
      }
 
      return null
    },
    codeuniteadministrativeModifier(){
-      const section = this.sections.find(sect => sect.id == this.editUniteAdministrative.section_id)
+      // const section = this.sections.find(sect => sect.id == this.editUniteAdministrative.section_id)
      const chapitre = this.chapitres.find(chap => chap.id == this.editUniteAdministrative.chapitre_id)
     const planfonctionnel = this.plans_fonctionnels.find(chap => chap.id == this.editUniteAdministrative.planfonctionnel_id)
 
-     if(chapitre && planfonctionnel && section){
-       return section.code_section + chapitre.code + planfonctionnel.code
+     if(chapitre && planfonctionnel ){
+       return chapitre.code + planfonctionnel.code
      }
 
      return null

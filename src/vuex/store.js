@@ -21,7 +21,8 @@ import ModuleSuiviImmobilisation from "./modules/fabrice/SuiviImmobilisation/ind
 
 // suivi des missions
 import ModuleSuiviMission from './modules/suivi_controle_budgetaire/index'
-
+// planification budgetaire
+import ModulePlanificationBudgetaire from './modules/fabrice/planification_budgetaire/index'
 
 
 
@@ -42,7 +43,8 @@ export default new Vuex.Store({
       parametreGenerauxActivite:SousModuleParametreGenerauxActivite,
       gestionMarche:ModuleGestionMarche,
       SuiviImmobilisation: ModuleSuiviImmobilisation,
-      suivi_controle_budgetaire : ModuleSuiviMission
+      suivi_controle_budgetaire : ModuleSuiviMission,
+    planification_budgetaire: ModulePlanificationBudgetaire,
 
 
       

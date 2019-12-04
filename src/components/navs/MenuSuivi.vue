@@ -326,12 +326,12 @@
               <span class="text">Acteur équipé</span>
             </router-link>
           </li>
-     <li>
+     <!-- <li>
             <router-link :to="{name:'listeImmobilisationParUa'}" tag="a" title>
               <i class="icon-search"></i>
               <span class="text">Recherche Immobilisation</span>
             </router-link>
-          </li>
+          </li> -->
         </ul>
       </li>
       <li>

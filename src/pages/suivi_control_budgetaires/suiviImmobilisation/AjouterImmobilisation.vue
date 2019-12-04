@@ -588,6 +588,7 @@ return this.exercices_budgetaires.filter(element => element.encours == 1)
       };
     },
 
+
 typeUniteAdministrativeDynamiques() {
      return id => {
         if (id != null && id != "") {

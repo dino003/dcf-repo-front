@@ -313,7 +313,13 @@ return this.chapitres.filter((item) => {
     },
    // fonction pour vider l'input
     ajouterTitreLocal () {
-      this.ajouterChapitre(this.formData)
+       var nouvelObjet = {
+        ...this.formData,
+        code: this.codeChapitre
+        
+
+      };
+      this.ajouterChapitre(nouvelObjet)
 
         this.formData = {
                 code: "",
@@ -336,7 +342,13 @@ afficherModalModifierChapitre(index){
         
  },
 modifierLocalisationLocal(){
-  this.modifierChapitre(this.editTitre)
+   var nouvelObjet = {
+        ...this.editTitre,
+        code: this.codeChapitre
+        
+
+      };
+  this.modifierChapitre(nouvelObjet)
   this.editTitre = {
                 code: "",
              libelle: "",
