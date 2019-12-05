@@ -278,16 +278,46 @@
         },
 
         created() {
-            this.allActeurDepense();
-            //    this.getActeur()
-            //  console.log(this.fonctions)
-            // console.log(this.getFonction)
+            this.acteur_id=this.$route.params.id;
+            this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id)
+            console.log(this.acteurDetail)
+            if(this.acteurDetail===undefined){
+                this.acteurDetail=this.personnaliseActeurFinContrat.find(acteur=>acteur.id===this.acteur_id)
+            }
+            console.log(this.acteurDetail)
+            this.formData= {
+                    matricule: this.acteurDetail.matricule,
+                    nom: this.acteurDetail.nom,
+                    prenom: this.acteurDetail.prenom,
+                    sexe: this.acteurDetail.sexe,
+                    numero_cni: this.acteurDetail.numero_cni,
+                    numero_passeport: this.acteurDetail.numero_passeport,
+                    date_naissance: this.acteurDetail.date_naissance,
+                    nom_pere: this.acteurDetail.nom_pere,
+                    nom_mere: this.acteurDetail.nom_mere,
+                    date_debut_contrat:this.acteurDetail.date_debut_contrat,
+                    code:this.acteurDetail.code_acte_personnel,
+                    type_salarie_id:this.acteurDetail.type_salarie.id,
+                    type_contrat_id:this.acteurDetail.type_contrat.id,
+                    niveau_etude_id:this.acteurDetail.niveau_etude.id,
+                    acteur_depense_id:this.acteurDetail.id,
+                    exercice_budgetaire_id:this.acteurDetail.exercice_budgetaire_id,
+                    unite_administrative_id:this.acteurDetail.unite_administrative_id,
+                    salaires_id:this.acteurDetail.salaireActeur.id,
+                    salaires:this.acteurDetail.salaireActeur.montant,
+                    type_acte_id:this.acteurDetail.fonction.id,
+                    grade_id:this.acteurDetail.grade.id,
+                    fonction_id:this.acteurDetail.fonction.id,
+                    plan_budgetaire_id:this.acteurDetail.plan_budgetaire_id,
+                   acte_personnel_id:this.acteurDetail.acte_personnel_id
+            }
         },
         computed: {
 // methode pour maper notre guetter
-            ...mapGetters('personnelUA', ['acteur_depenses',"type_salaries","type_contrats","type_acte_personnels","fonctions","grades","niveau_etudes",
-                "nbr_acteur_actredite_taux","all_acteur_depense",
-                "totalActeurEnctivite","totalActeurDepense","totalActeurAccredite","tauxActeurAccredite","totalActeurNonAccredite"]),
+            ...mapGetters('personnelUA', ['acteur_depenses',"type_salaries","type_contrats","type_acte_personnels","fonctions","grades",
+                "niveau_etudes","nbr_acteur_actredite_taux","detail_acteurs","salaire_actuel_acteur","all_salaires_acteurs","acte_personnels",
+                "load_act_personnel_acteur","conge_acteur_depense","temp_moyen_fin_activite_interruption","delais_mise_disposition_act",
+                "jour_conge_disponible_acteur","personnaliseActeurDepense","tous_salaire_actuel_acteur","personnaliseActeurFinContrat"]),
             ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
             ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
             ...mapGetters("parametreGenerauxBudgetaire", ["plans_budgetaires"]),
@@ -295,7 +325,7 @@
         },
         methods: {
             // methode pour notre action
-            ...mapActions('personnelUA', ['getActeur',"ajouterActeur","supprimerActeurs","getNbrActeurAcrediteTaux","allActeurDepense"]),
+            ...mapActions('personnelUA', ['getActeur',"ajouterActeur","supprimerActeurs","getNbrActeurAcrediteTaux","allActeurDepense","modificationActeur"]),
             afficherModalAjouterTitre(){
                 this.$('#exampleModal').modal({
                     backdrop: 'static',
@@ -305,12 +335,9 @@
             // fonction pour vider l'input
             ajouterTitreLocal () {
                 console.log(this.formData)
-                this.ajouterActeur(this.formData)
+                this.modificationActeur(this.formData)
                 this.getActeur()
-                this.formData = {
-                    code: "",
-                    libelle: ""
-                }
+
                 this.$router.push({ name: 'Acteur' })
             },
 // afficher
