@@ -832,13 +832,16 @@ export  function  jourCongeDisponible({commit}, id) {
 export  function ajouterConges({commit}, objetModifie){
     this.$app.$loading(true)
     axios.post('/add_conge_acteur', objetModifie ).then(res => {
+
         this.$app.$notify({
             title: 'success',
             text: 'Enregistrement effectuer',
             type:"success"
         });
         commit('AJOUTER_CONGES', res.data)
-        this.$app.$loading(false)
+        var self = this;
+        setTimeout(function(){ self.$app.$loading(false); }, 4000);
+
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)

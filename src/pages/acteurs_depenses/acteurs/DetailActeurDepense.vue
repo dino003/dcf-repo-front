@@ -2,7 +2,7 @@
     <div>
         <div class="container-fluid">
             <div class="quick-actions_homepage span12" >
-                <ul class="quick-actions" style="margin: 0px !important;">
+                <ul class="quick-actions" style="margin: 0px !important;" v-if="acteurDetail">
                     <li class="bg_lb">
                         <a href="#">
                             <i class="icon-dashboard"></i> <span class="label label-important">{{delais_mise_disposition_act}}</span>  Délai disposition l’acte de nomination(Jours)
@@ -20,11 +20,11 @@
                         <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{temp_moyen_fin_activite_interruption}}</span>Temps moyen etre fin activite et interruption
                         </a>
                     </li>
-                    <!--<li class="bg_ly">
+                    <li class="bg_ly" v-if="acteurDetail.jourconge">
                         <a href="#">
-                            <i class="icon-inbox"></i><span class="label label-important">{{jour_conge_disponible_acteur}}</span> Les jours de congés disponibles
+                            <i class="icon-inbox"></i><span class="label label-important">{{acteurDetail.jourconge}}</span> Les jours de congés disponibles
                         </a>
-                    </li>-->
+                    </li>
                     <!--<li class="bg_lb"> <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{totalActeurNonAccredite}}</span> Total acteur non accredité</a> </li>
                     <li class="bg_ls"> <a href="#"> <i class="icon-fullscreen"></i> <span class="label label-important" v-if="tauxActeurAccredite!='NaN'">{{tauxActeurAccredite || '0' }} %</span>
                         Taux acteurs acredité
@@ -35,7 +35,7 @@
 
             <div class="widget-box">
                 <div class="widget-title bg_lg"><span class="icon"><i class="icon-list"></i></span>
-                    <h4 class="span5" v-if="acteurDetail">{{acteurDetail.nom}} {{acteurDetail.prenom}}</h4>
+                    <h4 class="span5" v-if="acteurDetail">{{acteurDetail.nom}} {{acteurDetail.prenom}} </h4>
                 </div>
                 <div class="widget-content">
                     <div class="row-fluid" style="margin: 0px !important;">
@@ -53,7 +53,7 @@
                                         <li class=""><a data-toggle="tab" href="#tab1">Information</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab2">L’acte de nomination et du spécimen</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab3">Toutes les rémunérations</a></li>
-                                        <!--<li class=""><a data-toggle="tab" href="#tab4">Tous les conges</a></li>-->
+                                        <li class=""><a data-toggle="tab" href="#tab4">Tous les conges</a></li>
                                     </ul>
                                 </div>
                                 <div class="widget-content tab-content">
@@ -240,36 +240,31 @@
                                     </div>
                                     <div id="tab4" class="tab-pane">
 
-                                        <div class="widget-box span6">
+                                        <div class="widget-box span6" v-if="acteurDetail">
                                             <div class="widget-content nopadding">
-
+                                                <button class="btn btn-success" v-if="acteurDetail.autorisation_conges">Cette personne est autorise a prendre un conge</button>
+                                                <button class="btn btn-danger" v-else>Cette personne n'est pas autorise a prendre un conge</button>
                                                 <table class="table table-bordered" >
                                                     <thead>
                                                     <tr>
                                                         <th>Type conges</th>
                                                         <th>Code</th>
-                                                        <th>Ua</th>
                                                         <th>Date debut</th>
                                                         <th>Date fin</th>
-                                                        <th>Annee</th>
-                                                        <th>Delais disponible</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr v-for="item in conge_acteur_depense" :key="item.id" >
+                                                    <tr v-for="item in acteurDetail.congeActeur" :key="item.id" >
                                                         <td>{{item.type_conge || "Pas de conge" }}</td>
                                                         <td>{{item.code || "Pas de conges"}}</td>
-                                                        <td>{{item.ua || "Pas de conges"}}</td>
                                                         <td>{{formaterDate(item.date_debut) }}</td>
                                                         <td>{{formaterDate(item.date_fin)  }}</td>
-                                                        <td>{{item.annee || "Pas de conges"}}</td>
-                                                        <td>{{item.delais || "Pas de conges"}}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="span6">
+                                        <div class="span6" v-if="acteurDetail">
                                             <div class="widget-box">
                                                 <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
                                                     <h5>Ajouter de conge</h5>
@@ -335,8 +330,8 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-actions">
-                                                            <button type="submit" class="btn btn-success">Enregistre</button>
+                                                        <div class="form-actions" v-if="acteurDetail.jourconge==0">
+                                                            <button type="submit" class="btn btn-success" v-if="acteurDetail.autorisation_conges">Enregistre</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -620,7 +615,7 @@
             if(this.acteurDetail===undefined){
                 this.acteurDetail=this.personnaliseActeurFinContrat.find(acteur=>acteur.id===this.acteur_id)
             }
-           console.log(this.acteurDetail)
+
             this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id)
             this.getSalaireActuelActeur(this.$route.params.id)
             this.getAllSallairesActeurs(this.$route.params.id)
@@ -761,6 +756,16 @@
                         date_debut: "",
                         date_fin: "",
                 }
+
+                setTimeout(function () {
+                    this.getListeSalaireActuelAll();
+                    this.allActeurDepense();
+                    this.getActeurFinContratAndActivite()
+                    setTimeout(function () {  this.acteurDetail=this.personnaliseActeurDepense.find(acteur=>acteur.id===this.acteur_id) }.bind(this), 3000)
+                    setTimeout(function () {  this.salaire_actuel=this.tous_salaire_actuel_acteur.find(act=>act.acte_personnel_id===this.acteurDetail.acte_personnel_id) }.bind(this), 3000)
+                    setTimeout(function () {   this.jourCongeDisponible(this.acteur_id) }.bind(this), 3000)
+
+                }.bind(this), 3000)
             },
 
             afficherModalModifierTitre(index){
