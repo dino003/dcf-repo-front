@@ -58,12 +58,12 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr class="odd gradeX" v-for="(item, index) in acteurActivite" :key="item.id">
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.matricule || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.nom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{formaterDate(item.date_naissance) }}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
+                                            <tr class="odd gradeX" v-for="item in acteurActivite" :key="item.id">
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.matricule || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.nom || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.prenom || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_naissance) }}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <router-link :to="{ name: 'ActeurDetail', params: { id: item.id }}" class="btn btn-default ">
@@ -103,12 +103,12 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr class="odd gradeX" v-for="(item, index) in acteurNonActivite" :key="item.id">
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.matricule || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.nom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{formaterDate(item.date_naissance) }}</td>
-                                                <td @dblclick="afficherModalModifierTitre(index)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
+                                            <tr class="odd gradeX" v-for="item in acteurNonActivite" :key="item.id">
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.matricule || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.nom || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.prenom || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_naissance) }}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <router-link :to="{ name: 'ActeurDetail', params: { id: item.id }}" class="btn btn-default ">
@@ -283,11 +283,7 @@
             },
             afficherModalModifierTitre(index){
 
-                this.$('#modifierModal').modal({
-                    backdrop: 'static',
-                    keyboard: false
-                });
-                this.editTitre = this.titres[index];
+                this.$router.push({ name: 'EditActeurDepense', params: { id: index } })
 
             },
             formaterDate(date) {

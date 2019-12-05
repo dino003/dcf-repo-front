@@ -746,7 +746,7 @@ export  function modifierActeurDepense({commit}, objetModifie,config){
     })
 }
 
-// Modififie acter depense
+// Modififie acter depense modification_acteur
 export  function modifierActeurDepenses({commit}, objetModifie){
     this.$app.$loading(true)
     axios.put('/update_act_personnel', objetModifie ).then(res => {
@@ -771,6 +771,28 @@ export  function modifierActeurDepenses({commit}, objetModifie){
 }
 
 
+export  function modificationActeur({commit}, objetModifie){
+    this.$app.$loading(true)
+    axios.put('/modification_acteur', objetModifie ).then(res => {
+        if(res.status == 201){
+            this.$app.$notify({
+                title: 'success',
+                text: 'Modification effectuer',
+                type:"success"
+            });
+            commit('MODIFIER_ACT_PERSONNEL', res.data)
+        }
+        this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(true)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
+}
 
 
 export  function  getLoadActeurDepense({commit}, id) {
@@ -810,13 +832,16 @@ export  function  jourCongeDisponible({commit}, id) {
 export  function ajouterConges({commit}, objetModifie){
     this.$app.$loading(true)
     axios.post('/add_conge_acteur', objetModifie ).then(res => {
+
         this.$app.$notify({
             title: 'success',
             text: 'Enregistrement effectuer',
             type:"success"
         });
         commit('AJOUTER_CONGES', res.data)
-        this.$app.$loading(false)
+        var self = this;
+        setTimeout(function(){ self.$app.$loading(false); }, 4000);
+
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
