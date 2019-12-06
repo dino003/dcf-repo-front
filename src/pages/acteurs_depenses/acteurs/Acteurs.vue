@@ -49,6 +49,7 @@
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
                                                 <th>Type act</th>
+                                                <th>Fonction</th>
                                                 <th>Date de naissance</th>
                                                 <th>Unite administrative</th>
                                                 <th>Action</th>
@@ -59,7 +60,20 @@
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.matricule || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.nom || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.type_acte_personnel.libelle || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">
+                                                    <button class="btn btn-success" v-if="item.type_acte_personnel.id==4">
+                                                        {{item.type_acte_personnel.libelle || 'Non renseigné'}}
+                                                    </button>
+                                                    <button class="btn btn-info" v-else-if="item.type_acte_personnel.id==1">
+                                                        {{item.type_acte_personnel.libelle || 'Non renseigné'}}
+                                                    </button>
+                                                    <button class="btn btn-danger" v-else>
+                                                        {{item.type_acte_personnel.libelle || 'Non renseigné'}}
+                                                    </button>
+
+
+                                                </td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.fonction.libelle || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_naissance) }}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
@@ -96,6 +110,7 @@
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
                                                 <th>Type act</th>
+                                                <th>Fonction</th>
                                                 <th>Date de naissance</th>
                                                 <th>Unite administrative</th>
                                                 <th>Action</th>
@@ -106,7 +121,18 @@
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.matricule || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.nom || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.prenom || 'Non renseigné'}}</td>
-                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.type_acte_personnel.libelle || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">
+                                                    <button class="btn btn-success" v-if="item.type_acte_personnel.id==4">
+                                                        {{item.type_acte_personnel.libelle || 'Non renseigné'}}
+                                                    </button>
+                                                    <button class="btn btn-info" v-else-if="item.type_acte_personnel.id==1">
+                                                        {{item.type_acte_personnel.libelle || 'Non renseigné'}}
+                                                    </button>
+                                                    <button class="btn btn-danger" v-else>
+                                                        {{item.type_acte_personnel.libelle || 'Non renseigné'}}
+                                                    </button>
+                                                </td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.fonction.libelle || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_naissance) }}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
