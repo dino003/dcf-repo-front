@@ -10,7 +10,7 @@
                 <li class="bg_lg span3"> <a href="#"> <h4>
                     {{ formatageSomme(parseFloat( summAvenant(detailMarcheExecute.id))) || 'Non renseigné'}}
                 </h4> Montant avec avenant</a> </li>
-                <li class="bg_ly span3"> <a href="#"> <i class="icon-pencil"></i> Le marché a ete difére </a> </li>
+                <!--<li class="bg_ly span3"> <a href="#"> <i class="icon-pencil"></i> Le marché a ete difére </a> </li>-->
 
             </ul>
         </div>

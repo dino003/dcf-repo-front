@@ -5,16 +5,16 @@
             <ul class="quick-actions" style="margin: 0px !important;">
                 <li class="bg_lb">
                     <a href="#">
-                        <i class="icon-dashboard"></i> <span class="label label-important">{{totalActeurDepense}}</span>Acteur de depense en activite
+                        <i class="icon-dashboard"></i> <span class="label label-important">{{totalActeurDepensesActivite}}</span>Acteur de depense en activite
                     </a>
                 </li>
                 <li class="bg_ly">
                     <a href="#">
-                        <i class="icon-inbox"></i><span class="label label-important">{{totalActeurAccredite}}</span> Total acteur accredité
+                        <i class="icon-inbox"></i><span class="label label-important">{{totalActeurAcredite}}</span> Total acteur accredité
                     </a>
                 </li>
-                <li class="bg_lb"> <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{totalActeurNonAccredite}}</span> Total acteur non accredité</a> </li>
-                <li class="bg_ls"> <a href="#"> <i class="icon-fullscreen"></i> <span class="label label-important" v-if="tauxActeurAccredite!='NaN'">{{tauxActeurAccredite || '0' }} %</span>
+                <li class="bg_lb"> <a href="#"> <i class="icon-th"></i> <span class="label label-important">{{totalActeurNonAcredite}}</span> Total acteur non accredité</a> </li>
+                <li class="bg_ls"> <a href="#"> <i class="icon-fullscreen"></i> <span class="label label-important" v-if="tauxActeurAcredite!='NaN'">{{tauxActeurAcredite || '0' }} %</span>
                     Taux acteurs acredité
                 </a> </li>
             </ul>
@@ -293,6 +293,18 @@
                 )
 
             },
+            totalActeurDepensesActivite(){
+                return this.personnaliseActeurDepense.length
+            },
+            totalActeurAcredite(){
+                return this.personnaliseActeurDepense.filter(item=>item.type_acte_personnel.id=='4').length
+            },
+            totalActeurNonAcredite(){
+                return this.personnaliseActeurDepense.filter(item=>item.type_acte_personnel.id!='4').length
+            },
+            tauxActeurAcredite(){
+return parseFloat((this.totalActeurAcredite*100)/this.totalActeurDepensesActivite).toFixed(2);
+            }
 
         },
         methods: {

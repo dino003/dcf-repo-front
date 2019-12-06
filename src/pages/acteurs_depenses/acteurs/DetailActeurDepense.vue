@@ -42,7 +42,7 @@
                         <div class="span12">
                            <div align="right">
 
-                               <a href="#affeter" data-toggle="modal" class="btn btn-success" v-if="salaire_actuel_acteur.date_interuption"><i class="icon-plus-sign"></i></a>
+                               <a href="#affeter" data-toggle="modal" class="btn btn-success" v-if="salaire_actuel_acteur.date_interuption" ><i class="icon-plus-sign"></i></a>
                                <a href="#interompe" data-toggle="modal" class="btn btn-warning" v-if="salaire_actuel_acteur.date_fin_contrat"><i class="icon-minus-sign"></i></a>
                                <a href="#fin_contrat" data-toggle="modal" class="btn btn-danger" v-if="!salaire_actuel_acteur.date_fin_contrat">
                                    <i class=" icon-remove"></i></a>Affectation
