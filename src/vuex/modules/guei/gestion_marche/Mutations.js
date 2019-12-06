@@ -252,7 +252,7 @@ const SUPPRIMER_PRESENCE_CF= (state, id) => {
     state.presence_cf_marche=state.presence_cf_marche.filter(titre => titre.id != id)
 }
 
-
+//etapeMarche
 const MODIFIER_PRESENCE_CF= (state, objetModifie) => {
     state.presence_cfs = state.presence_cfs.map(presence_cf => {
         if(presence_cf.id == objetModifie.id){

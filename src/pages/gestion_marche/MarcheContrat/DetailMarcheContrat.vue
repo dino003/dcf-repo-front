@@ -185,7 +185,7 @@
                                                 <h5>Presence CF</h5>
                                             </div>
                                             <div class="widget-content">
-                                                <table class="table table-bordered">
+                                                <table class="table table-bordered" v-if="detail_marche_contrat">
                                                     <thead>
                                                     <tr>
                                                         <th>Date de presence</th>
@@ -197,9 +197,9 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr class="odd gradeX" v-for="item in presence_cf_marche" :key="item.id">
+                                                    <tr class="odd gradeX" v-for="item in presenceCF(detail_marche_contrat.id)" :key="item.id">
                                                         <td>{{ formaterDate(item.date_presence)  || "Non renseigne"}}</td>
-                                                        <td>{{item.etapeMarche.libelle}}</td>
+                                                        <td>{{nomEtape(item.etapes_marche_id)}}</td>
                                                         <td>
                                                             <button class="btn btn-danger btn-mini" v-if="item.decision== '3'">Réjéte</button>
                                                             <button class="btn btn-success btn-mini" v-else-if="item.decision== '1'">Valider</button>
@@ -605,7 +605,8 @@
         },
         computed: {
             ...mapGetters("gestionMarche", ["detail_marche_contrat","presence_cf_marche","etape_marches",
-                "decision_marche_cf","document_presence_by_marche","entreprises","deatil_marche_back_end","detail_marche_finance","marche_contrat_personnalise"]),
+                "decision_marche_cf","document_presence_by_marche","entreprises","deatil_marche_back_end",
+                "detail_marche_finance","marche_contrat_personnalise","presence_cfs"]),
             ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
             ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
             ...mapGetters("parametreGenerauxBudgetaire", ["plans_budgetaires"]),
@@ -637,6 +638,21 @@
     return today
        }
         ,
+        presenceCF(){
+            return  id_marche=>{
+                if (id_marche!=="") {
+                    return this.presence_cfs.filter( element=> element.marche_contrat_id === id_marche)
+                }
+            }
+        },
+            nomEtape(){
+                return  id_etape=>{
+                    if (id_etape!=="") {
+                        let objetEtape=this.etape_marches.find( element=> element.id === id_etape)
+                        return objetEtape.libelle
+                    }
+                }
+            },
             delaiLivraison(){
               let durre=0;
                 if (this.attributionMarche.date_ordre_demarrage!="" &&this.attributionMarche.date_livraison!=""){
