@@ -93,7 +93,7 @@ export default {
       ...mapActions('gestionMarche',['getTypeMarche','getModePassation',"getSecteurActivite",
         "getEntreprise","getEtapeMarche","getDocumentPTBAPPM","getMarcheContrat","getPresenceCF",
         "getDocumentPresence","getNombreMarcheByProcedure","sourcePersonnalise",
-        "getSourceFinnancementByMarche","getMarcheContratExecution"]),
+        "getSourceFinnancementByMarche","getMarcheContratExecution","getAvenant"]),
 
         ...mapActions("SuiviImmobilisation", [
       "getAllFamille",
@@ -168,6 +168,7 @@ export default {
     this.getDocumentPresence()
     this.getNombreMarcheByProcedure()
 this.getMarcheContratExecution()
+      this.getAvenant()
 
     this.getSourceFinnancementByMarche()
       /**Fin gestion des marche**/

@@ -384,6 +384,34 @@ const DETAIL_MARCHE_FINNANCEMENT=(state,{getters,id})=>{
 const GET_MARCHE_CONTRAT_EN_EXECUTION = (state, data) => {
     state.marche_contrat_en_execution = data
 }
+
+
+const GET_AVENANT = (state, data) => {
+    state.avenant = data
+}
+
+
+const AJOUTER_AVENANT= (state, nouvel_objet) => {
+    state.avenant.unshift(nouvel_objet)
+    // state.titres = [...nouvel_objet, ...state.titres]
+}
+
+
+const SUPPRIMER_AVENANT= (state, id) => {
+    state.avenant = state.avenant.filter(titre => titre.id != id)
+}
+
+
+const MODIFIE_AVENANT= (state, objetModifie) => {
+    state.avenant = state.avenant.map(document => {
+        if(document.id == objetModifie.id){
+            document = {...objetModifie}
+        }
+        return document
+    })
+
+}
+
 export {
     GET_MODE_PASSATION,
     AJOUTER_MODE_PASSATION,
@@ -436,5 +464,9 @@ export {
     MODIFIER_FINANCEMENT_BY_MARCHE,
     SUPPRIMER_FINANCEMENT_BY_MARCHE,
     DETAIL_MARCHE_FINNANCEMENT,
-    GET_MARCHE_CONTRAT_EN_EXECUTION
+    GET_MARCHE_CONTRAT_EN_EXECUTION,
+    GET_AVENANT,
+    AJOUTER_AVENANT,
+    MODIFIE_AVENANT,
+    SUPPRIMER_AVENANT
 }

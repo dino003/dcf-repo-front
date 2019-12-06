@@ -5,11 +5,7 @@
             <ul class="quick-actions" style="margin: 0px !important;">
                 <li class="bg_lb">
                     <a href="#">
-                        <i class="icon-dashboard"></i> <span class="label label-important">{{totalActeurDepense}}</span> Total acteur depense
-                    </a>
-                </li>
-                <li class="bg_lg">
-                    <a href="#"> <i class="icon-signal"></i> <span class="label label-important">{{totalActeurEnctivite}}</span> Total acteur en activité
+                        <i class="icon-dashboard"></i> <span class="label label-important">{{totalActeurDepense}}</span>Acteur de depense en activite
                     </a>
                 </li>
                 <li class="bg_ly">
@@ -32,7 +28,7 @@
                     <div class="widget-box">
                         <div class="widget-title">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab10">Tous les acteurs depense</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab10">Tous les acteurs activié</a></li>
                                 <li class=""><a data-toggle="tab" href="#tab30">Acteurs non actif</a></li>
                             </ul>
                         </div>
@@ -52,6 +48,7 @@
                                                 <th>Matricule </th>
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
+                                                <th>Type act</th>
                                                 <th>Date de naissance</th>
                                                 <th>Unite administrative</th>
                                                 <th>Action</th>
@@ -62,6 +59,7 @@
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.matricule || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.nom || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.prenom || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.type_acte_personnel.libelle || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_naissance) }}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>
@@ -97,6 +95,7 @@
                                                 <th>Matricule </th>
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
+                                                <th>Type act</th>
                                                 <th>Date de naissance</th>
                                                 <th>Unite administrative</th>
                                                 <th>Action</th>
@@ -107,6 +106,7 @@
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.matricule || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.nom || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.prenom || 'Non renseigné'}}</td>
+                                                <td @dblclick="afficherModalModifierTitre(item.id)">{{item.type_acte_personnel.libelle || 'Non renseigné'}}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{formaterDate(item.date_naissance) }}</td>
                                                 <td @dblclick="afficherModalModifierTitre(item.id)">{{item.uniteAdmin.libelle || 'Non renseigné'}}</td>
                                                 <td>

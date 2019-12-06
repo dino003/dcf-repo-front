@@ -35,7 +35,7 @@ const document_pyba_ppm_personnalise=(state, getters, rootState, rootGetters) =>
     });
 
 const marche_contrat_en_execution=state=>state.marche_contrat_en_execution
-
+const avenant=state=>state.avenant
 const marche_contrat_en_execution_personnalise=(state, getters, rootState, rootGetters) =>
     state.marche_contrat_en_execution.map(element => {
         if (element.unite_administrative_id !== null && element.exercice_budgetaire_id!==null ) {
@@ -49,7 +49,6 @@ const marche_contrat_en_execution_personnalise=(state, getters, rootState, rootG
                 ),
             };
         }
-
         return element;
     });
 
@@ -140,7 +139,9 @@ export {
     marche_finnance_personnalises,
     detail_marche_finance,
     marche_contrat_en_execution,
-    marche_contrat_en_execution_personnalise
+    marche_contrat_en_execution_personnalise,
+    avenant
+
 
 }
 

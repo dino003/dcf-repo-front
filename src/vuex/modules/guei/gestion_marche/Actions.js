@@ -769,7 +769,8 @@ export function modifierSourceFinnancementByMarche({commit}, formData){
             type:"success"
         });
         commit('MODIFIER_FINANCEMENT_BY_MARCHE', response.data)
-        this.$app.$loading(false)
+        var self = this;
+        setTimeout(function(){ self.$app.$loading(false); }, 7000);
     }).catch(error =>{
         console.log(error)
         this.$app.$loading(false)
@@ -794,11 +795,71 @@ export async function getMarcheContratExecution({commit}) {
 
 }
 
-/*export const formatageSomme = ({commit},montant) => {
-    var p = montant.toFixed(2).split(".");
-    return p[0].split("").reverse().reduce( (acc, montant, i) => {
-        return montant == "-" ? acc : montant + (i && !(i % 3) ? "." : "") + acc;
-    }, "") + " F CFA";
-}*/
+
+
+
+
+export async function  getAvenant({commit}) {
+
+    queue.push(() =>  axios.get('/liste_avenant').then(response => {
+        commit('GET_AVENANT', response.data)
+    }).catch(error => console.log(error)));
+
+}
+
+export  function ajouterAvenant({commit}, objetAjoute){
+    this.$app.$loading(true)
+    axios.post('/add_avenant', objetAjoute ).then(res => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Enregistrement effectuer',
+            type:"success"
+        });
+        commit('AJOUTER_AVENANT', res.data)
+        this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
+}
+
+export function supprimerAvenant({commit}, id){
+    this.$app.$dialog
+        .confirm("Voulez vouz vraiment supprimer ?.").then(dialog => {
+        this.$app.$notify({
+            title: 'Suppression',
+            text: 'Suppression effectuer',
+            type:"error"
+        });
+        commit('SUPPRIMER_AVENANT', id)
+        axios.delete('/delete_avenant/' + id).then(() => dialog.close() )
+    })
+}
+
+export function modifierAvenant({commit}, formData){
+    this.$app.$loading(true)
+    axios.put('/update_avenant' ,formData).then(response => {
+        this.$app.$notify({
+            title: 'success',
+            text: 'Modification effectuer',
+            type:"success"
+        });
+        commit('MODIFIE_AVENANT', response.data)
+        this.$app.$loading(false)
+    }).catch(error =>{
+        console.log(error)
+        this.$app.$loading(false)
+        this.$app.$notify({
+            title: 'Erreur',
+            text: "Erreur c'est produit lors de l'enregistrement",
+            type:"error"
+        });
+    })
+}
 
 

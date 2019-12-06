@@ -1,13 +1,15 @@
 <template>
     <div>
         <notifications />
-        <div class="quick-actions_homepage" >
+        <div class="quick-actions_homepage" v-if="detailMarcheExecute">
             <ul class="quick-actions">
-                <li class="bg_lo span3"> <a href="#" v-if="detailMarcheExecute">
+                <li class="bg_lo span3"> <a href="#" >
                     <h4>
                     {{ formatageSomme(parseFloat(detailMarcheExecute.montant_reel_ttc)) || 'Non renseigné'}}
                 </h4>  Montant de démarrage</a> </li>
-                <li class="bg_lg span3"> <a href="#"> <i class="icon-ok"></i> Montant avec avenant</a> </li>
+                <li class="bg_lg span3"> <a href="#"> <h4>
+                    {{ formatageSomme(parseFloat( summAvenant(detailMarcheExecute.id))) || 'Non renseigné'}}
+                </h4> Montant avec avenant</a> </li>
                 <li class="bg_ly span3"> <a href="#"> <i class="icon-pencil"></i> Le marché a ete difére </a> </li>
 
             </ul>
@@ -39,9 +41,9 @@
                                                     <tbody>
                                                     <tr>
                                                         <td class="width20">Etat :</td>
-                                                        <td class="width80">
+                                                        <td class="width80" v-if="detailMarcheExecute.date_livraison!=undefined">
                                                             <button class="btn btn-warning" v-if="detailMarcheExecute.date_ordre_demarrage>compareDataToday">Non démarré</button>
-                                                            <button class="btn btn-success" v-else-if="detailMarcheExecute.date_ordre_demarrage<=compareDataToday && item.date_livraison>=compareDataToday">En cours d'excution</button>
+                                                            <button class="btn btn-success" v-else-if="detailMarcheExecute.date_ordre_demarrage<=compareDataToday && detailMarcheExecute.date_livraison>=compareDataToday">En cours d'excution</button>
                                                             <button class="btn btn-danger"  v-else-if="detailMarcheExecute.date_livraison<compareDataToday">Terminé</button>
                                                         </td>
                                                     </tr>
@@ -159,12 +161,75 @@
                                 </div>
                             </div>
                             <div id="tab3" class="tab-pane">
-                                <div class="widget-box">
-                                    <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-                                        <h5>Liste des avenants</h5>
+                                <div class="">
+                                    <div class="span6">
+                                        <div class="widget-box">
+                                            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                                                <h5>Liste des avenants</h5>
+                                            </div>
+                                            <div class="widget-content nopadding">
+                                                <table class="table table-bordered" v-if="detailMarcheExecute" >
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Objet</th>
+                                                        <th>Date</th>
+                                                        <th>Montant</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr v-for="item in listeAvenant(detailMarcheExecute.id)" :key="item.id" >
+                                                        <td>{{item.objet || "Pas de conge" }}</td>
+                                                        <td>{{formaterDate(item.date) }}</td>
+                                                        <td>{{formatageSomme(parseFloat(item.montant))|| "Pas de conges"}}</td>
+                                                        <td>
+                                                            <div class="btn-group">
+
+                                                                <button @click.prevent="supprimerAvenants(item.id)"  class="btn btn-danger ">
+                                                                    <span class=""><i class="icon-trash"></i></span>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div class="widget-content nopadding">
-                                        444444
+                                    <div class="span6">
+                                        <div class="widget-box" v-if="detailMarcheExecute">
+                                            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                                                <h5>Ajouter Avenant</h5>
+                                            </div>
+                                            <form  method="post" @submit.prevent="ajouterAvenants" enctype="multipart/form-data" class="form-horizontal">
+                                            <div class="widget-content">
+                                                <div class="controls">
+                                                    <input type="text" placeholder="Objet de l'avenant" class="span12 m-wrap" v-model="avenant_m.objet">
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label">Date avenant</label>
+                                                    <div class="controls">
+                                                        <input type="date" v-model="avenant_m.date" class="span11" placeholder="Enter date" :min="detailMarcheExecute.date_ordre_demarrage">
+                                                    </div>
+                                                </div>
+
+                                                <div class="control-group">
+                                                    <label class="control-label">Montant avenant</label>
+                                                    <div class="controls">
+                                                        <input type="text" class="span11" placeholder="Entre le montant" v-model="avenant_m.montant">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                                <div class="form-actions">
+                                                    <button type="submit" class="btn btn-success">Enregistre</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -235,22 +300,6 @@
                     decision:"",
                     motif:""
                 },
-                attributionMarche:{
-                    numero_marche:"",
-                    livrable_definitif:"",
-                    date_signature:"",
-                    date_approbation:"",
-                    entreprise_id:"",
-                    date_ordre_demarrage:"",
-                    date_livraison:"",
-                    delai_execution_reel:"",
-                    tva:"",
-                    montant_ht:"",
-                    montant_tva:"",
-                    montant_reel_ttc:"",
-                    id:""
-                }
-                ,
                 marche_finnancement:{
                     montant_prevue:"",
                     sources_financement_id:"",
@@ -263,12 +312,11 @@
                     type_docuement_id:"",
                     presence_cf_id:"",
                 },
-                conges:{
-                    code: "",
-                    type_conge: "",
-                    date_debut: "",
-                    date_fin: "",
-                    acte_personnel_id: "",
+                avenant_m:{
+                    objet	: "",
+                    date: "",
+                    montant: "",
+                    marche_contrat_id: "",
                 },
                 editTitre: {
                     code: "",
@@ -285,26 +333,16 @@
             console.log(this.detailMarcheExecute)
 
         },
-        watch: {
-            delaiLivraison: {
-                deep: true,
-                handler: function (newVal) {
-                    this.attributionMarche.delai_execution_reel = newVal
-                }
-            }
-        },
+
         computed: {
             ...mapGetters("gestionMarche", ["detail_marche_contrat","presence_cf_marche","etape_marches",
-                "decision_marche_cf","document_presence_by_marche","entreprises","deatil_marche_back_end","detail_marche_finance","marche_contrat_personnalise","marche_contrat_en_execution_personnalise"]),
+                "decision_marche_cf","document_presence_by_marche","entreprises","deatil_marche_back_end",
+                "detail_marche_finance","marche_contrat_personnalise","marche_contrat_en_execution_personnalise","avenant"]),
             ...mapGetters("uniteadministrative", ["uniteAdministratives"]),
             ...mapGetters("parametreGenerauxAdministratif", ["exercices_budgetaires"]),
             ...mapGetters("parametreGenerauxBudgetaire", ["plans_budgetaires"]),
             ...mapGetters("parametreGenerauxSourceDeFinancement",["sources_financements","types_financements"]),
 
-
-            getDatelivrason(){
-                return !this.attributionMarche.date_ordre_demarrage !=""
-            },
     compareDataToday(){
     const date = new Date();
 
@@ -312,35 +350,36 @@
         '-' + date.getDate().toString().padStart(2, 0);
     return today
        }
-        ,
-            delaiLivraison(){
-              let durre=0;
-                if (this.attributionMarche.date_ordre_demarrage!="" &&this.attributionMarche.date_livraison!=""){
-                    let date_demarageTable=this.attributionMarche.date_ordre_demarrage.split("-")
-                    let date_livraisoTable=this.attributionMarche.date_livraison.split("-")
-
-                    let date01=date_demarageTable[1]+"/"+date_demarageTable[2]+"/"+date_demarageTable[0]
-                    let date02=date_livraisoTable[1]+"/"+date_livraisoTable[2]+"/"+date_livraisoTable[0]
-                    //  console.log(date01)
-                    let date1 = new Date(date01);
-                    let date2 = new Date(date02);
-                    let diffTime = Math.abs(date2 - date1);
-                    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    if (diffDays===0){
-
-                        durre=1
-
-                    } else{
-
-                        durre=diffDays +1
-
+    ,
+            listeAvenant(){
+                return  id_marche=>{
+                    if (id_marche!=="") {
+                        return this.avenant.filter( element=> element.marche_contrat_id === id_marche)
                     }
-
-
                 }
-                return durre
 
-            }
+            },
+
+            summAvenant(){
+                return  id_marche=>{
+                    if (id_marche!=="") {
+                        let initialValue = 0;
+                        let vm = this;
+                        let ObjetAvenant=this.avenant.filter( element=> element.marche_contrat_id === id_marche)
+                        if (ObjetAvenant.length>0){
+                            let sum=ObjetAvenant.reduce(function (total, currentValue) {
+                                return total + parseFloat(currentValue.montant) ;
+                            }, initialValue);
+
+                            let total= parseFloat(vm.detailMarcheExecute.montant_reel_ttc) + parseFloat(sum)
+                            return total
+                        }
+                       return parseFloat(vm.detailMarcheExecute.montant_reel_ttc);
+                    }
+                }
+
+            },
+
 
         },
         methods: {
@@ -349,15 +388,32 @@
                 "ajouterDocumentPresence","supprimerPresenceCF","ajouterPresenceCF","getDecisionMarche",
                 "getDocumentByPresenceOfMarche","supprimeDocumentPresenceCF",
                 "modifierMarcheContrat","detailMarcheBack_end","ajouterSourceFinnancementByMarche",
-                "supprimerSourceFinnancementByMarche","modifierSourceFinnancementByMarche","detailMarcheFinnance"]),
+                "supprimerSourceFinnancementByMarche","modifierSourceFinnancementByMarche","detailMarcheFinnance","getAvenant","ajouterAvenant","supprimerAvenant","modifierAvenant","getMarcheContratExecution"]),
 
             formatageSomme:formatageSomme,
            formaterDate(date) {
             return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
         },
-            genere(){
-                this.forma=this.nbr;
+            ajouterAvenants(){
+                this.avenant_m.marche_contrat_id=this.detailMarcheExecute.id
+                this.ajouterAvenant(this.avenant_m)
+                this.avenant_m={
+                       objet: "",
+                        date: "",
+                        montant: "",
+                        marche_contrat_id: "",
+                }
+
+            },
+
+            supprimerAvenants(id){
+                this.supprimerAvenant(id)
+                setTimeout(function () {
+                    this.getMarcheContratExecution()
+                    setTimeout(function () {  this.detailMarcheExecute=this.marche_contrat_en_execution_personnalise.find(marche=>marche.id===this.marche_id);}.bind(this), 2000)
+                }.bind(this), 3000)
             }
+
         }
         ,
        /* components:{

@@ -184,40 +184,6 @@
                                         <span class="date badge badge-important" v-if="item.decison=='3'">Réjéte</span>
 
 
-                                        <!--<div class="btn-group" v-if="item.decison=='0'">
-                                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">En cours <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">Valider</a></li>
-                                                <li><a href="#">Difére</a></li>
-                                                <li><a href="#">Réjeté</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="btn-group" v-if="item.decison=='1'">
-                                            <button data-toggle="dropdown" class="btn btn-success dropdown-toggle">Valider <span class="caret"></span></button>
-                                            &lt;!&ndash;<ul class="dropdown-menu">
-                                                <li><a href="#">Action</a></li>
-                                                <li><a href="#">Another action</a></li>
-                                                <li><a href="#">Something else here</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="#">Separated link</a></li>
-                                            </ul>&ndash;&gt;
-                                        </div>
-                                        <div class="btn-group" v-if="item.decison=='2'">
-                                            <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Difére <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">Valider</a></li>
-                                                <li><a href="#">Difére</a></li>
-                                                <li><a href="#">Réjeté</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="btn-group" v-if="item.decison=='3'">
-                                            <button data-toggle="dropdown" class="btn btn-danger dropdown-toggle">Réjéte <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">Valider</a></li>
-                                                <li><a href="#">Difére</a></li>
-                                                <li><a href="#">Réjeté</a></li>
-                                            </ul>
-                                        </div>-->
 
 
 
