@@ -18,7 +18,7 @@
         <ul class="dropdown-menu">
          
           <li>
-            <router-link :to="{name: ''}" tag="a">
+            <router-link :to="{name: 'budgetGeneral'}" tag="a">
               <i class="icon-bar-chart"></i>
             Budget general
             </router-link>
@@ -29,9 +29,9 @@
         
           <li class="divider"></li>
           <li>
-            <a href="login.html">
+           <router-link :to="{name: 'budgetDetaille'}" tag="a">
               <i class="icon-key"></i> Budget detaillé
-            </a>
+            </router-link>
           </li>
           <li class="divider"></li>
           <li>

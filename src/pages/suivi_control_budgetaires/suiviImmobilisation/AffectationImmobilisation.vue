@@ -427,14 +427,14 @@
                           </div>
 
                           <input
-                    type="hidden"
+                    type="text"
                    :value="totalqteRealise"
-                    
+                    placeholder="Saisir realiser"
                     class="span"
                     
                   />
                    <input
-                    type="hidden"
+                    type="text"
                    :value="AffichierQuantiteRealise"
                     
                     class="span"
@@ -652,7 +652,7 @@
                           </div>
 
                           <input
-                    type="hidden"
+                    type="text"
                    :value="totalqteRealise"
                     
                     class="span"
@@ -1247,6 +1247,7 @@ fonction_id:"",
     alert() {
       console.log("ok");
     }
+  
   }
 };
 </script>

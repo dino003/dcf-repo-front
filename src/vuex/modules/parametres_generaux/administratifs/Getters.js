@@ -28,6 +28,10 @@ const type_Unite_admins = state => state.type_Unite_admins
 
 // }
 
+export const afficheNatureTransfert = state =>
+    state.grandes_natures.filter(
+        affichenaturedep => affichenaturedep.code != 3
+    );
 
 export {
     titres,

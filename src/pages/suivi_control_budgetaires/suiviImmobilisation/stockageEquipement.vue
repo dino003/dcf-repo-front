@@ -9,32 +9,56 @@
     <div id="exampleModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>Ajouter Famille d'Article</h3>
+        <h3>Ajouter Article en stock</h3>
       </div>
       <div class="modal-body">
       <form class="form-horizontal">
               <div class="control-group">
-                            <label class="control-label">Type Equipement:</label>
+                            <label class="control-label">Famille Article:</label>
                             <div class="controls">
-                              <select v-model="formData.equipemt_id">
-                                <option value>Sélectionner</option>
+                              <select v-model="formData.famill_id" >
+                               
                                 <option
-                                  v-for="typeua in equipements"
+                                  v-for="typeua in familles"
                                   :key="typeua.id"
                                   :value="typeua.id"
                                 >{{typeua.libelle}}</option>
                               </select>
                             </div>
                           </div>
+                           <div class="control-group">
+                            <label class="control-label">Article:</label>
+                            <div class="controls">
+                              <select v-model="formData.articlestock_id" :readOnly="veifEquipementExist">
+                               
+                                <option
+                                  v-for="artistock in ArticleDynamiques(formData.famill_id)"
+                                  :key="artistock.id"
+                                  :value="artistock.id"
+                                >{{artistock.libelle}}</option>
+                              </select>
+                            </div>
+                          </div>
                          
           <div class="control-group">
-            <label class="control-label">Libelle:</label>
+            <label class="control-label">Quantite en Stock:</label>
             <div class="controls">
               <input
                 type="text"
-                v-model="formData.libelle"
+                v-model="formData.quantitestock"
                 class="span"
-                placeholder="Saisir le libelle"
+                placeholder="Saisir le Quantite en Stock"
+              />
+            </div>
+          </div>
+           <div class="control-group">
+            <label class="control-label">Durée de vie </label>
+            <div class="controls">
+              <input
+                type="text"
+                v-model="formData.durevie"
+                class="span"
+                placeholder="Saisir la Durée de vie"
               />
             </div>
           </div>
@@ -57,31 +81,56 @@
     <div id="modificationModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>Modifier Famille Famille d'Article</h3>
+        <h3>Modifier Article en stock</h3>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
-          <div class="control-group">
-                            <label class="control-label">Type Equipement:</label>
+       <form class="form-horizontal">
+              <div class="control-group">
+                            <label class="control-label">Famille Article:</label>
                             <div class="controls">
-                              <select v-model="editFamille.equipemt_id">
-                                <option value>Sélectionner</option>
+                              <select v-model="editStock.famill_id" >
+                               
                                 <option
-                                  v-for="typeua in equipements"
+                                  v-for="typeua in familles"
                                   :key="typeua.id"
                                   :value="typeua.id"
                                 >{{typeua.libelle}}</option>
                               </select>
                             </div>
                           </div>
+                           <div class="control-group">
+                            <label class="control-label">Article:</label>
+                            <div class="controls">
+                              <select v-model="editStock.articlestock_id" :readOnly="veifEquipementExist">
+                               
+                                <option
+                                  v-for="artistock in ArticleDynamiques(editStock.famill_id)"
+                                  :key="artistock.id"
+                                  :value="artistock.id"
+                                >{{artistock.libelle}}</option>
+                              </select>
+                            </div>
+                          </div>
+                         
           <div class="control-group">
-            <label class="control-label">Libelle:</label>
+            <label class="control-label">Quantite en Stock:</label>
             <div class="controls">
               <input
                 type="text"
-                v-model="editFamille.libelle"
+                v-model="editStock.quantitestock"
                 class="span"
-                placeholder="Saisir le libelle"
+                placeholder="Saisir le Quantite en Stock"
+              />
+            </div>
+          </div>
+           <div class="control-group">
+            <label class="control-label">Durée de vie </label>
+            <div class="controls">
+              <input
+                type="text"
+                v-model="editStock.durevie"
+                class="span"
+                placeholder="Saisir la Durée de vie"
               />
             </div>
           </div>
@@ -89,7 +138,7 @@
       </div>
       <div class="modal-footer">
         <a
-          @click.prevent="modifierFamilleLocal(editFamille)"
+          @click.prevent="modifierFamilleLocal(editStock)"
           class="btn btn-primary"
           href="#"
         
@@ -125,7 +174,7 @@
               <span class="icon">
                 <i class="icon-th"></i>
               </span>
-              <h5>Liste Familles Articles</h5>
+              <h5>Articles en Stock</h5>
               <!-- <div align="right">
                 Recherche:
                 <input type="search" placeholder v-model="search" />
@@ -133,14 +182,14 @@
               </div> -->
             </div>
 
-            <div class="widget-content nopadding" v-if="equipements.length" >
-              <FamilleItemComponent v-for="equipement in equipements"
+            <div class="widget-content nopadding" v-if="familles.length" >
+              <stockItemComponent v-for="equipement in familles"
                :key="equipement.id"
                 :groupe="equipement"
                 @modification="afficherModalModifierFamille" 
                 @suppression="supprimerSect"
                 >
-              </FamilleItemComponent>
+              </stockItemComponent>
 
               <!-- <div v-if="filtre_famille.length"></div>
               <div v-else>
@@ -176,11 +225,11 @@
   
 <script>
 import { mapGetters, mapActions } from "vuex";
-import FamilleItemComponent from './FamilleItemComponent'
+import stockItemComponent from './stockItemComponent'
 export default {
   name: 'Famille',
  components: {
-      FamilleItemComponent
+      stockItemComponent
   },
   data() {
     return {
@@ -204,53 +253,54 @@ export default {
           ],
      
        formData: {
-        equipemt_id: "",
-        libelle: ""
+       famill_id: "",
+        articlestock_id: "",
+         quantitestock: "",
+        durevie: ""
       },
-      editFamille: {
-        equipemt_id: "",
-        libelle: ""
+      editStock: {
+        famill_id: "",
+        articlestock_id: "",
+         quantitestock: "",
+        durevie: ""
       },
        search:""
     };
   },
 
   computed: {
-       ...mapGetters("SuiviImmobilisation", ["equipements","familles"]),
-
-  // codeAjoutSection(){
-  //    const natureSection = this.equipements.find(sect => sect.id == this.formData.naturesection_id)
-  //   const ordreSection = this.formData.code
-
-  //    if(natureSection && ordreSection){
-  //      return natureSection.code + ordreSection
-  //    }
-
-  //    return null
-  //  },
-  // codeModifierSection(){
-  //    const natureSection = this.equipements.find(sect => sect.id == this.editSection.naturesection_id)
-  //   const ordreSection = this.editSection.code
-
-  //    if(natureSection && ordreSection){
-  //      return natureSection.code + ordreSection
-  //    }
-
-  //    return null
-  //  },
+       ...mapGetters("SuiviImmobilisation", ["equipements","familles","articles"]),
+veifEquipementExist() {
+      return this.formData.famill_id == "";
+    },
+ ArticleDynamiques() {
+      return id => {
+        if (id != null && id != "") {
+          return this.articles.filter(element => element.famille_id == id);
+        }
+      };
+    },
+    // afficherArticle(){
+    //      return id => {
+    //     if (id != null && id != "") {
+    //         let objet = this.articles.find(element => element.famille_id == id);
+    //       return objet.libelle;
+    //     }
+    //   };
+    // }
   },
 
 
   
   methods: {
     ...mapActions("SuiviImmobilisation", [
-      "getAllFamille",
-      "ajouterFamille",
-      "modifierFamille",
-      "supprimerFamille"
+      "getAllStock",
+      "ajouterStock",
+      "modifierStock",
+      "supprimerStock"
     ]),
     supprimerSect(id){
-      this.supprimerFamille(id)
+      this.supprimerStock(id)
     },
     //afiicher modal ajouter
     afficherModalAjouterTitre() {
@@ -261,11 +311,13 @@ export default {
     },
     // fonction pour vider l'input ajouter
     ajouterFamilleLocal() {
-      this.ajouterFamille(this.formData);
+      this.ajouterStock(this.formData);
 
       this.formData = {
-        code: "",
-        libelle: ""
+        famill_id: "",
+        articlestock_id: "",
+         quantitestock: "",
+        durevie: ""
       };
     },
     // afficher modal de modification
@@ -275,11 +327,11 @@ export default {
         keyboard: false
       });
 
-      this.editFamille = article;
+      this.editStock = article;
     },
     // fonction pour vider l'input modification
     modifierFamilleLocal() {
-      this.modifierFamille(this.editFamille);
+      this.modifierStock(this.editStock);
       this.$("#modificationModal").modal('hide');
     },
     alert() {

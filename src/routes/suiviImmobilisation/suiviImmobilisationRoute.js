@@ -2,7 +2,7 @@ import Famille from "../../pages/suivi_control_budgetaires/suiviImmobilisation/F
 import Service from "../../pages/suivi_control_budgetaires/suiviImmobilisation/Service.vue";
 import Amortissement from "../../pages/suivi_control_budgetaires/suiviImmobilisation/Amortissement.vue";
 import Immobilisation from "../../pages/suivi_control_budgetaires/suiviImmobilisation/Immobilisation.vue";
-import AjouterImmobilisation from "../../pages/suivi_control_budgetaires/suiviImmobilisation/AjouterImmobilisation.vue";
+import AjouterImmobilisation from "../../pages/suivi_control_budgetaires/suiviImmobilisation/AffectationImmobilisation.vue";
 import ModifierImmobilisation from "../../pages/suivi_control_budgetaires/suiviImmobilisation/ModifierImmobilisation.vue";
 // import immobilisationParService from "../../pages/suivi_control_budgetaires/suiviImmobilisation/immobilisationParService.vue";
 // import VoirImmoParService from "../../pages/suivi_control_budgetaires/suiviImmobilisation/VoirImmoParService.vue";
@@ -12,14 +12,51 @@ import DetailImmobilisation from "../../pages/suivi_control_budgetaires/suiviImm
 import besionImmolisation from "../../pages/suivi_control_budgetaires/suiviImmobilisation/besionImmolisation.vue";
 import listeEquipement from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeEquipement.vue";
 import listeBesoinParUniteAdmin from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeBesoinParUniteAdmin.vue";
-import listeImmobilisationParUa from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeImmobilisationParUa.vue";
+//import listeImmobilisationParUa from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeImmobilisationParUa.vue";
 // import listeImmoParServiceParAgent from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeImmoParServiceParAgent.vue";
 // import TauxEquipementMinistère from "../../pages/suivi_control_budgetaires/suiviImmobilisation/TauxEquipementMinistère.vue";
 import listeActeurEquipe from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeActeurEquipe.vue";
 import listeStructurePlusEquipe from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeStructurePlusEquipe.vue";
 import listeStructureMoinEquipe from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeStructureMoinEquipe.vue";
 import simulationAmortissement from "../../pages/suivi_control_budgetaires/suiviImmobilisation/simulationAmortissement.vue";
+//import normeImmobilisation from "../../pages/suivi_control_budgetaires/suiviImmobilisation/normeImmobilisation.vue"
+import ReferentielDesPrix from "../../pages/suivi_control_budgetaires/suiviImmobilisation/ReferentielDesPrix.vue"
+import NormeEquipement from "../../pages/suivi_control_budgetaires/suiviImmobilisation/listeNormeEquipement.vue"
+import stockageArticle from "../../pages/suivi_control_budgetaires/suiviImmobilisation/stockageEquipement.vue"
+import DetailBesoinImmo from '../../pages/suivi_control_budgetaires/suiviImmobilisation/DetailBesoinImmo.vue';
+import StockArticles from '../../pages/suivi_control_budgetaires/suiviImmobilisation/StockArticles.vue'
+import demandeEquipement from '../../pages/suivi_control_budgetaires/suiviImmobilisation/demandeEquipement.vue'
 const suiviImmobilisationRoutes = [
+  {
+    path: "/demandeEquipement", 
+    name: "demandeEquipement",
+    component: demandeEquipement
+  },
+  {
+    path: "/StockArticles",
+    name: "StockArticles",
+    component: StockArticles
+  },
+  {
+    path: "/Detail-Besoin/:id_Besoin",
+    name: "DetailBesoinImmo",
+    component: DetailBesoinImmo
+  },
+  {
+    path: "/stockageArticle",
+    name: "stockageArticle",
+    component: stockageArticle
+  },
+  {
+    path: "/ReferentielDesPrix",
+    name: "ReferentielDesPrix",
+    component: ReferentielDesPrix
+  },
+  {
+    path: "/NormeEquipement",
+    name: "NormeEquipement",
+    component: NormeEquipement
+  },
   {
     path: "/simulationAmortissement",
     name: "simulationAmortissement",
@@ -51,11 +88,11 @@ const suiviImmobilisationRoutes = [
   //   name: "listeImmoParServiceParAgent",
   //   component: listeImmoParServiceParAgent
   // },
-  {
-    path: "/liste-immo-par-ua",
-    name: "listeImmobilisationParUa",
-    component: listeImmobilisationParUa
-  },
+  // {
+  //   path: "/liste-immo-par-ua",
+  //   name: "listeImmobilisationParUa",
+  //   component: listeImmobilisationParUa
+  // },
   {
     path: "/liste-Besoin-par-ua",
     name: "listeBesoinParUniteAdmin",

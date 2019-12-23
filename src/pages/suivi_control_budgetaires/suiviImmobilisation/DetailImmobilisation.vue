@@ -31,10 +31,10 @@
               <tbody>
                 <tr class="odd gradeX">
                   
-                  <td>{{immobilisat.exoBudgetaire.annee || 'Non renseigné'}}</td>
-                  <td>{{immobilisat.BesoinImmobilisation.famille.code || 'Non renseigné'}}</td>  
-                    <td>{{immobilisat.BesoinImmobilisation.famille.reletion__equipement.libelle || 'Non renseigné'}}</td>
-                    <td>{{immobilisat.BesoinImmobilisation.famille.libelle || 'Non renseigné'}}</td>
+                  <td>{{immobilisat.exercice_budgetaire || 'Non renseigné'}}</td>
+                  <td>{{immobilisat.familleImmo.reletion__equipement.code || 'Non renseigné'}}</td>  
+                    <td>{{immobilisat.familleImmo.reletion__equipement.libelle || 'Non renseigné'}}</td>
+                    <td>{{immobilisat.familleImmo.libelle || 'Non renseigné'}}</td>
                   <td>{{immobilisat.qte_reel || 'Non renseigné'}}</td>
                   <td>{{immobilisat.qte_affecte || 'Non renseigné'}}</td>
                   <td>{{immobilisat.qte_actuel || 'Non renseigné'}}</td>
@@ -70,7 +70,7 @@
                   <td>{{immobilisat.duree || 'Non renseigné'}} ans</td>
                   <td>{{immobilisat.numero_CC || 'Non renseigné'}}</td>
 
-                  <td>{{immobilisat.acteurDepense.matricule|| 'Non renseigné'}}</td>
+                  <td>{{immobilisat.acteurDepense.matricule || 'Non renseigné'}}</td>
 
                   <!-- <td>{{immobilisat.exoBudgetaire.annee || 'Non renseigné'}}</td> -->
                  
@@ -88,7 +88,7 @@
                    <th>Nature de Bien</th>
                   <th>Nature Entrée</th>
                   <!-- <th>Unite</th> -->
-                   <th>Tva</th>
+                   <!-- <th>Tva</th> -->
                   <th>Montant Evaluation</th>
                   <th>Date Evaluation</th>
                   <th>Montant Cession</th>
@@ -101,7 +101,7 @@
                 <tr class="odd gradeX">
                    <td>{{immobilisat.nature_bien || 'Non renseigné'}}</td>
                   <td>{{immobilisat.nature_dentree || 'Non renseigné'}}</td>
-                   <td>{{immobilisat.TVA_id || 'Non renseigné'}} %</td>
+                   <!-- <td>{{immobilisat.TVA_id || 'Non renseigné'}} %</td> -->
                   <td>{{formatageSomme(immobilisat.montant_evaluation) || 'Non renseigné'}}</td>
                   <td>{{formaterDate(immobilisat.date_evaluation) || 'Non renseigné'}}</td>
                   <td>{{formatageSomme(immobilisat.montant_cession)|| 'Non renseigné'}}</td>

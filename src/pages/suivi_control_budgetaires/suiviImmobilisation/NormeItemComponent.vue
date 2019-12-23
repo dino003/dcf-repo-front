@@ -1,3 +1,4 @@
+
 <template>
    
       <div class="accordion" >
@@ -5,7 +6,7 @@
             <div class="accordion-heading">
               <div @click="toggle()" class="widget-title"> <a data-parent="#collapse-group" href="#collapseGOne" data-toggle="collapse"> 
                   <span class="icon"><i :class="iconClasses"></i></span>
-                <h5>{{groupe.libelle}}</h5>
+                <h5>{{groupe.code}}---{{groupe.libelle}}</h5>
                  <span class="badge badge-inverse" >{{getNombreArticle}}</span>
 
                 </a> 
@@ -16,21 +17,30 @@
                  <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Classe</th>
-                    <th>Libelle</th>
+                    <!-- <th>code</th> -->
+                    <th>Fonction</th>
+                  
+                    <th>Famille</th>
+                    <th>Montant TTC</th>
+                    <th>Quantite</th>
+                   
                     <th>Action</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
-                   <ArticleItem
+                   <NormeItem
                         class="item"
-                        v-for="groupeElement in groupe.equipement_famille"
+                        v-for="groupeElement in groupe.equipe__norme_equipement"
                         :key="groupeElement.id"
                         :article="groupeElement"
-                        @modification="$emit('modification', $event)"
+                      @modification="$emit('modification', $event)"
                         @suppression="$emit('suppression', $event)"
 
-                    ></ArticleItem>
+                    >
+                    
+                    </NormeItem>
+                   
                 </tbody>
               </table>
               </div>
@@ -45,15 +55,15 @@
 
 
 <script>
-import ArticleItem from './ArticleItem'
+import NormeItem from './NormeItem'
 
 export default {
-    name: 'ArticleItemComponent',
+    name: 'NormeItemComponent',
      props: {
     groupe: Object,
   },
   components: {
-      ArticleItem
+      NormeItem
   },
   data: function () {
     return {
@@ -64,24 +74,25 @@ export default {
   },
 
 
+
   computed: {
   
     isFolder: function () {
-      return this.groupe.equipement_famille &&
-        this.groupe.equipement_famille.length
+      return this.groupe.equipe__norme_equipement &&
+        this.groupe.equipe__norme_equipement.length
     },
 
     getNombreArticle(){
-        var nombre = this.groupe.equipement_famille.length
+        var nombre = this.groupe.equipe__norme_equipement.length
         if(nombre) return nombre
         return 'Aucun' 
     },
     iconClasses() {
       return {
-        'icon-plus': !this.isOpen && this.groupe.equipement_famille.length,
-        'icon-minus': this.isOpen && this.groupe.equipement_famille.length
-        //    'icon-folder-close': !this.isOpen && this.groupe.equipement_famille.length,
-        // 'icon-folder-open': this.isOpen && this.groupe.equipement_famille.length
+        'icon-plus': !this.isOpen && this.groupe.equipe__norme_equipement.length,
+        'icon-minus': this.isOpen && this.groupe.equipe__norme_equipement.length
+        //    'icon-folder-close': !this.isOpen && this.groupe.equipe__norme_equipement.length,
+        // 'icon-folder-open': this.isOpen && this.groupe.equipe__norme_equipement.length
       }
     },
 

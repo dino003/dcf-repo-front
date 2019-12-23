@@ -260,6 +260,7 @@ export default {
      return null
    },
   },
+   
 
 
   
@@ -307,7 +308,7 @@ export default {
 
 modifierSectionLocal(){
    var nouvelObjet = {
-        ...this.editSectio,
+        ...this.editSection,
         code_section: this.codeModifierSection,
         
       };

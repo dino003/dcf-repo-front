@@ -5,14 +5,26 @@
     <div id="exampleModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>Ajouter Equipement Type</h3>
+        <h3>Ajouter Famille</h3>
       </div>
       <div class="modal-body">
-       <form class="form-horizontal">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label">Type d'équipement:</label>
+            <div class="controls">
+              <select v-model="formData.equipemt_id">
+                <option
+                  v-for="equip in equipements"
+                  :key="equip.id"
+                  :value="equip.id"
+                >{{equip.libelle}}</option>
+              </select>
+            </div>
+          </div>
           <div class="control-group">
             <label class="control-label">Classe:</label>
             <div class="controls">
-              <input type="number" v-model="formData.code" class="span" placeholder="Saisir le code" />
+              <input type="text" v-model="formData.code" class="span" placeholder="Saisir le code" />
             </div>
           </div>
           <div class="control-group">
@@ -26,14 +38,25 @@
               />
             </div>
           </div>
-         </form>
+          <div class="control-group">
+            <label class="control-label">Prix de l'article:</label>
+            <div class="controls">
+              <input
+                type="text"
+                v-model="formData.prix_unitaire"
+                class="span"
+                placeholder="Saisir le prix unitaire "
+              />
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <a
           @click.prevent="ajouterFamilleLocal(formData)"
           class="btn btn-primary"
           href="#"
-         
+          v-show="formData.code.length && formData.libelle.length"
         >Valider</a>
         <a data-dismiss="modal" class="btn" href="#">Fermer</a>
       </div>
@@ -45,18 +68,30 @@
     <div id="modificationModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>Modifier Equipement Type</h3>
+        <h3>Modifier Famille</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal">
           <div class="control-group">
-            <label class="control-label">Classe</label>
+            <label class="control-label">Type d' équipement:</label>
+            <div class="controls">
+              <select v-model="editFamille.equipemt_id">
+                <option
+                  v-for="equip in equipements"
+                  :key="equip.id"
+                  :value="equip.id"
+                >{{equip.libelle}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Classe:</label>
             <div class="controls">
               <input
-                type="number"
-                v-model="editEquipement.code"
+                type="text"
+                v-model="editFamille.code"
                 class="span"
-                placeholder="Saisir la Classe"
+                placeholder="Saisir le code"
               />
             </div>
           </div>
@@ -65,9 +100,20 @@
             <div class="controls">
               <input
                 type="text"
-                v-model="editEquipement.libelle"
+                v-model="editFamille.libelle"
                 class="span"
                 placeholder="Saisir le libelle"
+              />
+            </div>
+          </div>
+           <div class="control-group">
+            <label class="control-label">Prix de l'article:</label>
+            <div class="controls">
+              <input
+                type="text"
+                v-model="editFamille.prix_unitaire"
+                class="span"
+                placeholder="Saisir le prix unitaire "
               />
             </div>
           </div>
@@ -75,10 +121,10 @@
       </div>
       <div class="modal-footer">
         <a
-          @click.prevent="modifierFamilleLocal(editEquipement)"
+          @click.prevent="modifierFamilleLocal(editFamille)"
           class="btn btn-primary"
           href="#"
-        
+          v-show="editFamille.code.length && editFamille.libelle.length"
         >Modifier</a>
         <a data-dismiss="modal" class="btn" href="#">Fermer</a>
       </div>
@@ -90,66 +136,45 @@
       <hr />
       <div class="row-fluid">
         <div class="span12">
-          <!-- <download-excel
+          <download-excel
             class="btn btn-default pull-right"
             style="cursor:pointer;"
             :fields="json_fields"
-            title="Liste Types équipements"
-            :data="filtre_equipement"
-            name="Liste des types équipements"
+            title="Liste des Articles"
+            :data="filtre_famille"
+            name="Liste des Articles"
           >
             <i title="Exporter en excel" ref="excel" class="icon-table">&nbsp;&nbsp;Exporter en excel</i>
-          </download-excel> -->
+          </download-excel>
           <div class="widget-box">
             <div class="widget-title">
               <span class="icon">
                 <i class="icon-th"></i>
               </span>
-              <h5>Liste équipements Type</h5>
-              <div align="right">
-                Search:
+              <h5>Liste des Articles</h5>
+              <!-- <div align="right">
+                Recherche:
                 <input type="search" placeholder v-model="search" />
-              </div>
+               
+              </div> -->
             </div>
 
-            <div class="widget-content nopadding">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Classe</th>
-                    <th>Libelle</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    class="odd gradeX"
-                    v-for="(equipement, index) in equipements"
-                    :key="equipement.id"
-                  >
-                    <td
-                      @dblclick="afficherModalModifierFamille(index)"
-                    >{{equipement.code || 'Non renseigné'}}</td>
-                    <td
-                      @dblclick="afficherModalModifierFamille(index)"
-                    >{{equipement.libelle || 'Non renseigné'}}</td>
+            <div class="widget-content nopadding" v-if="equipements.length && persoEquipement.length">
+              <ArticleItemComponent v-for="equipement in equipements"
+               :key="equipement.id"
+                :groupe="equipement"
+                @modification="afficherModalModifierFamille" 
+                @suppression="supprimerArticle"
+                >
+              </ArticleItemComponent>
 
-                    <td>
-                      <button class="btn btn-danger" @click="supprimerEquipement(equipement.id)">
-                        <span>
-                          <i class="icon icon-trash"></i>
-                        </span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
               <div v-if="equipements.length"></div>
               <div v-else>
-                <p
-                  style="text-align:center;font-size:20px;color:red;"
-                >Non Disponible</p>
+                <p style="text-align:center;font-size:20px;color:red;">Aucun Article</p>
               </div>
+
+            
+              
             </div>
           </div>
         </div>
@@ -157,17 +182,28 @@
     </div>
 
     <fab :actions="fabActions" @cache="afficherModalAjouterTitre" main-icon="apps" bg-color="green"></fab>
- <button style="display:none;" v-shortkey.once="['ctrl', 'f']" @shortkey="afficherModalAjouterTitre()">Open</button>
+    <notifications  />
       <button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button>
-<!-- <fab :actions="fabActions1" @cache="afficherModalModifierTypeTexte" bg-color="red"></fab> -->
-<notifications  />
+
+    <!-- <fab :actions="fabActions1" @cache="afficherModalModifierTypeTexte" bg-color="red"></fab> -->
+    <button style="display:none;" v-shortkey.once="['ctrl', 'f']" @shortkey="afficherModalAjouterTitre()">Open</button>
   </div>
+
 </template>
+
+
+
+
   
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ArticleItemComponent from './ArticleItemComponent'
+
 export default {
-  name:'listeEquipement',
+  name: 'Famille',
+ components: {
+      ArticleItemComponent
+  },
   data() {
     return {
       fabActions: [
@@ -183,41 +219,56 @@ export default {
         // }
       ],
       json_fields: {
+        TYPE_EQUIPEMENT: "equipemt.libelle",
         CODE: "code",
         LIBELLE: "libelle"
       },
 
       formData: {
         code: "",
-        libelle: ""
+        libelle: "",
+        equipemt_id: ""
       },
-      editEquipement: {
+      editFamille: {
         code: "",
-        libelle: ""
+        libelle: "",
+        equipemt_id: ""
       },
       search: ""
     };
   },
 
   computed: {
-    ...mapGetters("SuiviImmobilisation", ["equipements"]),
-    // filtre_equipement() {
+    ...mapGetters("SuiviImmobilisation", [
+      "familles",
+      "equipements",
+      "persoEquipement"
+    ]),
+    // filtre_famille() {
     //   const st = this.search.toLowerCase();
-    //   return this.equipements.filter(type => {
+    //   return this.persoEquipement.filter(type => {
     //     return (
-          
+    //       type.code.toLowerCase().includes(st) ||
     //       type.libelle.toLowerCase().includes(st)
     //     );
     //   });
     // }
   },
+
+
+  
   methods: {
     ...mapActions("SuiviImmobilisation", [
-      "getAllEquipement",
-      "ajouterEquipement",
-      "modifierEquipement",
-      "supprimerEquipement"
+      "getAllFamille",
+      "ajouterFamille",
+      "modifierFamille",
+      "supprimerFamille"
     ]),
+
+    supprimerArticle(id){
+      this.supprimerFamille(id)
+    },
+    
     //afiicher modal ajouter
     afficherModalAjouterTitre() {
       this.$("#exampleModal").modal({
@@ -227,7 +278,7 @@ export default {
     },
     // fonction pour vider l'input ajouter
     ajouterFamilleLocal() {
-      this.ajouterEquipement(this.formData);
+      this.ajouterFamille(this.formData);
 
       this.formData = {
         code: "",
@@ -235,23 +286,28 @@ export default {
       };
     },
     // afficher modal de modification
-    afficherModalModifierFamille(index) {
+    afficherModalModifierFamille(article) {
       this.$("#modificationModal").modal({
         backdrop: "static",
         keyboard: false
       });
 
-      this.editEquipement = this.equipements[index];
+      this.editFamille = article;
     },
     // fonction pour vider l'input modification
     modifierFamilleLocal() {
-      this.modifierEquipement(this.editEquipement);
-      this.$("#modificationModal").modal('hide');
+      this.modifierFamille(this.editFamille);
+this.$("#modificationModal").modal('hide');
+      // this.editFamille = {
+      //   code: "",
+      //   libelle: ""
+      // };
     },
     alert() {
       console.log("ok");
     },
-     ExporterEnExel(){
+    
+    ExporterEnExel(){
       this.$refs.excel.click()
     }
   }

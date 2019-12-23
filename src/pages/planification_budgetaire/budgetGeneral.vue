@@ -262,7 +262,7 @@
                                   v-for="nature in grandes_natures"
                                   :key="nature.id"
                                   :value="nature.id"
-                                >{{nature.libelle}}</option>
+                                >{{nature.code}}-{{nature.libelle}}</option>
                                     </select>
                                 </div>
                                 </div>
@@ -394,7 +394,7 @@
                                         
                         </td>
                          <td>
-                                      <div class="control-group">
+                                      <!-- <div class="control-group">
                                 <label class="control-label">Chapitre</label>
                                 <div class="controls">
                                     <select v-model="editBudgetGeneral1.chapitre_id">
@@ -404,9 +404,16 @@
                                   :value="chap.id"
                                 >{{chap.chpitr.code}}-{{chap.chpitr.libelle}}</option>
                                     </select>
+                                      <input
+                      type="text"
+                 
+                      class="span"
+                      placeholder="Saisir code Destination"
+                      readonly
+                    />
                                 </div>
-                                </div>
-                                                  <!-- <div class="control-group">
+                                </div> -->
+                                                  <div class="control-group">
                   <label class="control-label">Chapitre</label>
 
                      <div class="controls"   v-for="chap in UniteAdministrativeDynamiques(editBudgetGeneral.ua_id)"
@@ -420,11 +427,11 @@
                       readonly
                     />
                   </div>
-                  </div> -->
+                  </div>
                         </td>
                          <td>
                                   
-                                    <div class="control-group">
+                                    <!-- <div class="control-group">
                                 <label class="control-label">Section</label>
                                 <div class="controls">
                                     <select v-model="editBudgetGeneral.section_id">
@@ -436,7 +443,22 @@
                                 </option>
                                     </select>
                                 </div>
-                                </div>
+                                </div> -->
+                                  <div class="control-group">
+                      <label class="control-label">Section</label>
+
+                     <div class="controls"   v-for="ua in UniteAdministrativeDynamiques(editBudgetGeneral.ua_id)"
+                                 :key="ua.id"
+                                  :value="ua.id">
+                    <input
+                      type="text"
+                  v-model="ua.secti.code_section"
+                      class="span"
+                      
+                      readonly
+                    />
+                  </div>
+                  </div>
                         </td>
                     </tr>
 
@@ -444,7 +466,7 @@
                     <!---2 ieme ligne---->
                 <tr>
                         <td>
-                                        <div class="control-group">
+                                        <!-- <div class="control-group">
                                 <label class="control-label">Plan Fonctionnel</label>
                                 <div class="controls">
                                     <select v-model="editBudgetGeneral1.planfonctionnel_id">
@@ -456,8 +478,8 @@
                                 </option>
                                     </select>
                                 </div>
-                                </div>
-                                 <!-- <div class="control-group">
+                                </div> -->
+                                 <div class="control-group">
                   <label class="control-label">Plan fonctionnel</label>
 
                      <div class="controls"   v-for="planfonct in UniteAdministrativeDynamiques(editBudgetGeneral.ua_id)"
@@ -465,13 +487,13 @@
                                   :value="planfonct.id">
                     <input
                       type="text"
-                  v-model="planfonct.planFonction.code"
+                  v-model="planfonct.planFont.code"
                       class="span"
                       placeholder="Saisir code Destination"
                       readonly
                     />
                   </div>
-                  </div> -->
+                  </div>
                         </td>
                         <td>
                                       <div class="control-group">
@@ -577,7 +599,7 @@
                                   v-for="nature in grandes_natures"
                                   :key="nature.id"
                                   :value="nature.id"
-                                >{{nature.libelle}}</option>
+                                >{{nature.code}}-{{nature.libelle}}</option>
                                     </select>
                                 </div>
                                 </div>
@@ -635,17 +657,17 @@
       <hr />
       <div class="row-fluid">
         <div class="span12">
-          <!-- <download-excel
+          <download-excel
             class="btn btn-default pull-right"
             style="cursor:pointer;"
             :fields="json_fields"
-            title="Liste type texte"
-            :data="filtre_type_teste"
-            name="Liste type texte"
-            worksheet="Liste type texte"
+            title="Budget General"
+            :data="budgetGeneralUniteAdministrative"
+            name="Budget General"
+            worksheet="Budget General"
           >
             <i title="Exporter en excel" ref="excel" class="icon-table">&nbsp;&nbsp;Exporter en excel</i>
-          </download-excel> -->
+          </download-excel>
           <div class="widget-box">
             <div class="widget-title">
               <span class="icon">
@@ -687,21 +709,7 @@
                    <th>Date Saisir</th>
                    
                     <th>Dotation</th>
-                    <!-- <th>Annee budget</th>
-                    <th>Destination</th>
-                   
-                      <th>Nature economique</th>
-                       <th>Imputation Budget</th>
-                        <th>Section</th>
-                    <th>Nature depense</th> -->
-                    <!-- <th>P.Programme</th> -->
-                    <!-- <th>Chapitre </th> -->
-                    <!-- <th>P.Fonctionnel</th>
-                   
-                    -->
-                    <!-- <th>S.Financement</th>
-                     <th>T.financement</th> -->
-                    
+                  
                      <th>Action</th>
                    
                   </tr>
@@ -802,8 +810,8 @@
     </div>
 
     <fab :actions="fabActions" @cache="afficherModalAjouterTitre" main-icon="apps" bg-color="green"></fab>
-    <!-- <button style="display:none;" v-shortkey.once="['ctrl', 'f']" @shortkey="afficherModalAjouterTitre()">Open</button>
-<button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button> -->
+    <button style="display:none;" v-shortkey.once="['ctrl', 'f']" @shortkey="afficherModalAjouterTitre()">Open</button>
+<button style="display:none;" v-shortkey.once="['ctrl', 'e']" @shortkey="ExporterEnExel()">Open</button>
 <notifications  />
     <!-- <fab :actions="fabActions1" @cache="afficherModalModifierTypeTexte" bg-color="red"></fab> -->
   </div>
@@ -828,7 +836,18 @@ export default {
         //   class: ""
         // }
       ],
-      
+      json_fields: {
+        ANNEE: "exoBudgetaire.annee",
+        GRANDE_NATURE_DEPENSE: "grandeNatureDepense.libelle",
+        SECTION: "uniteAdminist.secti.code_section",
+        PLAN_PROGRAMME: "planProgramme.code",
+        DESTINATION: "destination",
+        NATURE_ECONOMIQUE: "planBudget.code",
+        IMPUTATION_BUDGETAIRE: "imputationbudgetaire",
+        SOUS_FINANCEMENT: "sousFinancement.code",
+        TYPE_FINANCEMENT: "typeFinancement.libelle",
+         DOTATION: "dotation",
+      },
       formData: {
         type_ua_id:""
       },

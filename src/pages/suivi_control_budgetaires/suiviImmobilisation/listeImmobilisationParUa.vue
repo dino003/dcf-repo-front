@@ -105,7 +105,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
-import { formatageSomme } from "../../../Repositories/Repository";
+import { formatageSomme } from "../../../../Repositories/Repository";
 export default {
   data() {
     return {

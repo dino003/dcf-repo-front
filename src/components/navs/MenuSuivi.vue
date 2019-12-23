@@ -38,10 +38,7 @@
           <li class="divider"></li>
           <li>
             <a href="#">
-              <router-link :to="{name: 'MarcheExecution'}" tag="a">
-                <i class="icon-key"></i>
-                Marchés & Contrats en execution
-              </router-link>
+              <i class="icon-key"></i> Marchés & Contrats
             </a>
           </li>
           <li class="divider"></li>
@@ -269,34 +266,56 @@
           class="dropdown-toggle"
         >
           <span class="text">SUIVI DES IMMOBILISATIONS </span>
+          <!-- <span  class="badge badge-important">{{nombreDemandeEquipement}}</span>  -->
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <router-link :to="{name:'listeEquipement'}" tag="a">
-              <i class="icon-list-ol"></i>
-              <span class="text">Types équipements</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{name:'famille'}" tag="a">
-              <i class="icon-shopping-cart"></i>
-              <span class="text">Articles</span>
-            </router-link>
-          </li>
           <li>
             <router-link :to="{name:'service'}" tag="a">
               <i class="icon-home"></i>
               <span class="text">Services</span>
             </router-link>
           </li>
-
-          <li title="Bessoin Immobilisation">
-            <router-link :to="{name:'besionImmolisation'}" tag="a">
-              <i class="icon-list"></i>
-              <span class="text">Demande d'équipement</span>
+          <li>
+            <router-link :to="{name:'listeEquipement'}" tag="a">
+              <i class="icon-list-ol"></i>
+              <span class="text">Equipements type</span>
             </router-link>
           </li>
+          <li>
+            <router-link :to="{name:'famille'}" tag="a">
+              <i class="icon-shopping-cart"></i>
+              <span class="text">Famille Article</span>
+            </router-link>
+          </li>
+           <li>
+            <router-link :to="{name:'ReferentielDesPrix'}" tag="a">
+              <i class="icon-shopping-cart"></i>
+              <span class="text">Referentiel des prix</span>
+            </router-link>
+          </li>
+            
+         
+          <li>
+            <router-link :to="{name:'StockArticles'}" tag="a">
+              <i class="icon-home"></i>
+              <span class="text">Gestion des Stocks</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{name:'NormeEquipement'}" tag="a">
+              <i class="icon-shopping-cart"></i>
+              <span class="text">Norme equipement</span>
+            </router-link>
+          </li>
+ <li title="Bessoin Immobilisation">
+            <router-link :to="{name:'demandeEquipement'}" tag="a">
+              <i class="icon-list"></i>
+              <span class="text">Demande d'équipement</span>   
+             
+            </router-link>
+          </li>
+          
           <li>
             <router-link :to="{name:'immobilisation'}" tag="a">
               <i class="icon-money"></i>
@@ -353,9 +372,16 @@
 </template>
 
 <script>
-
+import { mapGetters} from "vuex";
 export default {
   
+  computed: {
+    ...mapGetters("SuiviImmobilisation", [
+      "nombreDemandeEquipement"
+      
+    ]),
+    
  
-};
+}
+}
 </script>

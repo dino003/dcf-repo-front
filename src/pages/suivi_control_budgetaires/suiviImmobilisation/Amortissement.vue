@@ -27,7 +27,7 @@
                   <td>{{immobilisat.exoBudgetaire.annee || 'Non renseigné'}}</td> 
                   <!-- <td>{{immobilisat.TVA_id || 'Non renseigné'}} %</td> -->
                   <td>{{immobilisat.duree || 'Non renseigné'}} ans</td>
-                    <td>{{immobilisat.BesoinImmobilisation.famille.libelle || 'Non renseigné'}}</td>
+                    <td>{{immobilisat.familleImmo.libelle || 'Non renseigné'}}</td>
                   <td>{{formatageSomme(immobilisat.valeurorigine) || 'Non renseigné'}}</td>
                   <td>{{formaterDate(immobilisat.date_mise_service) || 'Non renseigné'}}</td>
                  
@@ -141,6 +141,7 @@
 <script>
 import { mapGetters } from "vuex";
 import moment from "moment";
+// import { formatageSomme } from "../../../Repositories/Repository";
 import { formatageSomme } from "../../../Repositories/Repository";
 export default {
   data() {

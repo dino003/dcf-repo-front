@@ -54,7 +54,7 @@
                    <td>{{immobilisat.typeUniteAdministrative.libelle || 'Non renseigné'}}</td>
                       <td>{{immobilisat.uniteAdminist.libelle || 'Non renseigné'}}</td>
                       <td>{{immobilisat.serviceImmo.libelle || 'Non renseigné'}}</td>
-                       <td>{{immobilisat.BesoinImmobilisation.famille.libelle|| 'Non renseigné'}}</td>
+                       <td>{{immobilisat.familleImmo.libelle|| 'Non renseigné'}}</td>
                    <!-- <td>{{immobilisat.duree || 'Non renseigné'}}</td> -->
                   </tr>
                 </tbody>

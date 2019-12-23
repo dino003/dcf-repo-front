@@ -121,9 +121,9 @@
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Classe</th> 
-                    <th>type equipement</th> 
-                    <th>Designation</th>
+                    <!-- <th>Classe</th> 
+                    <th>type equipement</th>  -->
+                    <th>Famille</th>
                     <th>Quantité requise</th>
                     <th>Quantité afféctée</th>
                     <th>Quantité Restant</th>
@@ -137,15 +137,15 @@
 
                     <!-- <template v-if="SuiviImmo.filter(immo => immo.exoBudgetaire.encours == 1)"> -->
                        
+                    <!-- <td
+                      @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
+                    >{{immobilisat.BesoinImmobilisation.famille.code || 'Non renseigné'}}</td>   -->
+                    <!-- <td
+                      @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
+                    >{{immobilisat.BesoinImmobilisation.famille.reletion__equipement.libelle || 'Non renseigné'}}</td> -->
                     <td
                       @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
-                    >{{immobilisat.BesoinImmobilisation.famille.code || 'Non renseigné'}}</td>  
-                    <td
-                      @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
-                    >{{immobilisat.BesoinImmobilisation.famille.reletion__equipement.libelle || 'Non renseigné'}}</td>
-                    <td
-                      @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
-                    >{{immobilisat.BesoinImmobilisation.famille.libelle || 'Non renseigné'}}</td>
+                    >{{immobilisat.familleImmo.libelle || 'Non renseigné'}}</td> 
                     <td
                       @dblclick="afficherModalModifierImmobilisation(immobilisat.id)"
                     >{{immobilisat.qte_reel || 'Non renseigné'}}</td>
@@ -218,6 +218,7 @@ import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
 import { formatageSomme } from "../../../Repositories/Repository";
 import { ModelListSelect } from "vue-search-select";
+import "vue-search-select/dist/VueSearchSelect.css";
 import "vue-search-select/dist/VueSearchSelect.css";
 export default {
   name: 'listeImmobilisationParUa',

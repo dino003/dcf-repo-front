@@ -8,7 +8,11 @@ const defaultState = {
   immobilisations: [],
   besoinImmobilisations: [],
   equipements: [],
-  exerciceEncours:[]
+  exerciceEncours:[],
+  normeEquipements:[],
+  
+  articles: [],
+  stockageArticles:[]
 };
 
 export default defaultState;

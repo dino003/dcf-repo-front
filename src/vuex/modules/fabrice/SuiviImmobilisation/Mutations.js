@@ -1,5 +1,36 @@
 /////////////////////////////////*debut mutation FAMILLE */////////////////////
 // afficher FAMILLE*
+const GET_ALL_NORME_EQUIPEMENTS = (state, tableauNormeArticle) => {
+  state.normeEquipements = tableauNormeArticle;
+};
+
+// ajouter NORME_EQUIPEMENTS
+const AJOUTER_NORME_EQUIPEMENTS = (state, nouveau_normeArt) => {
+  // state.typeTextes = [...nouveau_type, ...state.typeTextes]
+  state.normeEquipements.unshift(nouveau_normeArt);
+};
+
+// modifier NORME_EQUIPEMENTS
+const MODIFIER_NORME_EQUIPEMENTS = (state, objetModifie) => {
+  state.normeEquipements = state.normeEquipements.map(norme => {
+    if (norme.id == objetModifie.id) {
+      norme = { ...objetModifie };
+    }
+
+    return norme;
+  });
+};
+
+// supprimer NORME_EQUIPEMENTS
+const SUPPRIMER_NORME_EQUIPEMENTS = (state, id) => {
+  state.normeEquipements = state.normeEquipements.filter(norme => norme.id != id);
+};
+
+
+
+
+/////////////////////////////////*debut mutation FAMILLE */////////////////////
+// afficher FAMILLE*
 const GET_ALL_FAMILLE = (state, tableauFamille) => {
   state.familles = tableauFamille;
 };
@@ -160,6 +191,46 @@ const MODIFIER_QUANTITE_REEL = (state, objet) => {
     return besoin_immo;
   });
 };
+
+const MODIFIER_QUANTITE_EN_STOCK = (state, objet) => {
+  state.besoinImmobilisations = state.besoinImmobilisations.map(STOCK => {
+    if (STOCK.id == objet.id) {
+      STOCK.qtestock = objet.qte_stock;
+
+      // STOCK.montant_total = objet.montant_actu;
+    }
+
+    return STOCK;
+  });
+};
+const MODIFIER_QUANTITE_EN_STOCK2 = (state, objet) => {
+  state.stockageArticles = state.stockageArticles.map(qtestocker => {
+    if (qtestocker.id == objet.id) {
+      qtestocker.quantitestock = objet.qteactuelstock;
+      qtestocker.date_sortie = objet.date_jour;
+      qtestocker.qtesortie = objet.qte_recu;
+      // qtestocker.montant_total = objet.montant_actu;
+    }
+
+    return qtestocker;
+  });
+};
+const MODIFIER_QUANTITE_EN_STOCK_NORME = (state, objet) => {
+  state.normeEquipements = state.normeEquipements.map(qtestocker => {
+    if (qtestocker.id == objet.id) {
+      qtestocker.qtestock = objet.qteactuelstock;
+      
+      // qtestocker.montant_total = objet.montant_actu;
+    }
+
+    return qtestocker;
+  });
+};
+
+
+
+
+
 //modifier QUANTITE REEL
 const MODIFIER_MONTANT_ACTUEL = (state, objet) => {
   state.besoinImmobilisations = state.besoinImmobilisations.map(besoin_immobil => {
@@ -236,7 +307,90 @@ const SUPPRIMER_EQUIPEMENT = (state, id) => {
 
 /*fin mutation EQUIPEMENT */
 
+
+/////////////////////////////////*debut mutation FAMILLE */////////////////////
+// afficher FAMILLE*
+const GET_ALL_ARTICLES = (state, tableauArticle) => {
+  state.articles = tableauArticle;
+};
+
+// ajouter ARTICLES
+const AJOUTER_ARTICLES = (state, nouveau_article) => {
+  // state.typeTextes = [...nouveau_type, ...state.typeTextes]
+  state.articles.unshift(nouveau_article);
+};
+
+// modifier ARTICLES
+const MODIFIER_ARTICLES = (state, objetModifie) => {
+  state.articles = state.articles.map(articl => {
+    if (articl.id == objetModifie.id) {
+      articl = { ...objetModifie };
+    }
+
+    return articl;
+  });
+};
+
+// supprimer ARTICLES
+const SUPPRIMER_ARTICLES = (state, id) => {
+  state.articles = state.articles.filter(articl => articl.id != id);
+};
+
+/////////////////////////////////*debut mutation FAMILLE */////////////////////
+// afficher FAMILLE*
+const GET_ALL_STOCKAGE = (state, tableauArticle) => {
+  state.stockageArticles = tableauArticle;
+};
+
+// ajouter stockageArticles
+const AJOUTER_STOCKAGE = (state, nouveau_article) => {
+  // state.typeTextes = [...nouveau_type, ...state.typeTextes]
+  state.stockageArticles.unshift(nouveau_article);
+};
+
+// modifier stockageArticles
+const MODIFIER_STOCKAGE = (state, objetModifie) => {
+  state.stockageArticles = state.stockageArticles.map(articl => {
+    if (articl.id == objetModifie.id) {
+      articl = { ...objetModifie };
+    }
+
+    return articl;
+  });
+};
+
+// supprimer stockageArticles
+const SUPPRIMER_STOCKAGE = (state, id) => {
+  state.stockageArticles = state.stockageArticles.filter(articl => articl.id != id);
+};
+
+
+
+
+
+
+
+
+
+
+
 export {
+  MODIFIER_QUANTITE_EN_STOCK_NORME,
+  MODIFIER_QUANTITE_EN_STOCK2,
+  MODIFIER_QUANTITE_EN_STOCK,
+
+  GET_ALL_STOCKAGE,
+  AJOUTER_STOCKAGE,
+  MODIFIER_STOCKAGE,
+  SUPPRIMER_STOCKAGE,
+
+
+
+  GET_ALL_ARTICLES,
+  AJOUTER_ARTICLES,
+  MODIFIER_ARTICLES,
+  SUPPRIMER_ARTICLES,
+
   MODIFIER_QTE_REALISE_BESOIN,
   // MODIFIER_ACT_PERSONNEL,
   MODIFIER_MONTANT_ACTUEL,
@@ -272,5 +426,13 @@ export {
   AJOUTER_IMMOBILISATION,
   MODIFIER_IMMOBILISATION,
   SUPPRIMER_IMMOBILISATION,
-  GET_SEUL_IMMOBILISATION
-};
+  GET_SEUL_IMMOBILISATION,
+
+
+  /* mutation amortissement*/
+  GET_ALL_NORME_EQUIPEMENTS,
+  AJOUTER_NORME_EQUIPEMENTS,
+  MODIFIER_NORME_EQUIPEMENTS,
+  SUPPRIMER_NORME_EQUIPEMENTS
+  
+}; 

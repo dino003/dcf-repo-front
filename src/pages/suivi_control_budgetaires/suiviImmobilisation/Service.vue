@@ -8,7 +8,7 @@
         <h3>Ajouter Service</h3>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
+        <form class="form-horizontal" >
           <div class="control-group">
             <label class="control-label">Code:</label>
             <div class="controls">

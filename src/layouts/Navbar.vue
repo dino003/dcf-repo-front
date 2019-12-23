@@ -96,12 +96,17 @@ export default {
         "getSourceFinnancementByMarche","getMarcheContratExecution"]),
 
         ...mapActions("SuiviImmobilisation", [
-      "getAllFamille",
+      
       "getAllService",
       "getAllEquipement",
+      "getAllFamille",
+      "getAllArticles",
+      "getAllNormeArticle",
+      "getAllStock",
       "getAllBesoinImmo",
       "getAllImmobilisation",
-      "getAllAmortissement"
+      "getAllAmortissement",
+      
     ]),
 
     	 ...mapActions('suivi_controle_budgetaire', ['getCategorieMission', 'getNormeMission',
@@ -175,9 +180,13 @@ this.getMarcheContratExecution()
       /**
        * suivi des immo
        */
-       this.getAllFamille();
+       
     this.getAllService();
     this.getAllEquipement();
+    this.getAllFamille();
+    this.getAllArticles();
+    this.getAllNormeArticle();
+    this.getAllStock();
     this.getAllBesoinImmo();
     this.getAllImmobilisation();
     //this.getAllAmortissement();

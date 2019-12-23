@@ -61,6 +61,32 @@ export const personnaliseActeurFinContrat = (state, getters, rootState, rootGett
 
         return element;
     });
+
+
+
+export const personnaFonction = (state, getters, rootState, rootGetters) =>
+    state.acteur_depenses.map(element => {
+        if (element.fonction_id !== null && element.unite_administrative_id !== null) {
+            element = {
+                ...element,
+               
+                fonctionActeur: rootGetters['personnelUA/fonctions'].find(
+                    act => act.id === element.fonction_id
+                ),
+                uniteAdmin: rootGetters['uniteadministrative/uniteAdministratives'].find(
+                    section => section.id === element.unite_administrative_id
+                ),
+            };
+        }
+
+        return element;
+    });
+
+
+
+
+
+
 export {
     type_acte_personnels,
     fonctions,

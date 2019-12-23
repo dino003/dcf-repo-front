@@ -5,16 +5,23 @@
     <div id="exampleModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>Ajouter Equipement Type</h3>
+        <h3>Ajouter Famille</h3>
       </div>
       <div class="modal-body">
        <form class="form-horizontal">
           <div class="control-group">
-            <label class="control-label">Classe:</label>
-            <div class="controls">
-              <input type="number" v-model="formData.code" class="span" placeholder="Saisir le code" />
-            </div>
-          </div>
+                <label class="control-label">Equipement Type</label>
+                <div class="controls">
+                  <select  v-model="formData.equipemt_id">
+                    
+                    <option
+                      v-for="equipe in equipements"
+                      :key="equipe.id"
+                      :value="equipe.id"
+                    >{{equipe.libelle}}</option>
+                  </select>
+                </div>
+              </div>
           <div class="control-group">
             <label class="control-label">Libelle:</label>
             <div class="controls">
@@ -45,21 +52,23 @@
     <div id="modificationModal" class="modal hide">
       <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>Modifier Equipement Type</h3>
+        <h3>Modifier Famille</h3>
       </div>
       <div class="modal-body">
         <form class="form-horizontal">
           <div class="control-group">
-            <label class="control-label">Classe</label>
-            <div class="controls">
-              <input
-                type="number"
-                v-model="editEquipement.code"
-                class="span"
-                placeholder="Saisir la Classe"
-              />
-            </div>
-          </div>
+                <label class="control-label">Equipement Type</label>
+                <div class="controls">
+                  <select  v-model="formData.equipemt_id">
+                    
+                    <option
+                      v-for="equipe in equipements"
+                      :key="equipe.id"
+                      :value="equipe.id"
+                    >{{equipe.libelle}}</option>
+                  </select>
+                </div>
+              </div>
           <div class="control-group">
             <label class="control-label">Libelle:</label>
             <div class="controls">
@@ -105,7 +114,7 @@
               <span class="icon">
                 <i class="icon-th"></i>
               </span>
-              <h5>Liste équipements Type</h5>
+              <h5>Liste des Famille</h5>
               <div align="right">
                 Search:
                 <input type="search" placeholder v-model="search" />
@@ -116,7 +125,7 @@
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Classe</th>
+                    <th>Equipement</th>
                     <th>Libelle</th>
                     <th>Action</th>
                   </tr>
@@ -124,12 +133,12 @@
                 <tbody>
                   <tr
                     class="odd gradeX"
-                    v-for="(equipement, index) in equipements"
+                    v-for="(equipement, index) in familles"
                     :key="equipement.id"
                   >
                     <td
                       @dblclick="afficherModalModifierFamille(index)"
-                    >{{equipement.code || 'Non renseigné'}}</td>
+                    >{{equipement.reletion__equipement.libelle || 'Non renseigné'}}</td>
                     <td
                       @dblclick="afficherModalModifierFamille(index)"
                     >{{equipement.libelle || 'Non renseigné'}}</td>
@@ -200,7 +209,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters("SuiviImmobilisation", ["equipements"]),
+    ...mapGetters("SuiviImmobilisation", ["equipements","familles"]),
     // filtre_equipement() {
     //   const st = this.search.toLowerCase();
     //   return this.equipements.filter(type => {

@@ -73,13 +73,20 @@ export const getterspersoBudgetGeneral = (state, getters, rootState, rootGetters
     return element;
   });
 
+
+
+
+
 export const SommeTotalBudgetDesUa = (state, getters) =>
   getters.budgetGeneral.reduce(
     (prec, cur) => parseInt(prec) + parseInt(cur.dotation),
     0
   );
 
-
+// export const afficheNatureTransfert = getters =>
+//   getters.budgetGeneralUniteAdministrative.filter(
+//     afficheBudgetTransf => afficheBudgetTransf.grandeNatureDepense.code == 3
+//   );
 
 export {
   budgetGeneral

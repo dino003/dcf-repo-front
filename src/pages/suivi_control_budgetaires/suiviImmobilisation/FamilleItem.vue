@@ -1,13 +1,15 @@
 <template>
   
+
   
                   <tr class="odd gradeX" v-if="article" @dblclick="$emit('modification', article)">
+                    <!-- <td
+                    
+                    > {{article.equipemt_id || 'Non renseigné'}}</td> -->
                     <td
                     
-                    >{{article.code || 'Non renseigné'}}</td>
-                    <td
-                    
-                    >{{article.libelle || 'Non renseigné'}}</td>
+                    > {{article.libelle || 'Non renseigné'}}</td>
+                   
 
                     <td>
                       <button class="btn btn-danger" @click.prevent="$emit('suppression', article.id)">
@@ -17,6 +19,7 @@
                       </button>
                     </td>
                   </tr>
+
 
   
   
